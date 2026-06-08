@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/powergraph.tsx","./src/components/provenancebadge.tsx","./src/lib/api.ts","./src/pages/home.tsx","./src/types/index.ts"],"version":"5.9.3"}
