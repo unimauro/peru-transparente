@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+body { @apply bg-peru-dark text-gray-100 font-sans antialiased; }
+.tabular { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,50 @@
+# Stack local de desarrollo: Postgres(+pgvector), Neo4j, Redis y la API.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: pt
+      POSTGRES_PASSWORD: pt
+      POSTGRES_DB: peru_transparente
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pt"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/peru_transparente
+      NEO4J_PLUGINS: '["apoc"]'
+    ports: ["7474:7474", "7687:7687"]
+    volumes:
+      - neo4jdata:/data
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  api:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      neo4j:
+        condition: service_started
+      redis:
+        condition: service_started
+    environment:
+      PT_DATABASE_URL: postgresql+asyncpg://pt:pt@postgres:5432/peru_transparente
+      PT_NEO4J_URI: bolt://neo4j:7687
+      PT_REDIS_URL: redis://redis:6379/0
+    ports: ["8000:8000"]
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+volumes:
+  pgdata:
+  neo4jdata:

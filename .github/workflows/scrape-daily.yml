@@ -1,0 +1,61 @@
+name: Scrape Daily
+
+# Actualización diaria: corre los connectors de alta frecuencia (OCDS, PTE),
+# normaliza, carga al canónico, proyecta al grafo y reconstruye los JSON estáticos.
+# Si hay deltas, commitea data y dispara el redeploy de Pages.
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # 04:00 hora Perú (UTC-5)
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Connector a ejecutar (osce|fonafe|all)"
+        default: "osce"
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: pt
+          POSTGRES_PASSWORD: pt
+          POSTGRES_DB: peru_transparente
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U pt" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+    env:
+      PT_PG_DSN: postgresql://pt:pt@localhost:5432/peru_transparente
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Init DB schema
+        run: |
+          sudo apt-get install -y postgresql-client
+          for f in db/postgres/*.sql; do psql "$PT_PG_DSN" -f "$f"; done
+
+      - name: Install scrapers + etl deps
+        run: |
+          pip install -e ./scrapers
+          pip install "psycopg[binary]>=3.2"
+
+      - name: Run connector + ETL
+        run: python scripts/run_pipeline.py --source "${{ github.event.inputs.source || 'osce' }}"
+
+      - name: Build static JSON
+        run: python etl/build_static.py
+
+      - name: Commit data changes
+        run: |
+          git config user.name "peru-transparente-bot"
+          git config user.email "ia2cloudpe@users.noreply.github.com"
+          git add frontend/public/data
+          git diff --staged --quiet || git commit -m "data: actualización diaria $(date -u +%F)"
+          git push

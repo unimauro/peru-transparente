@@ -1,0 +1,59 @@
+# Catálogo de fuentes. El estado real (URL, robots, formato, estabilidad) vive aquí.
+# frequency: daily | weekly | monthly | event
+sources:
+  - id: OSCE_OCDS
+    name: OSCE/OECE — Contrataciones Abiertas (OCDS)
+    method: api
+    base_url: https://contratacionesabiertas.oece.gob.pe/api/v1
+    frequency: daily
+    confidence: 1.00
+    connector: connectors.osce_ocds.OsceOcdsConnector
+    status: implemented
+
+  - id: DATOS_ABIERTOS
+    name: Datos Abiertos del Estado Peruano (CKAN)
+    method: api
+    base_url: https://www.datosabiertos.gob.pe/api/3
+    frequency: weekly
+    confidence: 1.00
+    status: planned
+
+  - id: FONAFE
+    name: FONAFE — Empresas del Estado
+    method: scrape
+    base_url: https://www.fonafe.gob.pe
+    frequency: weekly
+    confidence: 0.90
+    connector: connectors.fonafe.FonafeConnector
+    status: scaffold
+
+  - id: PTE
+    name: Portal de Transparencia Estándar
+    method: playwright
+    base_url: https://www.transparencia.gob.pe
+    frequency: daily
+    confidence: 0.90
+    status: planned
+
+  - id: CONTRALORIA
+    name: Contraloría — Declaraciones Juradas
+    method: playwright+ocr
+    base_url: https://www.gob.pe/contraloria
+    frequency: monthly
+    confidence: 0.75
+    status: planned
+
+  - id: MEF_SIAF
+    name: MEF — Consulta Amigable / SIAF (presupuesto)
+    method: api
+    base_url: https://apps5.mineco.gob.pe
+    frequency: monthly
+    confidence: 0.95
+    status: planned
+
+  - id: SERVIR
+    name: SERVIR — régimen laboral / planillas
+    method: scrape
+    frequency: monthly
+    confidence: 0.85
+    status: planned

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+*.local
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Datos crudos y artefactos (no versionar RAW pesado)
+data/raw/
+*.dump
+*.sqlite
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,10 @@
+{
+  "total_entities": 0,
+  "total_persons": 0,
+  "total_companies": 0,
+  "total_contracts": 0,
+  "total_contract_amount": 0,
+  "total_budget_pim": 0,
+  "_note": "Datos semilla. El pipeline (etl/build_static) reemplaza este archivo con cifras reales por corrida.",
+  "_generated_at": "seed"
+}

@@ -1,0 +1,19 @@
+[project]
+name = "peru-transparente-scrapers"
+version = "0.1.0"
+description = "Connectors de ingesta para Perú Transparente"
+requires-python = ">=3.11"
+dependencies = [
+    "scrapy>=2.12",
+    "playwright>=1.48",
+    "scrapy-playwright>=0.0.42",
+    "httpx>=0.27",
+    "pydantic>=2.9",
+    "pyyaml>=6.0",
+    "psycopg[binary]>=3.2",
+    "tenacity>=9.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
