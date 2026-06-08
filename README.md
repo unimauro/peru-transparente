@@ -6,6 +6,8 @@
 
 Plataforma open source de transparencia, datos abiertos y análisis de gestión pública del Estado peruano.
 
+![Perú Transparente](docs/diagrams/og-image.png)
+
 [![Deploy Pages](https://github.com/unimauro/peru-transparente/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/unimauro/peru-transparente/actions/workflows/deploy-pages.yml)
 [![CI](https://github.com/unimauro/peru-transparente/actions/workflows/ci.yml/badge.svg)](https://github.com/unimauro/peru-transparente/actions/workflows/ci.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE)
@@ -112,6 +114,17 @@ cd scrapers && pip install -e . && scrapy crawl fonafe_empresas
 | [SCALABILITY.md](docs/SCALABILITY.md) | Escalabilidad a 100k+ funcionarios y millones de registros |
 | [UI_UX.md](docs/UI_UX.md) | Mockups de pantallas y guía de diseño |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Cómo contribuir |
+
+## Proyectos hermanos (deep-dives por empresa)
+
+Perú Transparente ofrece la **vista de red y directorio** de cada empresa del Estado (FONAFE). Para el **análisis financiero y de gobierno corporativo en profundidad** de una empresa concreta, enlaza a observatorios especializados del mismo ecosistema:
+
+| Empresa / dominio | Proyecto especializado | Estado |
+|---|---|---|
+| **Petroperú** | [**Petroperú Analytics**](https://github.com/unimauro/petroperu-analytics) · [demo](https://unimauro.github.io/petroperu-analytics/) — EE.FF. auditados, evolución financiera/operativa y de gobierno corporativo (terminal financiera estática y verificable). **Más completo** para Petroperú. | ✅ Activo |
+| Empresas públicas (panorama FONAFE) | [Observatorio de Empresas Públicas del Perú](https://unimauro.github.io/observatorio-fonafe/) | ✅ Activo |
+
+> En el perfil de **Petroperú** dentro de la plataforma, la sección *Estados financieros* deriva a Petroperú Analytics en lugar de duplicar el análisis. Ver `core.company.financials_ref`, que apunta al deep-dive externo cuando existe.
 
 ## Licencia
 

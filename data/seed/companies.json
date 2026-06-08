@@ -1,0 +1,22 @@
+{
+  "_note": "Datos semilla de empresas del Estado (FONAFE). 'financials_ref' enlaza al deep-dive externo cuando existe un observatorio especializado más completo.",
+  "items": [
+    {
+      "name": "Petróleos del Perú - PETROPERÚ S.A.",
+      "ruc": "20100128218",
+      "fonafe_classification": "Empresa bajo el ámbito de FONAFE",
+      "sector": "Energía e Hidrocarburos",
+      "financials_ref": "https://unimauro.github.io/petroperu-analytics/",
+      "financials_repo": "https://github.com/unimauro/petroperu-analytics",
+      "provenance": [
+        {
+          "source": "FONAFE",
+          "source_url": "https://www.fonafe.gob.pe",
+          "captured_at": "2026-06-08",
+          "confidence": 0.9,
+          "method": "manual"
+        }
+      ]
+    }
+  ]
+}
