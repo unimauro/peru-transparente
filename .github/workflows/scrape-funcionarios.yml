@@ -1,15 +1,13 @@
 name: Scrape Funcionarios (progresivo)
 
-# Descarga PROGRESIVA de funcionarios del Estado (PTE) → data/funcionarios.csv.
-# Resumable: usa data/funcionarios.checkpoint.json para continuar donde quedó.
-# Cada corrida tiene tope de tiempo y commitea lo avanzado, así se ve crecer el CSV.
+# Barrido PROGRESIVO de TODO el Estado (instituciones, militares, empresas públicas).
+# 1) Descarga/actualiza el catálogo de entidades (data/entidades.csv).
+# 2) Barre funcionarios por catálogo (resumable vía checkpoint).
+# 3) Regenera el JSON del sitio y commitea el avance → se ve crecer en GitHub Pages.
 
 on:
   workflow_dispatch:
     inputs:
-      ids:
-        description: "Rango de id_entidad a barrer"
-        default: "1-700"
       year:
         description: "Año de la foto"
         default: "2026"
@@ -32,31 +30,34 @@ jobs:
     timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - run: pip install httpx tenacity
 
-      - name: Scrape (progresivo, resumable)
+      - name: Actualizar catálogo de entidades
+        run: python scripts/descargar_catalogo.py
+
+      - name: Barrer funcionarios (catálogo completo, resumable)
         run: |
           python scripts/scrape_funcionarios.py \
-            --ids "${{ github.event.inputs.ids || '1-700' }}" \
+            --ids-file data/entidades.csv \
             --year "${{ github.event.inputs.year || '2026' }}" \
-            --delay 0.4 \
+            --delay 0.35 \
             --max-minutes "${{ github.event.inputs.max_minutes || '300' }}" \
             --resume \
             --out data/funcionarios.csv
 
-      - name: Analizar puestos clave
-        run: python scripts/analizar_funcionarios.py --in data/funcionarios.csv || true
+      - name: Generar datos del sitio
+        run: |
+          python scripts/analizar_funcionarios.py --in data/funcionarios.csv || true
+          python scripts/build_site_data.py
 
       - name: Commit avance
         run: |
           git config user.name "peru-transparente-bot"
           git config user.email "unimauro@users.noreply.github.com"
-          git add data/funcionarios.csv data/funcionarios.checkpoint.json data/funcionarios_clave.csv
+          git add data/ frontend/public/data/
           n=$(($(wc -l < data/funcionarios.csv) - 1))
-          git diff --staged --quiet || git commit -m "data(funcionarios): avance progresivo — ${n} filas $(date -u +%F)"
+          git diff --staged --quiet || git commit -m "data: barrido progresivo — ${n} funcionarios $(date -u +%F)"
           git push

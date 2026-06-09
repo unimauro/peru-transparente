@@ -15,9 +15,10 @@ async function getJSON<T>(url: string): Promise<T> {
 /** Datos pre-renderizados (listados, perfiles, KPIs). */
 export const staticData = {
   nationalKpis: () => getJSON(`${STATIC_BASE}/national_kpis.json`),
-  entities: () => getJSON(`${STATIC_BASE}/entities.json`),
-  entity: (id: string) => getJSON(`${STATIC_BASE}/entities/${id}.json`),
-  official: (id: string) => getJSON(`${STATIC_BASE}/officials/${id}.json`),
+  meta: () => getJSON(`${STATIC_BASE}/meta.json`),
+  entidades: () => getJSON(`${STATIC_BASE}/entidades.json`),
+  funcionariosSample: () => getJSON(`${STATIC_BASE}/funcionarios_sample.json`),
+  funcionariosClave: () => getJSON(`${STATIC_BASE}/funcionarios_clave.json`),
 };
 
 /** Vistas dinámicas que requieren backend. */

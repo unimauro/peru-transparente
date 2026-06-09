@@ -59,7 +59,8 @@ def save_checkpoint(path: Path, done: set[int]) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--ids", required=True, help="ej. '1-300' o '145,146,1'")
+    ap.add_argument("--ids", help="ej. '1-300' o '145,146,1'")
+    ap.add_argument("--ids-file", help="CSV con columna id_entidad (ej. data/entidades.csv)")
     ap.add_argument("--out", default="data/funcionarios.csv")
     ap.add_argument("--year", type=int, default=datetime.now(timezone.utc).year)
     ap.add_argument("--month", type=int, default=0, help="0 = autodetecta el mes más reciente con datos")
@@ -73,7 +74,17 @@ def main() -> None:
     args = ap.parse_args()
     deadline = time.monotonic() + args.max_minutes * 60 if args.max_minutes else None
 
-    ids = parse_ids(args.ids)
+    ids: list[int] = []
+    if args.ids_file:
+        with open(args.ids_file, encoding="utf-8") as fh:
+            ids += [int(r["id_entidad"]) for r in csv.DictReader(fh) if r.get("id_entidad")]
+    if args.ids:
+        ids += parse_ids(args.ids)
+    if not ids:
+        ap.error("indica --ids o --ids-file")
+    # dedupe preservando orden
+    seen_ids: set[int] = set()
+    ids = [x for x in ids if not (x in seen_ids or seen_ids.add(x))]
     regimes = [int(x) for x in args.regimes.split(",") if x.strip()] or list(REGIMES)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

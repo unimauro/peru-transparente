@@ -1,10 +1,1 @@
-{
-  "total_entities": 0,
-  "total_persons": 0,
-  "total_companies": 0,
-  "total_contracts": 0,
-  "total_contract_amount": 0,
-  "total_budget_pim": 0,
-  "_note": "Datos semilla. El pipeline (etl/build_static) reemplaza este archivo con cifras reales por corrida.",
-  "_generated_at": "seed"
-}
+{"total_entities": 2308, "entities_with_data": 4, "total_funcionarios": 1561, "total_cargos_clave": 47, "por_tipo": [["Gobiernos Regionales y Locales", 1284], ["Empresas del Estado y diversos", 535], ["Organismos Públicos y OPD", 348], ["Organismos Constitucionales Autónomos", 99], ["Poder Ejecutivo - Ministerios", 40], ["Poder Legislativo", 2]], "por_nivel": [["Ministro/Titular", 1], ["Secretario General", 2], ["Director/a", 18], ["Jefe/a", 26]], "_generated_at": "2026-06-09T14:57:09.928587+00:00"}
