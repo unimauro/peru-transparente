@@ -60,6 +60,11 @@ class FuncionarioRow:
     apellidos_nombres: str
     cargo: str
     dependencia: str
+    remuneracion: str            # REMUNERACIONES (base: SERVIR/728/276/CAS)
+    honorarios: str              # HONORARIOS (FAG/PAC/PNUD)
+    incentivo: str               # INCENTIVO (CAFAE)
+    aguinaldo: str               # AGUINALDO/GRATIFICACIÓN/ESCOLARIDAD
+    otros: str                   # OTROS INGRESOS (DU) — extraordinarios
     total_ingreso_mensual: str
     fuente_url: str
     captured_at: str
@@ -153,11 +158,14 @@ class PtePersonalConnector:
                     if "," not in nombre and len(nombre.split()) < 2:
                         continue
                     page_rows += 1
+                    # bloque de ingresos = últimas 6 columnas: REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
+                    inc = cells[-6:] if len(cells) >= 10 else ["", "", "", "", "", cells[-1]]
                     yield FuncionarioRow(
                         id_entidad=id_entidad, entidad=name, anio=anio, mes=mes,
                         regimen=REGIMES.get(reg, str(reg)),
                         apellidos_nombres=nombre, cargo=cargo, dependencia=dep,
-                        total_ingreso_mensual=cells[-1],
+                        remuneracion=inc[0], honorarios=inc[1], incentivo=inc[2],
+                        aguinaldo=inc[3], otros=inc[4], total_ingreso_mensual=inc[5],
                         fuente_url=self._query_url(id_entidad, anio, mes, reg, pag),
                         captured_at=utcnow(),
                     )
@@ -166,7 +174,9 @@ class PtePersonalConnector:
                     break
 
 
-CSV_FIELDS = list(asdict(FuncionarioRow(0, "", 0, 0, "", "", "", "", "", "", "")).keys())
+CSV_FIELDS = list(asdict(
+    FuncionarioRow(0, "", 0, 0, "", "", "", "", "", "", "", "", "", "", "", "")
+).keys())
 
 
 if __name__ == "__main__":

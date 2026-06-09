@@ -147,6 +147,48 @@ def main() -> None:
             "dependencias": dep_list,
         }, ensure_ascii=False), encoding="utf-8")
 
+    # ───── Distribución por región (mapa) ─────
+    import unicodedata
+    def _na(s: str) -> str:
+        return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().upper()
+    DEPTS = ["AMAZONAS", "ANCASH", "APURIMAC", "AREQUIPA", "AYACUCHO", "CAJAMARCA", "CALLAO",
+             "CUSCO", "HUANCAVELICA", "HUANUCO", "ICA", "JUNIN", "LA LIBERTAD", "LAMBAYEQUE",
+             "LIMA", "LORETO", "MADRE DE DIOS", "MOQUEGUA", "PASCO", "PIURA", "PUNO",
+             "SAN MARTIN", "TACNA", "TUMBES", "UCAYALI"]
+    def region(nombre: str) -> str:
+        n = _na(nombre)
+        if "CALLAO" in n:
+            return "Callao"
+        for d in DEPTS:
+            if d == "CALLAO":
+                continue
+            if re.search(r"\b" + re.escape(d) + r"\b", n):
+                return d.title().replace("La Libertad", "La Libertad").replace("San Martin", "San Martín")
+        return "Nacional (Lima)"
+
+    pay_por_ent: dict[str, float] = defaultdict(float)
+    for f in funcionarios:
+        try:
+            pay_por_ent[f["id_entidad"]] += float(f.get("total_ingreso_mensual") or 0)
+        except ValueError:
+            pass
+    reg_stats: dict[str, dict] = defaultdict(lambda: {"entidades": 0, "con_datos": 0, "personal": 0, "planilla_mensual": 0.0})
+    for e in entidades:
+        s = reg_stats[region(e["nombre"])]
+        s["entidades"] += 1
+        n = fun_por_entidad.get(e["id_entidad"], 0)
+        if n:
+            s["con_datos"] += 1
+        s["personal"] += n
+        s["planilla_mensual"] += round(pay_por_ent.get(e["id_entidad"], 0), 2)
+    write("regiones.json", {
+        "items": sorted(
+            [{"region": k, **v, "planilla_mensual": round(v["planilla_mensual"], 0)} for k, v in reg_stats.items()],
+            key=lambda x: -x["personal"],
+        ),
+        "_nota": "Planilla = suma de ingresos mensuales reportados (aproximado, no es el presupuesto total). Región inferida del nombre de la entidad.",
+    })
+
     write("meta.json", {
         "entidades_catalogo": len(entidades),
         "entidades_procesadas": processed,

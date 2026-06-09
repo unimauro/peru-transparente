@@ -16,6 +16,7 @@ export function Funcionarios() {
   const [kpis, setKpis] = useState<NationalKpis | null>(null);
   const [q, setQ] = useState("");
   const [soloClave, setSoloClave] = useState(false);
+  const [nivel, setNivel] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,11 +30,12 @@ export function Funcionarios() {
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
     return items
+      .filter((f) => (!nivel || f.nivel === nivel))
       .filter((f) => (!soloClave || f.nivel !== "Profesional/Apoyo"))
       .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}`.toLowerCase().includes(nq));
-  }, [items, q, soloClave]);
+  }, [items, q, soloClave, nivel]);
 
-  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}`);
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}|${nivel}`);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -63,16 +65,31 @@ export function Funcionarios() {
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            {kpis.por_nivel.map(([nivel, n]) => (
-              <span key={nivel} className="inline-flex items-center gap-1.5 rounded-lg border border-surface/10 bg-surface/[0.04] px-3 py-1.5 text-sm">
-                <span>{ICON[nivel] ?? "•"}</span>
-                <span className="text-ink-soft">{nivel}</span>
-                <span className="tabular font-semibold text-ink">{fmt.format(n)}</span>
-              </span>
-            ))}
+            {kpis.por_nivel.map(([lvl, n]) => {
+              const active = nivel === lvl;
+              return (
+                <button
+                  key={lvl}
+                  onClick={() => setNivel(active ? "" : lvl)}
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition ${
+                    active ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.04] text-ink-soft hover:border-surface/25 hover:text-ink"
+                  }`}
+                  title={`Filtrar por ${lvl}`}
+                >
+                  <span>{ICON[lvl] ?? "•"}</span>
+                  <span>{lvl}</span>
+                  <span className="tabular font-semibold text-ink">{fmt.format(n)}</span>
+                </button>
+              );
+            })}
+            {nivel && (
+              <button onClick={() => setNivel("")} className="rounded-lg border border-surface/10 px-3 py-1.5 text-sm text-ink-mute hover:text-ink">✕ quitar filtro</button>
+            )}
           </div>
           <p className="mt-3 text-[11px] text-ink-faint">
-            Cifras del dataset completo ({kpis.entities_with_data} entidades con datos). La tabla de abajo es una muestra buscable.
+            {nivel
+              ? `Filtrando la tabla por “${nivel}”. Clic de nuevo para quitar.`
+              : `Cifras del dataset completo (${fmt.format(kpis.entities_with_data)} entidades con datos). Clic en un nivel para filtrar la tabla.`}
           </p>
         </div>
       )}

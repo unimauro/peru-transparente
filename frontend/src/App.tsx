@@ -5,6 +5,7 @@ import { Entidades } from "@/pages/Entidades";
 import { EntidadDetalle } from "@/pages/EntidadDetalle";
 import { Funcionarios } from "@/pages/Funcionarios";
 import { Metodologia } from "@/pages/Metodologia";
+import { Regiones } from "@/pages/Regiones";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/entidades" element={<Entidades />} />
         <Route path="/entidad/:id" element={<EntidadDetalle />} />
         <Route path="/funcionarios" element={<Funcionarios />} />
+        <Route path="/regiones" element={<Regiones />} />
         <Route path="/metodologia" element={<Metodologia />} />
       </Routes>
     </Layout>

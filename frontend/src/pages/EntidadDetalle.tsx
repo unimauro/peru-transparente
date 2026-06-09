@@ -27,8 +27,8 @@ export function EntidadDetalle() {
       <div className="mt-2 chip">{d.tipo}</div>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink">{d.nombre}</h1>
       <div className="mt-3 flex flex-wrap gap-2 text-sm">
-        <span className="chip">👥 {fmt.format(d.total)} funcionarios</span>
-        <span className="chip">⭐ {fmt.format(d.clave)} cargos clave</span>
+        <span className="chip">👥 {fmt.format(d.total)} servidores públicos</span>
+        <span className="chip">⭐ {fmt.format(d.clave)} funcionarios/directivos (jefe ↑)</span>
         <span className="chip">🏛️ {d.dependencias.length} dependencias</span>
         <span className="chip">📅 período {d.periodo}</span>
       </div>
