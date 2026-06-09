@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { staticData } from "@/lib/api";
 import { fmt, money, SectionTitle } from "@/components/ui";
+import { PeruMap } from "@/components/PeruMap";
 
 interface Region {
   region: string;
@@ -27,6 +28,12 @@ export function Regiones() {
 
   const sorted = useMemo(() => [...items].sort((a, b) => b[metric] - a[metric]), [items, metric]);
   const max = sorted.length ? sorted[0][metric] : 1;
+  const mapValues = useMemo(() => {
+    const m: Record<string, number> = {};
+    for (const r of items) if (r.region !== "Nacional (Lima)") m[r.region] = r[metric];
+    return m;
+  }, [items, metric]);
+  const fmtMetric = (n: number) => (metric === "planilla_mensual" ? money(n) : fmt.format(n));
   const totalPlanilla = items.reduce((s, r) => s + r.planilla_mensual, 0);
   const totalPersonal = items.reduce((s, r) => s + r.personal, 0);
 
@@ -70,8 +77,14 @@ export function Regiones() {
         ))}
       </div>
 
-      <div className="glass mt-5 p-5">
-        {sorted.map((r) => (
+      <div className="glass mt-5 grid gap-6 p-5 lg:grid-cols-[auto,1fr]">
+        <div className="min-w-0">
+          <SectionTitle kicker="Mapa">{METRICS.find((m) => m.key === metric)?.label} por región</SectionTitle>
+          <PeruMap values={mapValues} label={METRICS.find((m) => m.key === metric)?.label ?? ""} format={fmtMetric} />
+        </div>
+        <div className="min-w-0">
+          <SectionTitle kicker="Ranking">Detalle</SectionTitle>
+          {sorted.map((r) => (
           <div key={r.region} className="mb-3 last:mb-0">
             <div className="flex items-baseline justify-between text-sm">
               <span className="text-ink-soft">{r.region}</span>
@@ -84,7 +97,8 @@ export function Regiones() {
               />
             </div>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       <div className="mt-5 glass p-5">
