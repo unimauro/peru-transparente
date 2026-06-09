@@ -48,11 +48,17 @@ export function Funcionarios() {
           <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
             <div>
               <div className="tabular text-3xl font-bold text-ink">{fmt.format(kpis.total_funcionarios)}</div>
-              <div className="text-[11px] uppercase tracking-wider text-ink-mute">funcionarios indexados</div>
+              <div className="text-[11px] uppercase tracking-wider text-ink-mute">servidores públicos (total)</div>
             </div>
             <div>
               <div className="tabular text-3xl font-bold text-peru-redsoft">{fmt.format(kpis.total_cargos_clave)}</div>
-              <div className="text-[11px] uppercase tracking-wider text-ink-mute">cargos clave (dirección + jefaturas)</div>
+              <div className="text-[11px] uppercase tracking-wider text-ink-mute">funcionarios y directivos · de jefe ↑</div>
+            </div>
+            <div>
+              <div className="tabular text-3xl font-bold text-accent-cyan">
+                {((kpis.total_cargos_clave / Math.max(kpis.total_funcionarios, 1)) * 100).toFixed(1)}%
+              </div>
+              <div className="text-[11px] uppercase tracking-wider text-ink-mute">son cargos de mando</div>
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
