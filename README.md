@@ -33,21 +33,73 @@ Cada fuente tiene un *connector* documentado en [`docs/SCRAPING_STRATEGY.md`](do
 
 ## Arquitectura en una imagen
 
+> 🟢 verde = ya en producción · ⚪ punteado = en el roadmap
+
+```mermaid
+flowchart LR
+    subgraph ING["🛰️ INGESTA"]
+        direction TB
+        S1["PTE · Personal<br/>transparencia.gob.pe"]
+        S2["gob.pe · Directorio<br/>de autoridades"]
+        S3["OCDS / OECE<br/>contrataciones"]
+        S4["Catálogo PTE<br/>2,308 entidades"]
+        S1 & S2 & S3 & S4 --> DET["Detección de cambios<br/>+ checkpoint (resumable)"]
+    end
+
+    subgraph PRO["⚙️ PROCESAMIENTO"]
+        direction TB
+        NORM["Normalización · dedup<br/>clasificación por nombre"]
+        ER["Entity Resolution (IA)"]
+        NORM --> ER
+        ER --> PG[("PostgreSQL<br/>canónico")]
+        ER --> NEO[("Neo4j<br/>grafo de poder")]
+        ER --> VEC[("pgvector<br/>búsqueda semántica")]
+    end
+
+    subgraph SRV["🚀 SERVICIO"]
+        direction TB
+        STATIC["JSON estático<br/>(datos como código)"]
+        EXP["Export CSV / JSON.gz"]
+        API(["FastAPI REST + GraphQL"])
+    end
+
+    subgraph FE["🖥️ FRONTEND"]
+        direction TB
+        SPA{{"React + Vite · SPA<br/>GitHub Pages"}}
+        VIZ{{"D3 · Cytoscape<br/>ECharts · MapLibre"}}
+        SPA --- VIZ
+    end
+
+    DET ==> NORM
+    NORM ==> STATIC
+    STATIC ==> EXP
+    STATIC ==> SPA
+    ER -.-> PG
+    PG -.-> API
+    API -.-> SPA
+
+    classDef live fill:#16331f,stroke:#22c55e,color:#e6edf6
+    classDef plan fill:#1b2430,stroke:#56627a,color:#9aa7b8,stroke-dasharray:5 4
+    class S1,S2,S3,S4,DET,NORM,STATIC,EXP,SPA,VIZ live
+    class ER,PG,NEO,VEC,API plan
 ```
-┌─────────────── INGESTA ───────────────┐   ┌──────── PROCESAMIENTO ────────┐   ┌──── SERVICIO ────┐
-│ Scrapy + Playwright (connectors)       │   │ ETL Airflow → normalización    │   │ FastAPI REST     │
-│ APIs OCDS / Datos Abiertos / SIAF      │──▶│ Entity Resolution (IA)         │──▶│ GraphQL          │
-│ Detección de cambios + versionado      │   │ PostgreSQL (canónico)          │   │ Export CSV/JSON  │
-└────────────────────────────────────────┘   │ Neo4j (grafo de poder)         │   │ Static JSON (CDN)│
-                                              │ Redis (cache) · pgvector (IA)  │   └────────┬─────────┘
-                                              └────────────────────────────────┘            │
-                                                                                   ┌─────────▼─────────┐
-                                                                                   │ Frontend React/Vite│
-                                                                                   │ GitHub Pages (SPA) │
-                                                                                   │ D3 · Cytoscape ·    │
-                                                                                   │ ECharts · MapLibre  │
-                                                                                   └────────────────────┘
+
+<details><summary>Vista C4 (diagrama de contexto) — alternativa más explícita</summary>
+
+```mermaid
+C4Context
+    title Perú Transparente — Diagrama de contexto (C4 nivel 1)
+    Person(ciudadano, "Ciudadanía / Prensa / Academia", "Consulta funcionarios, entidades y redes de poder")
+    System(pt, "Perú Transparente", "Plataforma open source de transparencia (SPA + datos abiertos)")
+    System_Ext(pte, "PTE", "Portal de Transparencia Estándar — personal y planilla")
+    System_Ext(gobpe, "gob.pe", "Directorio oficial de autoridades")
+    System_Ext(oece, "OECE / OCDS", "Contrataciones del Estado")
+    Rel(ciudadano, pt, "Busca, filtra, descarga")
+    Rel(pt, pte, "Scrapea personal por entidad/régimen")
+    Rel(pt, gobpe, "Scrapea autoridades (rector, ministros, jefes)")
+    Rel(pt, oece, "Consume contratos (API OCDS)")
 ```
+</details>
 
 Detalle completo en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) y [`docs/INFRASTRUCTURE.md`](docs/INFRASTRUCTURE.md).
 
