@@ -40,9 +40,10 @@ export function Funcionarios() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="chip mb-3">Muestra · {fmt.format(items.length)} registros</div>
-      <h1 className="text-3xl font-bold tracking-tight text-ink">Funcionarios y cargos</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-ink">Servidores públicos</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Cada persona mapeada a su período, cargo, dependencia, remuneración y URL fuente.
+        Todo el personal del Estado mapeado a su período, cargo, dependencia, remuneración y URL fuente.
+        Los <b className="text-peru-redsoft">funcionarios</b> son los cargos de mando (de jefe ↑).
       </p>
 
       {/* Resumen del dataset completo (antes del buscador) */}
