@@ -24,7 +24,12 @@ export default function App() {
         </Routes>
       </main>
       <footer className="mt-16 border-t border-gray-800 py-6 text-center text-xs text-gray-500">
-        Código AGPL-3.0 · Datos CC BY 4.0 · Fuente: Portal de Transparencia Estándar · Solo información pública
+        <div>
+          Por <a href="https://github.com/unimauro" target="_blank" rel="noreferrer" className="font-medium text-gray-300 hover:text-white">Carlos Cárdenas Fernández · @unimauro</a>
+        </div>
+        <div className="mt-1">
+          Código AGPL-3.0 · Datos CC BY 4.0 · Fuente: Portal de Transparencia Estándar · Solo información pública
+        </div>
       </footer>
     </div>
   );
