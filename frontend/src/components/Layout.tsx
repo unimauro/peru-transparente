@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { YapeModal } from "@/components/YapeModal";
 
 function NavItem({ to, children }: { to: string; children: ReactNode }) {
   return (
@@ -52,14 +53,16 @@ export function Layout({ children }: { children: ReactNode }) {
 }
 
 function Footer() {
+  const [yape, setYape] = useState(false);
   return (
     <footer className="mt-20 border-t border-surface/[0.06]">
+      <YapeModal open={yape} onClose={() => setYape(false)} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <div className="glass grid gap-6 p-6 sm:grid-cols-[auto,1fr] sm:items-center">
           <div className="flex justify-center">
-            <a href="https://unimauro.github.io/salariosperu/yape.png" target="_blank" rel="noreferrer" className="block rounded-xl bg-white p-2 shadow-glow">
+            <button onClick={() => setYape(true)} className="block rounded-xl bg-white p-2 shadow-glow transition-transform hover:-translate-y-0.5" aria-label="Mostrar QR de Yape">
               <img src="https://unimauro.github.io/salariosperu/yape.png" alt="Yape QR" className="h-28 w-28 rounded-lg object-cover" loading="lazy" />
-            </a>
+            </button>
           </div>
           <div className="text-center sm:text-left">
             <div className="text-base font-semibold text-ink">¿Te resulta útil este proyecto? Apóyalo 🙌</div>
@@ -68,7 +71,7 @@ function Footer() {
               o usa cualquiera de estas opciones.
             </p>
             <div className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
-              <a className="btn-primary" href="https://unimauro.github.io/salariosperu/yape.png" target="_blank" rel="noreferrer">📲 Yape · 940 584 307</a>
+              <button className="btn-primary" onClick={() => setYape(true)}>📲 Yape · 940 584 307</button>
               <a className="btn-ghost" href="https://buymeacoffee.com/unimauro" target="_blank" rel="noreferrer">☕ Buy me a coffee</a>
               <a className="btn-ghost" href="https://wa.me/51940584307" target="_blank" rel="noreferrer">💬 WhatsApp</a>
             </div>
