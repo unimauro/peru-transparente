@@ -29,11 +29,12 @@ sources:
 
   - id: PTE
     name: Portal de Transparencia Estándar
-    method: playwright
+    method: http
     base_url: https://www.transparencia.gob.pe
     frequency: daily
     confidence: 0.90
-    status: planned
+    connector: connectors.pte_personal.PtePersonalConnector
+    status: implemented
 
   - id: CONTRALORIA
     name: Contraloría — Declaraciones Juradas
