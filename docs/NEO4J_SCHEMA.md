@@ -2,6 +2,52 @@
 
 El grafo es **derivado** de PostgreSQL (vía CDC). Modela las redes de poder para exploración visual tipo OpenCorporates / Aleph (OCCRP) / Poderopedia.
 
+> **Modelo normalizado, sin duplicar data:** cada Persona, Entidad o Cargo es **un único nodo**; las relaciones solo lo referencian. Una persona con 3 cargos = 1 nodo `:Person` + 3 aristas `HOLDS` (no 3 copias de la persona). El grafo no es fuente de verdad: se reconstruye 100% desde PostgreSQL.
+
+## 0. El modelo en una imagen
+
+> ── sólido = dato verificado (de fuente) · ┈ punteado = hipótesis inferida por IA (anti-overclaiming)
+
+```mermaid
+flowchart TD
+    P(["👤 Persona"])
+    AUT["👔 Autoridad<br/>gob.pe"]
+    POS["💼 Cargo"]
+    E["🏛️ Entidad"]
+    SEC["🗂️ Sector"]
+    COMP["🏢 Empresa estatal"]
+    SUP["📦 Proveedor"]
+    K["📄 Contrato"]
+    DJ["📋 Declaración Jurada"]
+    RES["⚖️ Resolución"]
+
+    P -->|HOLDS · sueldo, período| POS
+    POS -->|IN| E
+    P -->|WORKED_AT| E
+    P -->|IS_AUTHORITY| AUT
+    AUT -->|OF| E
+    P -->|DIRECTS · rol| COMP
+    P -->|DECLARED| DJ
+    P -->|NAMED_BY| RES
+    RES -->|ISSUED_BY| E
+    E -->|BELONGS_TO| SEC
+    E -->|PART_OF| E
+    E -->|OWNS| COMP
+    E -->|AWARDED · monto| K
+    K -->|TO| SUP
+    P -.->|POSSIBLE_LINK · IA| P
+    P -.->|POSSIBLE_COI · IA| K
+
+    classDef person fill:#3a0d12,stroke:#e11d2a,color:#ffe1e4
+    classDef org fill:#0d1f3a,stroke:#4f8cff,color:#e6edf6
+    classDef money fill:#0d2b33,stroke:#1aa3c0,color:#e6edf6
+    classDef doc fill:#241a3a,stroke:#a78bfa,color:#ece6ff
+    class P,AUT person
+    class E,SEC,COMP org
+    class SUP,K money
+    class DJ,RES,POS doc
+```
+
 ## 1. Nodos (labels)
 
 | Label | Propiedades clave | Origen |
