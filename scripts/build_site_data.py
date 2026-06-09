@@ -70,6 +70,26 @@ def main() -> None:
     ent_cat = {e["id_entidad"]: e.get("categoria") or categoria(e["nombre"]) for e in entidades}
     tipo_count = Counter(ent_cat[e["id_entidad"]] for e in entidades)
 
+    # Autoridades de gob.pe (cargadas temprano para el conteo + página global)
+    autoridades_por_ent = defaultdict(list)
+    aut_path = Path("data/autoridades.csv")
+    if aut_path.exists():
+        for a in csv.DictReader(aut_path.open(encoding="utf-8")):
+            autoridades_por_ent[a["id_entidad"]].append({
+                "nombre": a["nombre"], "cargo": a["cargo"], "email": a["email"],
+                "telefono": a["telefono"], "url": a["detalle_url"],
+                "entidad": ent_cat.get(a["id_entidad"]) and a.get("institucion_pte"),
+                "institucion": a.get("institucion_pte"),
+            })
+    aut_count = {k: len(v) for k, v in autoridades_por_ent.items()}
+    # página global de autoridades (buscable)
+    todas_aut = [
+        {"nombre": a["nombre"], "cargo": a["cargo"], "email": a["email"],
+         "telefono": a["telefono"], "url": a["url"], "institucion": a["institucion"], "id_entidad": eid}
+        for eid, lst in autoridades_por_ent.items() for a in lst
+    ]
+    write("autoridades.json", {"items": todas_aut})
+
     # catálogo enriquecido con nº de funcionarios scrapeados
     def estado(eid: str, n: int) -> str:
         if n > 0:
@@ -82,6 +102,7 @@ def main() -> None:
             "nombre": e["nombre"],
             "tipo": ent_cat[e["id_entidad"]],
             "funcionarios": fun_por_entidad.get(e["id_entidad"], 0),
+            "autoridades": aut_count.get(e["id_entidad"], 0),
             "estado": estado(e["id_entidad"], fun_por_entidad.get(e["id_entidad"], 0)),
         }
         for e in entidades
@@ -117,16 +138,6 @@ def main() -> None:
     sample = clave_rows + otros  # clave completos + muestra de apoyo
     write("funcionarios_sample.json", {"items": sample})
     write("funcionarios_clave.json", {"items": clave_rows})
-
-    # Autoridades de gob.pe (directorio: rector/ministro/jefes con contacto) por entidad
-    autoridades_por_ent: dict[str, list] = defaultdict(list)
-    aut_path = Path("data/autoridades.csv")
-    if aut_path.exists():
-        for a in csv.DictReader(aut_path.open(encoding="utf-8")):
-            autoridades_por_ent[a["id_entidad"]].append({
-                "nombre": a["nombre"], "cargo": a["cargo"],
-                "email": a["email"], "telefono": a["telefono"], "url": a["detalle_url"],
-            })
 
     # Per-entidad: dependencias agrupadas (organigrama-lite) para entidades con datos.
     by_ent = defaultdict(list)

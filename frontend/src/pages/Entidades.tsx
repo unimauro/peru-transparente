@@ -125,6 +125,11 @@ export function Entidades() {
                       <div className="tabular font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</div>
                       <div className="text-[10px] uppercase tracking-wide text-ink-faint">funcionarios →</div>
                     </>
+                  ) : (e.autoridades ?? 0) > 0 ? (
+                    <>
+                      <div className="tabular font-semibold text-accent-violet">{fmt.format(e.autoridades ?? 0)}</div>
+                      <div className="text-[10px] uppercase tracking-wide text-ink-faint">autoridades →</div>
+                    </>
                   ) : e.estado === "sin_datos" ? (
                     <span className="text-xs text-ink-mute">sin datos publicados</span>
                   ) : (
@@ -133,7 +138,7 @@ export function Entidades() {
                 </div>
               </>
             );
-            return e.funcionarios ? (
+            return (e.funcionarios || (e.autoridades ?? 0) > 0) ? (
               <Link key={e.id} to={`/entidad/${e.id}`} className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-surface/[0.04]">
                 {inner}
               </Link>

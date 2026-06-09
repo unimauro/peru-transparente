@@ -24,6 +24,7 @@ export interface EntidadCat {
   nombre: string;
   tipo: string;
   funcionarios: number;
+  autoridades?: number;
   estado: "con_datos" | "sin_datos" | "pendiente";
 }
 
