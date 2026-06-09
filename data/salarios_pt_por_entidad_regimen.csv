@@ -1,0 +1,917 @@
+id_entidad,entidad,categoria,regimen,n,mediana,p25,p75,maximo,masa_mensual
+10044,Ministerio Público Fiscalía de la Nación (MPFN),Justicia/Fiscalía,CAS,5987,3564,2864.19,3564.19,18787,21608142
+13102,Programa Nacional para la Prevención y Erradicación de la Violencia contra las Mujeres e Integrantes (Warmi Ñan),Organismo público,CAS,5491,4364,3364.19,4364.19,22317,23534531
+13840,Direccion Regional de Educación del Callao (DREC),Educación,Ley Servir,4760,3501,3500.7,4290.78,10762,19082610
+107,Seguro Social de Salud (ESSALUD),Salud,CAS,4221,3925,2810.75,5222.96,17435,18337071
+131,Ministerio de Justicia y Derechos Humanos (MINJUS),Justicia/Fiscalía,CAS,3906,5364,5193.1,7270.49,45847,22859070
+10051,Poder Judicial (PJ),Justicia/Fiscalía,CAS,3848,3336,2364.19,4864.19,13756,14756112
+133,Ministerio de Educación (MINEDU),Educación,CAS,3323,5864,4864.19,8364.19,18720,22127326
+13274,Programa Nacional Cuna Más (PNCM),Organismo público,CAS,2625,3264,2864.19,3264.19,15600,9310979
+18791,DIRECCION DE REDES INTEGRADAS DE SALUD LIMA NORTE (DIRIS L.N.),Salud,CAS,2624,2964,2053.56,3703.95,14264,8096702
+10050,Municipalidad Distrital de Ate (MuniAte),Municipalidad,CAS,2292,1764,1564.19,1964.19,6600,4390965
+10080,Municipalidad Distrital de San Isidro Lima (MDSI),Municipalidad,CAS,2173,2164,1914.19,3164.19,18000,6615858
+91,Servicio Nacional de Sanidad Agraria del Perú (SENASA),Salud,CAS,2121,2633,2467.65,3567.65,9364,6560221
+109,Programa Integral Nacional para el Bienestar Familiar (INABIF),Organismo público,CAS,2007,2264,1764.19,3264.19,15264,5686650
+1434,Municipalidad Metropolitana de Lima (MUNLIMA),Municipalidad,CAS,2007,2070,1864.19,2400.0,12364,4825504
+10069,Municipalidad Distrital de Miraflores - LIMA (MDMiraflores),Municipalidad,CAS,1913,2050,1884.19,2300.0,20020,5251950
+14069,"Superintendencia de Transporte Terrestre de Personas, Carga y Mercancias (SUTRAN)",Regulador/Superintendencia,CAS,1890,3364,2864.19,4864.19,15600,7734754
+13117,Programa Nacional de Apoyo Directo a los más Pobres - JUNTOS (JUNTOS),Organismo público,CAS,1878,2364,2363.21,3364.19,21768,5881378
+18741,DIRECCION DE REDES INTEGRADAS DE SALUD LIMA CENTRO (DIRIS LIMA CENTRO),Salud,CAS,1855,6146,3964.19,7450.53,31200,12587894
+77,Ministerio de Cultura (CULTURA),Ministerio,CAS,1719,4049,2516.35,5792.4,15600,7810098
+10042,Municipalidad Distrital de Santiago de Surco (MSS),Municipalidad,CAS,1717,2350,2114.19,2854.19,15600,4731858
+13847,Gerencia Regional de Salud de Lambayeque (GERESA-LAMBAYEQUE),Salud,CAS,1709,2304,2064.19,3164.19,12764,4914699
+12678,Superintendencia Nacional de Migraciones (MIGRACIONES),Regulador/Superintendencia,CAS,1704,3364,3343.4,4257.51,15600,7010549
+13693,HOSPITAL NACIONAL HIPOLITO UNANUE (HNHU),Salud,Ley Servir,1667,5819,3393.04,7819.8,25208,9584621
+14219,Programa Nacional de Alimentación Escolar Comunitaria Wasi Mikuna (PNAEC - WASI MIKUNA),Organismo público,CAS,1665,3764,3064.19,4632.6,28232,7323373
+142,Ministerio de la Mujer y Poblaciones Vulnerables (MIMP),Ministerio,CAS,1620,4364,3364.19,5364.19,19673,7983914
+10081,Municipalidad Distrital de San Juan de Lurigancho (MDSJL),Municipalidad,CAS,1515,2200,1814.19,2300.0,15000,3442038
+13761,Dirección Regional de Salud del Callao (DIRESA - CALLAO),Salud,CAS,1502,2164,2024.56,3264.19,17722,4359535
+10078,Municipalidad Distrital de San Borja (MDSanBorja),Municipalidad,CAS,1413,2000,1860.0,2400.0,15600,3678797
+18765,HOSPITAL DE EMERGENCIAS VILLA EL SALVADOR (HEVES),Salud,CAS,1394,3264,2164.19,3964.19,24122,5518856
+10089,Municipalidad Distrital de San Martín de Porres (MDSMP),Municipalidad,CAS,1376,1900,1689.19,2100.0,12700,2935837
+14117,Red de Salud Trujillo (UTES 6 TE),Salud,CAS,1320,2964,1864.19,2964.19,9064,3852261
+82,Oficina de Normalización Previsional (ONP),Organismo público,Ley Servir,1283,5898,3219.5,8083.78,28000,7624963
+134,Ministerio de Economía y Finanzas (MEF),Ministerio,CAS,1256,7250,5364.19,9250.0,15600,9057358
+13705,Autoridad Nacional del Agua (ANA),Organismo público,CAS,1250,4864,3345.83,6731.2,15876,6387716
+10023,Instituto Nacional de Enfermedades Neoplásicas (INEN),Salud,CAS,1225,2900,1800.0,4900.0,15550,4482750
+10428,Universidad Nacional Mayor de San Marcos (UNMSM),Universidad,CAS,1217,1564,1389.19,1864.19,8364,2105206
+18830,Autoridad de Transporte Urbano para Lima y Callao (ATU),Organismo público,CAS,1217,2364,2364.19,6864.19,16901,5670654
+143,Ministerio de Salud (MINSA),Salud,CAS,1148,5817,3364.19,8364.19,31787,7589102
+114029,Programa de Alimentación Escolar (PAE),Organismo público,CAS,1147,2864,2864.19,3864.19,15876,4332577
+22,Registro Nacional de Identificación y Estado Civil (RENIEC),Organismo constitucional,CAS,1114,2939,2364.19,3960.0,18000,3745134
+14274,SUPERINTENDENCIA NACIONAL DE FISCALIZACION LABORAL (SUNAFIL),Justicia/Fiscalía,CAS,1072,4264,3264.19,6764.19,14264,5369970
+13834,HOSPITAL III REGIONAL HONORIO DELGADO (HRHD),Salud,CAS,1053,3164,2064.19,3164.19,16896,3484779
+10942,Municipalidad Distrital de Ventanilla (MDV),Municipalidad,CAS,973,1600,1464.19,2164.19,14200,2438238
+25878,Procuraduría General del Estado (PGE),Organismo público,CAS,940,7288,4864.19,8364.19,30203,6620609
+13147,Hospital Cayetano Heredia (HCH - MINSA),Salud,CAS,938,2842,2106.85,3864.19,21233,3279882
+10062,Municipalidad Distrital de la Molina (Munimolina),Municipalidad,CAS,923,1900,1750.0,2364.19,15600,2544468
+10065,Municipalidad Distrital de Lurigancho-Chosica (MDLCH),Municipalidad,CAS,915,1600,1500.0,1900.0,5683,1578670
+134,Ministerio de Economía y Finanzas (MEF),Ministerio,Ley Servir,911,12275,10205.21,13325.21,30000,11196869
+18774,DIRECCIÓN DE REDES INTEGRADAS DE SALUD LIMA ESTE (DIRIS LE),Salud,CAS,887,5564,3254.53,11411.05,24204,6348685
+10072,Municipalidad Distrital de Puente Piedra (MDPP),Municipalidad,CAS,887,2900,1550.0,3000.0,11700,2279231
+11476,"Ministerio de Vivienda, Construcción y Saneamiento (VIVIENDA)",Ministerio,CAS,883,7864,4964.19,9864.19,14364,6522617
+78975,RED DE SALUD HUANUCO (RSHCO),Salud,CAS,868,2564,2351.43,3464.19,12564,2633126
+13357,Hospital Nacional Arzobispo Loayza (HNAL),Salud,CAS,865,3246,2164.19,4228.47,14964,3403791
+14145,Ministerio de Desarrollo e Inclusión Social (MIDIS),Ministerio,CAS,832,3964,1489.19,8464.19,15600,4120922
+139,Ministerio de la Producción (PRODUCE),Ministerio,CAS,810,6364,4864.19,8364.19,16120,5740723
+4,Instituto Nacional de Estadística e Informática (INEI),Organismo público,CAS,796,2264,2064.19,3264.19,12339,2323747
+13693,HOSPITAL NACIONAL HIPOLITO UNANUE (HNHU),Salud,CAS,795,2164,2164.19,3264.19,14164,2683280
+14183,Programa Nacional de Asistencia Solidaria Pensión 65 (PENSION 65),Organismo público,CAS,780,2864,2364.19,3864.19,20800,2792418
+141,Ministerio de Trabajo y Promoción del Empleo (MTPE),Ministerio,CAS,778,4802,3364.19,7424.19,17680,4532464
+19,La Contraloría General de la República (CGR),Organismo constitucional,CAS,775,6864,5164.19,7949.19,12949,5163965
+18827,UNIDAD DE GESTION EDUCATIVA LOCAL DE AMBO (UGELAMBO),Educación,CAS,775,4201,3740.7,5267.6,12168,3626581
+10208,Corte Superior de Justicia de Lima Norte (CSJLN),Justicia/Fiscalía,CAS,772,4783,4186.19,5314.19,10089,3624068
+10009,Organismo de Formalización de la Propiedad Informal (COFOPRI),Organismo público,CAS,768,3364,2664.19,4364.19,11364,2930028
+18798,Corte Superior de Justicia de Lima Este (CSJLE),Justicia/Fiscalía,CAS,766,3336,2736.19,4086.19,13727,2568985
+18595,Corte Superior de Justicia de Lima (CSJ Lima),Justicia/Fiscalía,CAS,762,2314,1664.19,2936.19,11364,2020411
+13855,Organismo de Evaluación y Fiscalización Ambiental (OEFA),Justicia/Fiscalía,CAS,751,7864,4364.19,10364.19,15600,5595199
+14191,DIRECCION REGIONAL DE SALUD - SAN MARTIN (DIRES),Salud,CAS,729,2784,2164.19,3864.19,10364,2397021
+136,Ministerio de Desarrollo Agrario y Riego (MIDAGRI),Ministerio,CAS,710,7283,4298.08,8753.11,16898,4974811
+10006,Instituto Nacional de Defensa de la Competencia y de la Protección de la Propiedad Intelectual (Indecopi),Regulador/Superintendencia,CAS,710,3864,2864.19,5864.19,13864,3296350
+18733,HOSPITAL GENERAL DE JAEN (HGJ),Salud,CAS,709,3061,2540.24,4676.19,9264,2711407
+13797,HOSPITAL REGIONAL HERMILIO VALDIZAN MEDRANO - HUÁNUCO (HRHVM-HCO),Salud,CAS,682,3125,2064.19,5094.19,9264,2594131
+8,Superintendencia Nacional de Servicios de Saneamiento (SUNASS),Regulador/Superintendencia,CAS,681,7364,4864.19,9364.19,15600,4887133
+5,Organismo Supervisor de la Inversión en Energía y Minería (OSINERGMIN),Regulador/Superintendencia,CAS,677,7564,6364.19,11364.19,15600,5572055
+12761,Hospital Huacho y Red de Salud Huaura Oyón (HHRSHO),Salud,CAS,676,3109,2153.83,3264.19,8364,2069243
+13920,Dirección Regional de Salud de Cajamarca (DIRESA CAJAMARCA),Salud,CAS,668,2949,2164.19,3264.19,11364,2033095
+13649,Consejo Nacional para la Integración de la Persona con Discapacidad (CONADIS),Organismo público,CAS,659,2364,2064.19,3364.19,15600,2201437
+144,Ministerio de Transportes y Comunicaciones (MTC),Ministerio,CAS,657,5750,3364.19,8864.19,15876,4209472
+10202,Corte Superior de Arequipa (CSJAR),Justicia/Fiscalía,CAS,655,3336,2314.19,4214.19,8364,2142486
+13628,Hospital Nacional Dos de Mayo (HNDM),Salud,CAS,650,3155,2164.19,5357.82,20274,2533867
+140,Ministerio de Relaciones Exteriores (RREE),Ministerio,CAS,645,3864,3364.19,6364.19,15600,3318595
+10152,Gobierno Regional de Loreto (GOREL),Gobierno Regional,CAS,638,2064,1564.19,3750.0,9102,1769086
+10010,Instituto Nacional de Radio y Televisión del Perú (IRTP),Organismo público,CAS,629,2864,2089.19,3564.19,14253,2074462
+13004,Seguro Integral de Salud (SIS),Salud,CAS,628,5474,3389.19,7314.19,18305,3617028
+13912,Servicio Nacional de Áreas Naturales Protegidas por el Estado (SERNANP),Organismo público,CAS,626,5364,3564.19,7290.55,15600,3510486
+132,Ministerio del Interior (MININTER),Ministerio,CAS,618,6746,4364.19,9479.21,18720,4669181
+14282,Servicio Nacional Forestal y de Fauna Silvestre (SERFOR),Organismo público,CAS,608,6362,4318.72,8964.19,15364,4002873
+10038,Instituto Peruano del Deporte (IPD),Organismo público,CAS,607,1604,1389.19,4298.72,15364,2006513
+10048,Universidad Nacional de Ingeniería (UNI),Universidad,CAS,601,3114,2814.19,3914.19,13864,2199320
+10149,Gobierno Regional de La Libertad (GRLL),Gobierno Regional,CAS,598,3100,2299.67,5100.0,15700,2317667
+2,Intendencia Nacional de Bomberos del Perú (INBP),Organismo público,CAS,596,2264,1964.19,3364.19,15600,1989370
+10036,Municipalidad Distrital de Lince (MDL),Municipalidad,CAS,596,1964,1700.0,2364.19,11700,1512013
+1995,Municipalidad Provincial de Coronel Portillo (municportillo),Municipalidad,CAS,588,1658,1450.0,2358.41,7800,1319547
+866,Municipalidad Provincial del Callao (MPCallao),Municipalidad,CAS,587,2300,1730.0,3604.19,8000,1644227
+18727,Programa Nacional Plataformas de Acción para la Inclusión Social (PNPAIS),Organismo público,CAS,585,3364,3364.19,3364.19,17714,2624003
+13764,Hospital San Juan de Lurigancho (HSJL),Salud,CAS,575,2314,2152.17,3435.71,14364,1847353
+104,Instituto Tecnológico de la Producción (ITP),Educación,CAS,562,5364,3364.19,8364.19,15600,3515412
+128,Instituto Nacional de Defensa Civil (INDECI),Organismo público,CAS,562,4800,3792.61,5864.19,10364,2771478
+137,Ministerio de Energía y Minas (MINEM),Ministerio,CAS,553,7864,5364.19,9900.0,15600,4367285
+10406,Universidad Nacional de San Agustín (UNSA),Universidad,CAS,553,2064,1714.19,2864.19,15600,1345904
+10146,Gobierno Regional de Huánuco (GOREHCO),Gobierno Regional,CAS,553,3164,2364.19,4364.19,14364,2121882
+13077,Proyecto Especial de Infraestructura de Transporte Nacional (Provias Nacional),Organismo público,CAS,549,7961,3500.0,10000.0,39387,4224543
+12886,Hospital Rezola Cañete (HRC),Salud,CAS,540,3264,2164.19,5465.19,9608,2247641
+18699,UNIDAD EJECUTORA Nº 402 SALUD HUALLAGA CENTRAL (U.E.402SHC),Salud,CAS,539,2644,2164.19,4164.19,10364,1870183
+145,Presidencia del Consejo de Ministros (PCM),Ministerio,CAS,538,8364,6364.19,10364.19,56160,4694298
+14056,HOSPITAL DE APOYO II-2 SULLANA (HAS),Salud,CAS,534,2164,2141.64,3259.88,14364,1542793
+13149,Hospital Nacional Sergio E. Bernales (HNSEB - MINSA),Salud,CAS,533,2064,1512.84,3210.97,14864,1659806
+10,Organismo Especializado para las Contrataciones Públicas Eficientes (OECE),Organismo público,CAS,530,6364,4759.14,8391.89,14364,3494620
+87987,HOSPITAL AMAZONICO (HAYA),Salud,CAS,513,2064,1564.19,3164.19,9264,1306371
+92,Instituto Nacional de Innovación Agraria (INIA),Organismo público,CAS,512,2750,1389.19,5250.0,10364,2125822
+14267,INSTITUTO NACIONAL DE SALUD DEL NIÑO - SAN BORJA (INSNSB),Salud,CAS,506,4164,2864.19,7584.99,15801,2725708
+10118,Municipalidad Distrital de Surquillo (MDS),Municipalidad,CAS,504,1905,1663.38,3099.78,15000,1522388
+10056,Municipalidad Distrital de Chorrillos (MDCHORRILLOS),Municipalidad,CAS,494,1954,1364.19,2500.0,15000,1298121
+10124,Municipalidad Distrital de Villa María del Triunfo (MVMT),Municipalidad,CAS,491,1499,1403.31,1902.59,12850,1035186
+10215,Corte Superior de Justicia de Junin (CSJJ),Justicia/Fiscalía,CAS,489,3336,2765.28,4086.19,10564,1610830
+14173,HOSPITAL REGIONAL DE AYACUCHO (HR MAMLL A),Salud,CAS,484,2714,2164.19,3264.19,9364,1485950
+10032,Instituto Nacional de Salud (INS),Salud,CAS,483,3264,2764.19,6328.96,15819,2359516
+13145,HOSPITAL HUARAL Y SERVICIOS BASICOS DE SALUD (HH-SBS),Salud,CAS,479,2864,2164.19,3264.19,9213,1475728
+10061,Municipalidad Distrital de Jesús María (MDJM),Municipalidad,CAS,479,2086,2064.19,2464.19,14800,1488944
+12884,Hospital María Auxiliadora (HMA),Salud,CAS,476,3024,2052.72,3864.19,15600,1763263
+18835,Programa Nacional de Centros Juveniles (PRONACEJ),Organismo público,CAS,473,2750,1708.72,3364.19,14255,1586738
+67964,RED DE SALUD SAN ROMAN (SSR),Salud,CAS,472,2364,2164.19,3264.19,7664,1329830
+10209,Corte Superior de Cusco (D.J. Cusco),Justicia/Fiscalía,CAS,465,3834,3264.19,4364.19,8257,1718932
+138,Ministerio de Comercio Exterior y Turismo (MINCETUR),Ministerio,CAS,463,8203,5364.19,10285.03,15600,3685513
+75,Superintendencia Nacional de Salud (SUSALUD),Salud,CAS,458,6261,3864.19,8354.19,15600,2827417
+10083,Municipalidad Distrital de San Juan de Miraflores - LIMA (SJM),Municipalidad,CAS,455,1814,1500.0,1916.66,13364,1158088
+103,Instituto del Mar del Perú (IMARPE),Organismo público,CAS,454,6864,5864.19,7864.19,11364,3078180
+127,Ministerio del Ambiente (MINAM),Ministerio,CAS,453,7343,5200.0,9336.67,15600,3298836
+10070,Municipalidad Distrital de Pachacámac (MDPACHACAMAC),Municipalidad,CAS,446,2064,1850.0,2398.19,13000,1121145
+10003,Comisión de Promoción del Perú para la Exportación y el Turismo (PROMPERÚ),Organismo público,CAS,441,6364,3864.19,8364.19,15600,2934149
+23,Defensoría del Pueblo (DP),Organismo constitucional,CAS,440,3864,3364.19,5364.19,15564,2018746
+14184,Programa Nacional de Becas y Crédito Educativo (PRONABEC),Educación,CAS,440,4864,4364.19,7455.03,15364,2811325
+78976,Autoridad Nacional de Infraestructura (ANIN),Organismo público,CAS,434,10814,9364.19,12364.19,15876,4642108
+12962,Servicio de Parques de Lima (SERPAR - LIMA),Organismo público,CAS,431,1650,1564.19,1764.19,9850,1029133
+10216,Corte Superior de Justicia de la Libertad (D.J. LA LIBERTAD),Justicia/Fiscalía,CAS,429,2936,1664.19,3757.19,8164,1310324
+87,Servicio Nacional de Meteorología e Hidrología del Perú (SENAMHI),Organismo público,CAS,425,3400,1200.0,5000.0,11000,1537852
+14293,PROGRAMA NACIONAL DE INFRAESTRUCTURA EDUCATIVA (PRONIED),Educación,CAS,424,8364,5364.19,10364.19,15600,3430494
+69969,Oficina de Gestión de Servicios de Salud Alto Huallaga (OGESS - AH),Salud,CAS,422,2606,1942.58,3000.97,10013,1277067
+13290,Hospital San Jose del Callao (Hospital San Jose),Salud,CAS,420,2364,2164.19,4845.83,10564,1485735
+10122,Municipalidad Distrital de Villa El Salvador (MUNIVES),Municipalidad,CAS,420,2064,1864.19,2064.19,15564,1074217
+10035,Universidad Nacional Federico Villarreal (UNFV),Universidad,CAS,415,2550,1964.19,2864.19,7100,1073643
+13720,Sistema Metropolitano de la Solidaridad (SISOL),Organismo público,CAS,413,1995,1522.48,3325.88,15600,1256901
+13933,"Superintendencia Nacional de Control de Servicios de Seguridad, Armas, Municiones y Explosivos de Us (SUCAMEC)",Regulador/Superintendencia,CAS,412,3740,2997.72,4821.41,14135,1825303
+13800,Hospital Santa Rosa (HSR),Salud,CAS,410,3009,2150.16,3264.19,12364,1448815
+115,Patronato del Parque de Las Leyendas - Felipe Benavides Barreda (PATPAL - FBB),Organismo público,CAS,406,2012,1850.0,2800.0,13364,1140902
+13181,Instituto Nacional Materno Perinatal (INMP),Salud,CAS,406,3169,2164.19,3864.19,12364,1470042
+10411,Universidad Nacional Hermilio Valdizan (UNHEVAL),Universidad,CAS,405,2164,1564.19,2864.19,8864,974388
+10440,Universidad Nacional de Huancavelica (UNH),Universidad,CAS,383,2000,1690.19,2750.0,8250,912864
+13151,Hospital Carlos Lanfranco La Hoz (HCLLH),Salud,CAS,376,3200,2163.9,3264.19,15600,1259697
+13860,Programa de Desarrollo Productivo Agrario Rural (AGRO RURAL),Organismo público,CAS,370,3364,2364.19,6364.19,15600,1714594
+10011,Ministerio de Defensa (MINDEF),Ministerio,CAS,367,6364,3964.19,8364.19,67860,2580813
+18818,Corte Superior de Justicia de Lima Sur (CSJLimaSur),Justicia/Fiscalía,CAS,366,2936,2314.19,3336.19,11572,1107741
+13687,Autoridad Nacional del Servicio Civil (SERVIR),Organismo público,Ley Servir,365,8791,6315.92,9851.64,25000,3052319
+14301,Organismo Técnico de la Administración de los Servicios de Saneamiento (OTASS),Organismo público,CAS,364,10289,8364.19,11364.19,18724,3537996
+13134,Servicio de Administración Tributaria (SAT),Organismo público,CAS,364,2200,1500.0,3500.0,8000,982033
+10481,Municipalidad Distrital de Cerro Colorado (MDCC),Municipalidad,CAS,361,2100,1800.0,2664.19,7750,932751
+10227,Corte Superior de Piura (D.J. PIURA),Justicia/Fiscalía,CAS,359,3336,2314.19,4364.19,10564,1248992
+10198,Corte Superior de Justicia de Ancash (CSJA),Justicia/Fiscalía,CAS,358,3336,2864.19,3834.19,6186,1151922
+13220,Hospital de Tingo María (HTM),Salud,CAS,358,2164,2164.19,3264.19,12364,997962
+13299,Direccion Regional de Salud Pasco (DIRESA - PASCO),Salud,CAS,357,2304,2064.19,3164.19,12264,1008969
+10230,Municipalidad Distrital de Pueblo Libre - LIMA (MD-PUEBLO LIBRE),Municipalidad,CAS,352,2264,2100.0,2900.0,13864,1082490
+82,Oficina de Normalización Previsional (ONP),Organismo público,CAS,351,3364,2704.19,3864.19,15600,1304632
+191,Programa Nacional de Saneamiento Urbano (PNSU),Organismo público,CAS,348,9364,8364.19,10018.72,15600,2997191
+10037,Universidad Nacional Agraria La Molina (UNALM),Universidad,CAS,347,1389,1389.19,2064.19,10264,726909
+23873,HOSPITAL DE VENTANILLA (HDV-VENTANILLA),Salud,CAS,342,2064,1764.19,3964.19,9264,1061849
+10938,Municipalidad Distrital de Bellavista - Callao (MUDIBE),Municipalidad,CAS,342,2000,1400.0,3025.0,11400,952862
+10940,Municipalidad Distrital de La Perla (MDLP),Municipalidad,CAS,342,1564,1494.19,2050.0,6300,681560
+14318,SUPERINTENDENCIA NACIONAL DE EDUCACION SUPERIOR UNIVERSITARIA (SUNEDU),Regulador/Superintendencia,CAS,335,8800,6130.62,10627.7,13964,2748163
+13937,Unidad de Gestión Educativa Local N° 01 (UGEL01),Educación,CAS,323,2500,1350.0,3500.0,8000,890288
+2022,Jurado Nacional de Elecciones (JNE),Justicia/Fiscalía,CAS,322,8364,6364.19,8364.19,15600,2475470
+10206,Corte Superior de Justicia del Callao (CSJCL),Justicia/Fiscalía,CAS,322,3264,2576.19,3834.19,8364,1033426
+10204,Corte Superior de Justicia de Ayacucho (D.J. AYACUCHO),Justicia/Fiscalía,CAS,322,2936,2504.19,3336.19,10792,1050130
+13944,Programa Nacional de Saneamiento Rural (PNSR),Organismo público,CAS,317,8864,5364.19,9364.19,16120,2486828
+14284,Servicio Nacional de Certificación Ambiental para las Inversiones Sostenibles (Senace),Organismo público,CAS,315,9364,7122.05,9364.19,15864,2685039
+124,Servicio Nacional de Capacitación para la Industria de la Construcción (SENCICO),Organismo público,CAS,312,11953,9664.19,12707.05,17088,3581247
+14205,Dirección Regional de Educación Lima Metropolitana (DRELM),Educación,CAS,312,4364,2564.19,6364.19,15600,1449527
+10148,Gobierno Regional Junín (GRJ),Gobierno Regional,CAS,311,2750,2250.0,4600.0,10000,1119787
+175,Fondo de Cooperación para el Desarrollo Social (FONCODES),Organismo público,CAS,308,5364,3864.19,6364.19,27305,1776807
+39943,UNIDAD EJECUTORA SALUD HUALGAYOC BAMBAMARCA (UESH-BCA),Salud,CAS,304,2564,2364.19,3464.19,8564,956733
+739,Municipalidad Provincial de Cajamarca (MPC),Municipalidad,CAS,297,3214,2414.19,3414.19,12200,1088431
+10210,CORTE SUPERIOR DE JUSTICIA DEL SANTA (D.J. SANTA),Justicia/Fiscalía,CAS,297,4786,4026.19,5314.19,8364,1394778
+10067,Municipalidad Distrital de Magdalena del Mar - LIMA (MDMM),Municipalidad,CAS,296,2175,1500.0,2500.0,14500,880758
+10166,Gobierno Regional San Martín (GORESAM),Gobierno Regional,CAS,295,3900,3050.0,4900.0,12300,1347489
+12041,Municipalidad Provincial de Leoncio Prado (MPLP),Municipalidad,CAS,293,1800,1542.49,2310.87,5500,629305
+10052,Municipalidad Distrital de Barranco (MD-BARRANCO),Municipalidad,CAS,291,1800,1656.0,2200.0,13264,830165
+10060,Municipalidad Distrital de Independencia - LIMA (MDI),Municipalidad,CAS,290,2010,1774.19,2574.19,13200,867657
+13182,Instituto Nacional de Rehabilitación (INR),Organismo público,CAS,289,3264,3140.0,5090.0,15070,1306852
+18631,UNIDAD EJECUTORA N° 311 - EDUCACION HUANUCO (UE311HCO),Organismo público,CAS,283,2564,1914.19,3064.19,5861,728545
+12192,Municipalidad Provincial de San Román - Juliaca (MPSR),Municipalidad,CAS,282,2300,1900.0,2900.0,9790,727499
+81976,"Municipalidad Distrital de Conceptualizacion PTE (conceptualizacion, p)",Municipalidad,CAS,276,1907,1717.31,2893.33,13500,782952
+10137,Gobierno Regional Cajamarca (GRC),Gobierno Regional,CAS,275,3364,2164.19,3468.19,11364,975817
+94,Instituto Geológico Minero y Metalúrgico (INGEMMET),Organismo público,CAS,271,5864,4600.0,7364.19,12364,1601190
+14238,UNIDAD DE GESTIÓN EDUCATIVA LOCAL Nº 04 (UGEL04),Educación,CAS,271,2864,2364.19,3861.24,8340,882202
+14303,Autoridad Nacional de Sanidad e Inocuidad en Pesca y Acuicultura (SANIPES),Salud,CAS,271,7015,5064.19,7517.14,32965,1917227
+13856,SERVICIOS BASICOS DE SALUD CAÑETE YAUYOS (SBS CY),Salud,CAS,268,2064,1390.55,3164.19,10077,723481
+85978,Unidad Ejecutora 401:salud Canas Canchis Espinar (U.E. 401 SCCE),Salud,CAS,268,2364,2364.19,3464.19,8514,794289
+10201,Corte Superior de Justicia de Apurimac (D.J. APURIMAC),Justicia/Fiscalía,CAS,263,2936,2084.19,3336.19,6374,753040
+10012,Gobierno Regional de Lima (GRL),Gobierno Regional,CAS,262,3000,2000.0,4500.0,6500,845917
+18821,Hospital Sub Regional de Andahuaylas (HSRA),Salud,CAS,261,1800,1650.0,2900.0,8000,590560
+18620,RED DE SALUD LEONCIO PRADO (REDLP),Salud,CAS,261,2228,2164.19,3264.19,8364,727005
+10142,Gobierno Regional de Huancavelica (GR-Huancavelica),Gobierno Regional,CAS,261,2564,1970.16,3364.19,16728,816014
+1190,Municipalidad Provincial de Huancayo (MPHuancayo),Municipalidad,CAS,260,2316,1472.0,6474.19,8739,1023037
+11090,Municipalidad Distrital de El Tambo (MDT),Municipalidad,CAS,259,1730,1400.0,2294.19,5264,488511
+10214,Corte Superior de Justicia de Ica (CSJI),Justicia/Fiscalía,CAS,258,4214,3614.19,4570.45,8364,1075983
+11794,Marina de Guerra del Perú (MGP),Fuerzas Armadas/Policía,CAS,257,3564,2365.19,5364.19,10664,998794
+13180,Instituto Nacional de Salud del Niño (INSN),Salud,CAS,251,3047,2118.12,3664.19,15600,962909
+10139,Gobierno Regional Cusco (GRCusco),Gobierno Regional,CAS,251,2414,2214.19,3564.19,9864,872997
+10229,CORTE SUPERIOR DE JUSTICIA DE PUNO (CSJ PUNO),Justicia/Fiscalía,CAS,249,4275,3614.19,4678.31,9191,1067537
+7,Organismo Supervisor de Inversión Privada en Telecomunicaciones (OSIPTEL),Regulador/Superintendencia,CAS,247,5364,3864.19,7364.19,13364,1436845
+10614,Municipalidad Provincial de Huaral (MP-Huaral),Municipalidad,CAS,245,2029,1650.0,2826.41,6864,663686
+1957,Municipalidad Provincial de Tacna (MPTacna),Municipalidad,CAS,244,1860,1600.0,3190.0,11200,695406
+14092,UNIDAD DE GESTIÓN EDUCATIVA LOCAL N° 02 (UGEL 02),Educación,CAS,243,2865,2164.19,3364.19,10000,755417
+193,Municipalidad Provincial de Chachapoyas (MP-Chachapoyas),Municipalidad,CAS,242,1600,1495.0,2554.19,12311,545037
+1396,Municipalidad Provincial de Chiclayo (MPChiclayo),Municipalidad,CAS,240,1500,1300.0,4000.0,11900,786972
+10174,Gobierno Regional de Ucayali (GR-Ucayali),Gobierno Regional,CAS,240,2364,1764.19,3864.19,12750,731312
+10367,Municipalidad Provincial de San Martín (MPSM),Municipalidad,CAS,239,1514,1414.19,2364.19,8473,517576
+178,Superintendencia Nacional de Bienes Estatales (SBN),Regulador/Superintendencia,CAS,237,5304,3864.19,6364.19,12364,1231089
+25876,PROYECTO ESPECIAL DE INVERSIÓN PUBLICA - ESCUELAS BICENTENARIO (PEIP-EB),Educación,CAS,237,10364,7364.19,10985.38,15600,2244576
+18839,HOSPITAL II SANTA ROSA DE PUERTO MALDONADO (HOSPITALII),Salud,CAS,237,2164,2164.19,3264.19,10364,716762
+14063,Unidad Ejecutora 003 - Zona Arqueológica Caral/MC (UE003-ZAC/MC),Organismo público,CAS,231,2164,1564.19,3864.19,15564,706179
+13023,Autoridad Portuaria Nacional (APN),Organismo público,CAS,231,4864,4200.0,8364.19,11364,1403952
+10408,Universidad Nacional de Cajamarca (UNC),Universidad,CAS,227,1639,1639.19,1639.19,13500,444250
+5022,Oficina Nacional de Procesos Electorales (ONPE),Organismo constitucional,CAS,226,4743,3799.52,6364.19,11114,1095621
+10063,Municipalidad Distrital de La Victoria - Lima (MLV),Municipalidad,CAS,224,2214,2014.19,5464.19,14000,950969
+10242,Corte Superior de Justicia de Ucayali (D.J. UCAYALI),Justicia/Fiscalía,CAS,223,2561,1647.55,3022.21,7105,559832
+13660,INSTITUTO REGIONAL DE ENFERMEDADES NEOPLASICAS (IREN NORTE),Salud,CAS,223,2064,1993.47,3164.19,9264,689734
+18847,DIRECCION DE SALUD APURIMAC II (DISA APURIMAC II),Salud,CAS,222,3064,2164.19,3264.19,8364,649725
+10598,Municipalidad Provincial de Cañete (MPC),Municipalidad,CAS,221,2264,1964.19,2664.19,7464,579638
+18849,UNIDAD EJECUTORA 002 SERVICIOS DE SANEAMIENTO TUMBES (UE002SST),Organismo público,CAS,220,2614,2614.19,3514.19,14364,770990
+180,Gobierno Regional del Callao (GR-Callao),Gobierno Regional,CAS,219,6964,5414.19,8911.33,14364,1677355
+13718,Hospital Nacional Docente Madre Niño San Bartolomé (HONADOMANI SB),Salud,CAS,219,3364,2264.19,7640.62,14964,987204
+72968,UNIDAD EJECUTORA RED DE SALUD CAJABAMBA (UE RED DE SALUD CAJA),Salud,CAS,219,3264,2164.19,3264.19,8364,688505
+10212,Corte Superior de Justicia de Huánuco (CSJH),Justicia/Fiscalía,CAS,219,2864,1664.19,3336.19,6586,594838
+13773,UNIDAD DE GESTIÓN EDUCATIVA LOCAL Nº 03 (UGEL Nº 03),Educación,CAS,215,3864,2864.19,5364.19,10364,891301
+11793,Comisión Nacional para el Desarrollo y Vida sin Drogas (DEVIDA),Organismo público,CAS,215,5364,4404.19,6419.19,14399,1224378
+18632,"HOSPITAL REGIONAL JOSE ALFREDO MENDOZA OLAVARRIA JAMO II-2 (HOSPITAL ""JAMO"" II-2)",Salud,CAS,213,2164,2014.19,3264.19,12864,683464
+13965,Hospital de Emergencias José Casimiro Ulloa (HEJCU),Salud,CAS,209,3245,2154.19,7420.86,19000,907380
+26886,Unidad Ejecutora N° 405 Red de Salud Huamalies (REDHUAMALIES),Salud,CAS,207,2164,2164.19,3264.19,8364,582355
+11859,Municipalidad Provincial de Arequipa (MPA),Municipalidad,CAS,207,1764,1664.19,2364.19,7200,531778
+11144,Municipalidad Provincial del Santa (MPS - CHIMBOTE),Municipalidad,CAS,205,1500,1150.0,4014.19,6364,486214
+13815,Fuero Militar Policial (Ex - Consejo Supremo de Justicia Militar) (FMP),Justicia/Fiscalía,CAS,202,2864,2264.19,4864.19,8157,712839
+10434,Universidad Nacional de Educación Enrique Guzmán y Valle (UNE),Universidad,CAS,200,2364,1864.19,4600.0,18250,654298
+13106,Programa de Empleo Temporal Llamkasun Perú (Llamkasun Perú),Organismo público,CAS,199,5100,2864.19,5864.19,13300,1008550
+185,Biblioteca Nacional del Perú (BNP),Organismo público,CAS,197,5302,3964.29,8364.19,15600,1215520
+13495,DIRECCION REGIONAL DE SALUD ANCASH (DIRESA ANCASH),Salud,CAS,197,3720,2594.05,4411.45,13673,810887
+10213,Corte Superior de Justicia de Huaura (D.J. HUAURA),Justicia/Fiscalía,CAS,193,2936,1964.19,3336.19,8164,553808
+10205,Corte Superior de Justicia de Cajamarca (D.J. CAJAMARCA),Justicia/Fiscalía,CAS,193,3225,2576.19,3336.19,7589,592363
+10024,Organismo Supervisor de la Inversion en Infraestructura de Transporte de Uso Público (OSITRAN),Regulador/Superintendencia,CAS,191,10364,5864.19,12864.19,15600,1786883
+10045,Universidad Nacional José Faustino Sánchez Carrión (UNJFSC),Universidad,CAS,191,1514,1389.19,1764.19,7364,325175
+10946,Municipalidad Distrital de San Jeronimo - Cusco (MDSJ-CUSCO),Municipalidad,CAS,189,2613,2000.0,3300.0,6364,544423
+980,Municipalidad Provincial de Huancavelica (MPH),Municipalidad,CAS,187,1764,1514.19,2264.19,5250,372803
+11314,Municipalidad Distrital de La Esperanza (MDE),Municipalidad,CAS,184,1389,1389.19,1664.19,3100,301182
+10947,Municipalidad Distrital de San Sebastián (MD - SSEBASTIAN),Municipalidad,CAS,183,3167,2200.0,3800.0,5850,592624
+87981,HOSPITAL SANTA MARIA DE CUTERVO (HSMC),Salud,CAS,181,3136,2064.19,3864.19,9264,603299
+10941,Municipalidad Distrital de La Punta (MDLP),Municipalidad,CAS,181,2300,1614.19,3800.0,7000,523415
+13658,Organismo de Supervisión de los Recursos Forestales y de Fauna Silvestre (OSINFOR),Regulador/Superintendencia,CAS,180,6864,4335.81,7407.19,14364,1160737
+10449,Universidad Nacional del Altiplano (UNAP),Universidad,CAS,178,1789,1789.19,1864.19,25526,427478
+14319,Fondo de Aseguramiento en Salud de la Policía Nacional del Perú (SALUDPOL),Salud,CAS,178,7364,5864.19,9364.19,15364,1352621
+10135,Gobierno Regional de Ayacucho (GR-Ayacucho),Gobierno Regional,CAS,177,2468,1977.47,3477.41,10587,587051
+12108,Municipalidad Provincial de Virú (MP-VIRÚ),Municipalidad,CAS,175,1864,1600.0,2064.19,5950,371859
+10015,Instituto de Investigaciones de la Amazonía Peruana (IIAP),Organismo público,CAS,174,3864,1711.19,5614.19,11864,718569
+14119,Universidad Nacional José María Arguedas (UNAJMA),Universidad,CAS,174,2064,1857.77,3387.77,7364,461160
+14270,Universidad Nacional Toribio Rodriguez de Mendoza de Amazonas (UNTRM),Universidad,CAS,168,2050,1864.19,3250.0,10100,442762
+14310,INSTITUTO NACIONAL DE CALIDAD (INACAL),Organismo público,CAS,166,6364,4864.19,9364.19,15600,1260675
+1710,Municipalidad Provincial de Piura (MPPiura),Municipalidad,CAS,164,3501,2479.19,4983.45,9000,684783
+10480,Municipalidad Distrital de Cayma (MDC),Municipalidad,CAS,163,2300,1900.0,2800.0,7500,421767
+14263,RED DE SALUD DE DOS DE MAYO - UNIDAD EJECUTORA 406 (RSDM),Salud,CAS,161,2000,1800.0,2900.0,9000,389492
+14273,Hospital de Apoyo II-1 Nuestra señora de las Mercedes de Paita (HLMP),Salud,CAS,161,2364,2014.19,4152.93,12364,566963
+11868,Municipalidad Provincial de Huamanga (MP-HUAMANGA),Municipalidad,CAS,159,2300,1947.06,3064.19,6528,401541
+10130,Gobierno Regional de Apurimac (GR-Apurimac),Gobierno Regional,CAS,157,3500,2800.0,4864.19,9364,596424
+13648,DIRECCION REGIONAL DE SALUD HUANUCO (DIRESA - HUANUCO),Salud,CAS,156,2864,2164.19,3264.19,12364,494736
+13314,Hospital de Emergencias Pediátricas (HEP),Salud,CAS,156,2364,2364.19,3464.19,15927,562761
+12092,Municipalidad Provincial de Tarma (MPT),Municipalidad,CAS,156,1400,1350.0,1800.0,5000,270612
+188,Instituto Geofísico del Perú (IGP),Organismo público,CAS,155,3864,2864.19,4914.19,15600,689062
+13136,Universidad Nacional Amazonica de Madre de Dios (UNAMAD),Universidad,CAS,154,1745,1600.0,2044.69,9264,357478
+183,Superintendencia Nacional de los Registros Públicos (SUNARP),Regulador/Superintendencia,CAS,153,6320,4532.68,7494.19,10579,944197
+10157,GOBIERNO REGIONAL PASCO (GOREPA),Gobierno Regional,CAS,153,302,301.0,302.0,305,45896
+10439,Universidad Nacional San Cristóbal de Huamanga (UNSCH),Universidad,CAS,150,2665,2300.0,3334.19,9022,452264
+47949,RED DE SALUD AMBO (RSA),Salud,CAS,150,2164,2164.19,3264.19,8364,389565
+14185,DIRECCION REGIONAL DE SALUD LIMA - PROVINCIA (DIRESA LIMA),Salud,CAS,149,2064,1850.86,3164.19,8264,422620
+11887,Municipalidad Provincial de Hualgayoc (MPH-BCA),Municipalidad,CAS,149,2564,1900.0,4100.0,7500,441155
+14243,"Sistema Nacional de Evaluación, Acreditación y Certificación de la Calidad Educativa (Sineace)",Educación,CAS,145,7364,6364.19,9364.19,15600,1166868
+15357,UNIVERSIDAD NACIONAL DE CAÑETE (UNDC),Universidad,CAS,143,2364,1964.19,3964.19,15600,483730
+134,Ministerio de Economía y Finanzas (MEF),Ministerio,FAG,141,13000,10000.0,15600.0,18200,1726180
+18596,Municipalidad Distrital de Mi Perú (MDMP),Municipalidad,CAS,141,1664,1564.19,1864.19,9000,335535
+102,Fondo Nacional de Desarrollo Pesquero (FONDEPES),Organismo público,CAS,139,6864,4100.0,10300.0,15600,1018363
+10170,Gobierno Regional Tumbes (GR-Tumbes),Gobierno Regional,CAS,139,2464,1864.19,3164.19,5864,394372
+14076,Unidad Ejecutora 005 Proyecto Especial Naylamp - Lambayeque (U.E. 005),Organismo público,CAS,139,1864,1464.19,2800.0,9864,339897
+13258,Instituto Nacional de Ciencias Neurológicas (INCN),Organismo público,CAS,138,3027,2094.19,6982.92,15600,584817
+15328,Oficina Regional Lima - INPE (INPE-ORL),Justicia/Fiscalía,CAS,137,3114,2686.06,4514.19,8014,486539
+11279,Municipalidad Distrital de Pangoa (MDPangoa),Municipalidad,CAS,137,1864,1600.0,2164.19,5864,295477
+14110,"Centro Nacional de Estimación, Prevención y Reducción del Riesgo de Desastres (CENEPRED)",Organismo público,CAS,137,7364,6364.19,8364.19,13364,956381
+14295,Municipalidad Distrital Veintiséis de Octubre (MDVO),Municipalidad,CAS,137,2464,2164.19,3860.19,9750,437269
+14014,GOBIERNO REGIONAL DE LIMA METROPOLITANA (GRLM),Gobierno Regional,CAS,136,4064,2964.19,6750.0,10300,655850
+11428,Municipalidad Provincial de Lambayeque (MPL),Municipalidad,CAS,135,1864,1614.19,2564.19,7100,352137
+11793,Comisión Nacional para el Desarrollo y Vida sin Drogas (DEVIDA),Organismo público,Ley Servir,135,8277,5400.0,10725.0,30000,1104382
+11779,Municipalidad Distrital de Yarinacocha (MDY),Municipalidad,CAS,135,1564,1389.19,6700.0,8700,399194
+13217,AGROMERCADO (SSE),Organismo público,CAS,134,5329,2846.09,8364.19,15600,778080
+16385,UNIVERSIDAD NACIONAL DE JULIACA (UNAJ),Universidad,CAS,133,2664,2364.19,3364.19,9164,389423
+10409,Universidad Nacional de San Martí­n (UNSM),Universidad,CAS,133,1864,1664.19,2128.38,9500,319387
+10641,MUNICIPALIDAD DISTRITAL DE SAN ANTONIO - LIMA (MDSA),Municipalidad,CAS,133,1464,1300.0,1600.0,3700,204760
+13090,Programa Subsectorial de Irrigaciones (PSI),Organismo público,CAS,133,6364,3864.19,10364.19,15364,995341
+10437,Universidad Nacional del Centro del Perú (UNCP),Universidad,CAS,132,1964,1389.19,2364.19,12364,281186
+11555,Municipalidad Distrital de Tambogrande (MD - TGRANDE),Municipalidad,CAS,132,2314,1664.19,3600.0,5000,357648
+10167,Gobierno Regional de Tacna (G.R.TACNA),Gobierno Regional,CAS,131,3364,2864.19,4014.19,24808,576949
+10403,Universidad Nacional Santiago Antúnez de Mayolo (UNASAM),Universidad,CAS,130,1289,1289.19,1289.19,6000,216913
+10020,Proyecto Especial de Infraestructura de Transporte Descentralizado (Provias Descentraliz),Organismo público,CAS,128,9364,6364.19,10364.19,15600,1099315
+11548,Municipalidad Distrital de Castilla (MDC),Municipalidad,CAS,128,3349,2100.0,5800.0,7800,475824
+13970,Programa de Compensaciones para la Competitividad (AGROIDEAS),Organismo público,CAS,128,6364,4364.19,8364.19,15200,838186
+10505,Municipalidad Distrital de Yura (MDY),Municipalidad,CAS,126,3058,2000.0,3652.5,4702,360791
+14003,Dirección Regional de Salud Tacna (DIRESA Tacna),Salud,CAS,125,3264,2164.19,3400.0,12300,447836
+14261,"Instituto Regional de Oftalmología ""Javier Servat Univaso"" (IRO-JSU)",Organismo público,CAS,125,2864,2064.19,4000.0,10564,451129
+12667,Municipalidad Distrital Crnl. Gregorio Albarracín­ Lanchipa (MD-CGAL),Municipalidad,CAS,124,2214,1814.19,3164.19,17680,412977
+10610,Municipalidad Distrital de San Antonio - Cañete (MDSA),Municipalidad,CAS,124,1595,1329.45,1929.49,4166,231277
+11863,Municipalidad Provincial de Caylloma (MP-CAYLLOMA),Municipalidad,CAS,123,1800,1600.0,2300.0,4750,255550
+13647,UNIDAD EJECUTORA 303 - EDUCACION ALTOPIURA (UE303),Organismo público,CAS,123,1614,1414.19,2450.0,5264,230273
+13679,SERVICIO DE ADMINISTRACIÓN TRIBUTARIA DE TRUJILLO (SATT),Organismo público,CAS,123,1600,1500.0,1864.19,2564,203318
+95997,Organismo de Focalización e Información Social (OFIS),Organismo público,CAS,123,8000,7500.0,10000.0,15600,1070500
+186,"Consejo Nacional de Ciencia, Tecnología e Innovación (CONCYTEC)",Organismo público,CAS,119,8364,5364.19,10364.19,15600,999721
+10021,JUNTA NACIONAL DE JUSTICIA (JNJ),Justicia/Fiscalía,CAS,119,7864,4764.19,9364.19,15064,905234
+10147,Gobierno Regional de Ica (GORE-ICA),Gobierno Regional,CAS,119,2164,1864.19,2864.19,8864,311039
+18680,UNIDAD DE GESTIÓN EDUCATIVA LOCAL SAN MARTIN (UGELSM),Educación,CAS,118,2221,1864.19,3150.0,6122,305772
+11816,GOBIERNO LOCAL DE LA PROVINCIA DE QUISPICANCHI (GLPQ/U),Organismo público,CAS,118,2500,2000.0,3500.0,6800,348709
+13855,Organismo de Evaluación y Fiscalización Ambiental (OEFA),Justicia/Fiscalía,Ley Servir,117,9771,8982.44,12074.85,20893,1259832
+10719,Municipalidad Distrital de San Juan Bautista (MDSJB-AYACUCHO),Municipalidad,CAS,117,2100,1900.0,3450.0,4400,295566
+13625,Universidad Nacional Micaela Bastidas de Apurímac. (UNAMBA),Universidad,CAS,115,1764,1764.19,2550.0,8250,297132
+11864,Municipalidad Distrital de Majes (MD-Majes),Municipalidad,CAS,115,2664,2064.19,3364.19,6100,335316
+14253,UNIDAD EJECUTORA N° 302 LEONCIO PRADO (UGEL302-LEONCIO PRAD),Organismo público,CAS,114,1714,1261.82,2386.82,3864,213674
+10073,Municipalidad Distrital de Punta Hermosa (MD-PUNTAHERMOSA),Municipalidad,CAS,113,1883,1752.6,3711.44,11442,360612
+10617,Municipalidad Distrital de Aucallama (MD-AUCALLAMA),Municipalidad,CAS,111,1743,1275.88,1964.19,6200,234364
+10487,Municipalidad Distrital de Miraflores - AREQUIPA (MDM),Municipalidad,CAS,111,1464,1389.19,2250.0,9623,232939
+38934,Proyecto Especial Secretaría Técnica de Apoyo a la Comisión Ad Hoc creada por el D.S. Nº 006-2012-EF (SECRETARIA TECNICA-F),Organismo público,CAS,111,4364,2554.57,7354.47,15600,606824
+10407,Universidad Nacional Jorge Basadre Grohmann (UNJBG),Universidad,CAS,110,1614,1500.85,1714.19,9250,223560
+80,Superintendencia del Mercado de Valores (SMV),Regulador/Superintendencia,CAS,109,6064,4464.19,7664.19,12364,678594
+10053,Municipalidad Distrital de Breña (MD-BREÑA),Municipalidad,CAS,109,2270,2118.67,5057.5,13000,458156
+11280,Municipalidad Distrital de Rio Tambo (MDRT),Municipalidad,CAS,107,2800,2235.81,3500.0,5500,322788
+13902,Hospital José Agurto Tello de Chosica (HJATCH),Salud,CAS,106,2639,1964.19,3164.19,11110,351992
+11171,Municipalidad Provincial de Carhuaz (MPC),Municipalidad,CAS,106,1295,1289.19,1764.19,3700,175522
+14051,Programa Nacional de Conservación de Bosques (PNCBMCC),Organismo público,CAS,106,5864,3364.19,7864.19,15600,673003
+866,Municipalidad Provincial del Callao (MPCallao),Municipalidad,Altos Funcionarios,105,13000,10000.0,13000.0,15600,1307100
+10110,Municipalidad Distrital de Santa Anita (MDSA),Municipalidad,CAS,104,1577,1356.64,6478.0,9830,323657
+13687,Autoridad Nacional del Servicio Civil (SERVIR),Organismo público,CAS,104,6364,3364.19,7164.19,12364,558524
+13853,Direccion Regional de Salud de Ica (DIRESA-ICA),Salud,CAS,102,3263,3137.62,3361.47,10864,376553
+13168,Direccion Regional de Educación de Loreto (DREL),Educación,CAS,100,2602,2564.19,3515.0,5364,284920
+10506,Municipalidad Distrital de José Luis Bustamante y Rivero (MD - JLBYR),Municipalidad,CAS,100,2250,1850.0,2864.19,6220,283163
+18813,Universidad Nacional Ciro Alegria (UNCA),Universidad,CAS,99,3000,2500.0,4000.0,15600,397900
+12797,Dirección Regional de Salud Huancavelica (DIRESA Huancavelica),Salud,CAS,99,2963,2163.59,3264.19,14364,312523
+10493,Municipalidad Distrital de Sachaca (MDS),Municipalidad,CAS,99,1750,1564.19,2300.0,5750,214838
+11823,Municipalidad Provincial de Utcubamba (MP-UTCUBAMBA),Municipalidad,CAS,98,1764,1564.19,2564.19,6800,225655
+13166,Dirección Regional de Agricultura - Huánuco (DRA - Huánuco),Organismo público,CAS,98,2399,2064.19,3100.19,12100,264702
+18708,UNIDAD DE GESTION EDUCATIVA LOCAL DE RIOJA (UGEL RIOJA),Educación,CAS,97,2628,2220.8,3864.19,5864,284142
+14012,Dirección Regional de Educación Cajamarca (DRE - Cajamarca),Educación,CAS,96,3014,1764.19,3764.19,10264,283122
+98,Centro de Formación en Turismo (CENFOTUR),Organismo público,CAS,95,5864,3710.43,7364.19,13364,566117
+13126,Servicio de Administración Tributaria de Piura (SATP),Organismo público,CAS,94,1879,1680.0,2333.33,12000,200583
+13045,Programa Nacional de Inversiones en Salud - PRONIS (PRONIS),Salud,CAS,93,9562,5312.11,10561.69,14562,735214
+10484,Municipalidad Distrital Jacobo Hunter - Arequipa (MDJH),Municipalidad,CAS,91,1800,1672.19,2576.19,4000,193570
+20858,Programa Nacional de entrega de la pensión no contributiva a la persona con discapacidad severa (CONTIGO),Organismo público,CAS,91,4864,3864.19,8830.33,14364,575331
+16393,Instituto Nacional de Investigación en Glaciares y Ecosistemas de Montaña (INAIGEM),Organismo público,CAS,90,6364,4364.19,7364.19,14364,618015
+11912,Municipalidad Provincial de Acobamba (MP-ACOBAMBA),Municipalidad,CAS,89,1200,1050.0,1700.0,3000,128330
+16370,FONDO INTANGIBLE SOLIDARIO DE SALUD (FISSAL),Salud,CAS,87,6864,5364.19,7864.19,12364,562950
+13982,Municipalidad Distrital de Islay (MDI),Municipalidad,CAS,86,1650,1500.0,2300.0,5300,175328
+14272,Agencia de Compras de las Fuerzas Armadas (ACFFAA),Organismo público,CAS,86,5864,4664.19,7364.19,12448,536055
+14042,HOSPITAL HERMILIO VALDIZAN (HHV),Salud,CAS,83,2890,2164.19,3364.19,14364,294208
+14218,Universidad Nacional Intercultural de la Selva Central Juan Santos Atahualpa (UNISCJSA),Universidad,CAS,82,3788,2828.39,4946.08,15600,344957
+103013,Unidad de Gestion Educativa Local Padre Abad (UGELPA),Educación,CAS,82,1814,1414.19,2764.19,4764,175926
+10503,Municipalidad Distrital de Yanahuara (MD-YANAHUARA),Municipalidad,CAS,82,1960,1664.19,2464.19,4967,198010
+10479,Municipalidad Distrital de Alto Selva Alegre (MDASA),Municipalidad,CAS,81,1700,1400.0,2100.0,4264,161785
+85,Comisión Nacional de Investigación y Desarrollo Aeroespacial (CONIDA),Organismo público,CAS,80,5364,3364.19,6864.19,11364,420721
+10113,Municipalidad Distrital de Santa María del Mar (MDSMM),Municipalidad,CAS,79,1714,1650.0,3650.0,10000,240616
+10031,Despacho Presidencial (DP),Organismo público,CAS,79,4864,3364.19,6864.19,10864,411617
+10087,Municipalidad Distrital de San Luis - LIMA (MDSL),Municipalidad,CAS,78,2714,2164.19,8600.0,12100,356338
+10489,Municipalidad Distrital de Paucarpata (MDP-PAUCARPATA),Municipalidad,CAS,78,1814,1750.0,2864.19,5950,192341
+13804,Instituto Nacional de Oftalmología (INO),Organismo público,CAS,78,3582,2153.67,5815.32,15600,377896
+10043,Academia de la Magistratura (AMAG),Justicia/Fiscalía,CAS,76,4557,3164.19,5364.19,6364,326326
+10151,Gobierno Regional de Lambayeque (GR-Lambayeque),Gobierno Regional,CAS,76,1814,1664.19,3164.19,4864,174986
+13103,Centro Nacional de Planeamiento Estratégico (CEPLAN),Organismo público,CAS,76,7864,6364.19,8364.19,11864,565630
+13281,GERENCIA REGIONAL DE EDUCACIÓN MOQUEGUA (GREM),Organismo público,CAS,76,4000,3600.0,5000.0,6000,312000
+181,Archivo General de la Nación (AGN),Organismo público,CAS,75,4364,3364.19,8364.19,15964,455297
+11574,Municipalidad Provincial de Morropón Chulucanas (MP-MORROPONCH),Municipalidad,CAS,75,2800,1564.19,5000.0,7000,255443
+13099,Centro Vacacional Huampani (CVH),Organismo público,CAS,75,1594,1389.19,5364.19,12364,247845
+13353,Programa Nacional de Desarrollo Tecnológico e Innovación (PROINNOVATE),Organismo público,CAS,75,8364,7364.19,10854.19,12864,654452
+10004,Agencia Peruana de Cooperación Internacional (APCI),Organismo público,CAS,74,6364,4364.19,8364.19,14364,478738
+18686,Universidad Nacional de Música (UNM),Universidad,CAS,74,3764,3764.19,6264.19,15600,383933
+11796,Gobierno Regional de Amazonas (GR-Amazonas),Gobierno Regional,CAS,74,2504,1457.69,10364.19,13364,405227
+11126,Agencia de Promoción de la Inversión Privada (PROINVERSION),Organismo público,CAS,74,10364,5864.19,12364.19,15600,713924
+11866,Municipalidad Provincial de Islay (MPI),Municipalidad,CAS,74,1859,1400.0,2464.19,7753,170727
+10161,Gobierno Regional de Piura (GR-Piura),Gobierno Regional,CAS,73,8250,2364.19,8983.33,12364,495725
+10024,Organismo Supervisor de la Inversion en Infraestructura de Transporte de Uso Público (OSITRAN),Regulador/Superintendencia,Ley Servir,72,11956,9948.06,12641.64,28000,826965
+114025,AUTORIDAD NACIONAL DE CONTROL DEL PODER JUDICIAL (ANC-PJ),Justicia/Fiscalía,CAS,72,3336,2484.19,4039.19,8164,250980
+12230,Municipalidad Provincial de Padre Abad (MPPA-A),Municipalidad,CAS,71,4164,2864.19,6364.19,7364,310357
+10074,Municipalidad Distrital de Punta Negra (MDPN),Municipalidad,CAS,71,1850,1664.19,4000.0,9278,233361
+17416,UNIVERSIDAD NACIONAL AUTÓNOMA ALTOANDINA DE TARMA (UNAAT),Universidad,CAS,70,3457,2323.8,4684.82,15600,273150
+10057,MUNICIPALIDAD DISTRITAL DE CIENEGUILLA (MDC),Municipalidad,CAS,70,1494,1494.19,7000.0,13000,251864
+12822,Gerencia Regional de Transportes y Comunicaciones de La Libertad (GRTCLL),Organismo público,CAS,70,2364,2164.19,3300.0,5600,181639
+10077,Municipalidad Distrital de San Bartolo (MDSanBartolo),Municipalidad,CAS,68,1564,1500.0,2150.0,7500,187843
+12116,Municipalidad Provincial de Barranca (MPB),Municipalidad,CAS,68,4364,1880.69,4364.19,6364,240316
+13840,Direccion Regional de Educación del Callao (DREC),Educación,CAS,67,2864,2364.19,4164.19,13364,226408
+18848,Unidad de Gestion Educativa Local Huancavelica (UGELHVCA),Educación,CAS,67,2133,1514.19,2964.19,6079,156335
+11467,Municipalidad Distrital de Inambari (MDI),Municipalidad,CAS,67,2550,2150.0,3750.0,6250,201899
+18666,UNIVERSIDAD NACIONAL INTERCULTURAL DE QUILLABAMBA (UNIQ),Universidad,CAS,66,3000,2300.0,4500.0,15500,248250
+10376,Municipalidad Distrital de Morales (MDMorales),Municipalidad,CAS,65,1764,1464.0,2650.0,4200,140712
+16368,Direccion Regional de Agricultura Cusco (DRAC),Organismo público,CAS,65,2264,1964.19,3264.19,8264,178174
+16376,UNIVERSIDAD NACIONAL AUTÓNOMA DE HUANTA (UNAH),Universidad,CAS,64,2957,2164.19,3864.19,15600,245246
+13702,Hospital Nacional Víctor Larco Herrera (HVLH),Salud,CAS,64,2164,1964.19,3849.61,12364,231507
+18675,UNIVERSIDAD NACIONAL AUTÓNOMA DE TAYACAJA DANIEL HERNÁNDEZ MORILLO (UNAT),Universidad,CAS,63,3064,2564.19,3564.19,15773,249740
+13767,DIRECCIÓN REGIONAL DE EDUCACIÓN CUSCO (DREC),Educación,CAS,63,3364,2564.19,3864.19,6550,206058
+11476,"Ministerio de Vivienda, Construcción y Saneamiento (VIVIENDA)",Ministerio,Altos Funcionarios,63,15600,15600.0,20266.07,30000,1115775
+12188,Municipalidad Provincial de Melgar (MPM-A),Municipalidad,CAS,61,2500,1900.0,3000.0,8700,160500
+16,Congreso de la República (Congreso),Organismo constitucional,CAS,60,3964,3964.19,5941.19,18108,318818
+13677,DIRECCIÓN REGIONAL DE EDUCACIÓN DE SAN MARTÍN (DRESM),Educación,CAS,60,3007,1514.19,3864.19,6778,182059
+11024,Municipalidad Distrital de Pichari (MDPichari),Municipalidad,CAS,60,12,12.0,12.0,12,720
+11868,Municipalidad Provincial de Huamanga (MP-HUAMANGA),Municipalidad,Altos Funcionarios,60,6164,2340.0,6164.19,7364,287463
+14254,UNIVERSIDAD NACIONAL DE FRONTERA (UNF),Universidad,CAS,59,2794,2794.19,5564.19,15900,251527
+10359,Municipalidad Distrital de Nueva Cajamarca (MDNC),Municipalidad,CAS,59,1914,1850.19,2614.19,13897,162343
+11845,Municipalidad Provincial de Pomabamba (MPP),Municipalidad,CAS,59,1918,1506.71,2653.5,4666,129636
+94998,Organismo de Estudios y Diseño de Proyectos de Inversión (OEDI),Organismo público,CAS,59,10100,8100.0,13364.19,15600,601797
+12175,Municipalidad Provincial de Paita (MP-PAITA),Municipalidad,CAS,58,4360,2464.19,4360.0,5955,227398
+13414,Dirección General de Electrificación Rural (DGER),Organismo público,CAS,57,7364,5364.19,7364.19,15600,380314
+11154,Municipalidad Distrital de Nuevo Chimbote (MD - NVOCHIMBOTE),Municipalidad,CAS,56,5000,3500.0,5000.0,6000,254250
+24,Tribunal Constitucional (TC),Justicia/Fiscalía,CAS,55,4864,3364.19,6500.0,9364,283437
+10,Organismo Especializado para las Contrataciones Públicas Eficientes (OECE),Organismo público,Ley Servir,55,8287,3158.21,12632.86,20786,471667
+10811,Municipalidad Distrital de Encañada (MDLE),Municipalidad,CAS,55,2750,2114.19,3550.0,7200,168220
+10277,Municipalidad Distrital de Independencia - Huaraz (MDI),Municipalidad,CAS,55,3364,2864.19,6364.19,7364,238400
+14192,Centro Nacional de Abastecimiento de Recursos Estratégicos en Salud (CENARES),Salud,CAS,54,8000,3000.0,10000.0,15600,390000
+10131,Gobierno Regional de Arequipa (GRA),Gobierno Regional,CAS,54,2932,1864.19,7864.19,15204,282630
+14258,PROGRAMA NACIONAL DE INVESTIGACIÓN CIENTÍFICA Y ESTUDIOS AVANZADOS (PROCIENCIA),Organismo público,CAS,54,8364,6364.19,10364.19,15600,453056
+86,Instituto Geográfico Nacional (IGN),Organismo público,CAS,53,3416,2664.19,3642.0,6364,177769
+1605,Municipalidad Provincial de Maynas (MPM),Municipalidad,CAS,53,3764,1564.19,5000.0,9500,207760
+11327,Municipalidad Distrital de Santiago de Cao (MDSC),Municipalidad,CAS,53,1664,1451.11,3000.0,4500,115292
+12100,Municipalidad Provincial de Julcan (MP-JULCAN),Municipalidad,CAS,53,2564,2276.6,3764.19,5500,154691
+14044,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES HUANUCO (GR-HUANUCO/DRTC),Organismo público,CAS,52,1538,1524.51,1641.23,1930,83059
+95,Instituto Peruano de Energía Nuclear (IPEN),Organismo público,CAS,51,3564,2164.19,6364.19,10595,216343
+13729,UNIDAD DE GESTION EDUCATIVA LOCAL Nº 10 HUARAL (UGEL Nº 10 HUARAL),Educación,CAS,51,2000,1464.19,2764.19,52406,201396
+12054,Municipalidad Distrital de Chaglla (MD-Chaglla),Municipalidad,CAS,51,2000,1600.0,2600.0,5150,110760
+12149,Municipalidad Distrital de Simón Bolivar (MDSB),Municipalidad,CAS,51,1600,1200.0,1600.0,2541,77399
+10025,Instituto Nacional de Salud Mental-Honorio Delgado-Hideyo Noguchi (INSM),Salud,CAS,50,2761,2164.19,3746.27,14964,182345
+13854,Direccion Regional de Educacion de Ucayali (DRE-UCAYALI),Educación,CAS,50,1894,1764.19,3064.19,12300,127119
+12173,Municipalidad Provincial de Huancabamba (MP-HUANCABAMBA),Municipalidad,CAS,50,3000,1800.0,4364.19,7150,161593
+12216,Municipalidad Provincial de Mariscal Cáceres (MPMC-JUANJUI),Municipalidad,CAS,50,2464,1864.19,5364.19,7300,157845
+11044,Municipalidad Distrital de Ccatcca (MDCC),Municipalidad,CAS,49,3000,2600.0,5500.0,6500,184700
+14306,UNIDAD DE GESTION EDUCATIVA LOCAL Nº 09 - HUAURA (UGEL Nº 09 - HUAURA),Educación,CAS,48,1514,1389.19,2364.19,4864,91056
+11911,Municipalidad Distrital De Ascensión (MD-Ascensión),Municipalidad,CAS,48,2200,2000.0,2364.19,3300,107406
+13019,Comando Conjunto de las Fuerzas Armadas (CCFFAA),Fuerzas Armadas/Policía,CAS,46,3964,2914.19,6564.19,8564,207974
+18667,Unidad de Gestión Educativa Local Bambamarca (UE 307),Educación,CAS,43,1964,1864.19,2964.19,5440,103177
+10607,MUNICIPALIDAD DISTRITAL DE NUEVO IMPERIAL (MDNI),Municipalidad,CAS,43,1839,1829.1,2004.64,2239,81589
+10071,Municipalidad Distrital de Pucusana (MDP),Municipalidad,CAS,43,4750,2264.19,7602.05,9864,202542
+13636,Dirección Regional de Educación de Lima Provincias (DRELP),Educación,CAS,42,3591,1864.19,3978.38,10364,137894
+23869,UNIDAD DE GESTION EDUCATIVA LOCAL SURCUBAMBA (SBBA),Educación,CAS,42,3164,2135.63,3764.19,5264,130468
+11098,Municipalidad Distrital de Pilcomayo (MDP),Municipalidad,CAS,42,1500,1300.0,1800.0,3500,66076
+10574,Municipalidad Distrital de Mejia (MD-Mejia),Municipalidad,CAS,42,1800,1650.0,2750.0,4750,94243
+14281,Unidad Ejecutora 008 Proyectos Especiales del Pliego 003 (UE 008 - PE),Organismo público,CAS,42,10364,7364.19,10364.19,15600,391232
+10154,Gobierno Regional Moquegua (GRM),Gobierno Regional,CAS,41,2464,2160.0,3300.0,5300,112890
+11748,Municipalidad Provincial Jorge Basadre (MPJB),Municipalidad,CAS,41,3358,2708.33,5500.0,7750,168069
+12835,Gerencia Regional de Educación La Libertad (GRELL),Organismo público,CAS,41,2450,1909.46,3250.0,10250,117192
+18784,Programa Agua Segura para Lima y Callao (PASLC),Organismo público,CAS,41,11364,9364.19,12364.19,15100,443762
+10065,Municipalidad Distrital de Lurigancho-Chosica (MDLCH),Municipalidad,Altos Funcionarios,40,9000,9000.0,10500.0,10900,375400
+14197,UNIDAD DE GESTION EDUCATIVA LOCAL CHOTA (UGEL CHOTA),Educación,CAS,39,1764,1764.19,2880.0,6000,89982
+12780,Unidad de Gestión Educativa Local Jaén (UGEL JAÉN),Educación,CAS,39,2464,1764.19,3464.19,4764,97628
+12178,Municipalidad Provincial de Talara (MP-TALARA),Municipalidad,Altos Funcionarios,39,4500,4500.0,7070.0,23000,254367
+16387,PROYECTO ESPECIAL DE DESARROLLO DEL VALLE DE LOS RÍO APURIMAC ENE Y MANTARO - PROVRAEM (PROVRAEM),Organismo público,CAS,39,8264,3764.19,8264.19,15600,286258
+10004,Agencia Peruana de Cooperación Internacional (APCI),Organismo público,Ley Servir,38,6991,6433.78,7942.35,19751,296883
+18724,UGEL SAN MIGUEL (UGEL-SM),Educación,CAS,38,2864,1964.19,2864.19,6100,101604
+14321,UNIDAD DE GESTIÓN EDUCATIVA LOCAL SAN IGNACIO (UGEL SAN IGNACIO),Educación,CAS,38,2264,1864.19,3164.19,6100,101129
+10147,Gobierno Regional de Ica (GORE-ICA),Gobierno Regional,Altos Funcionarios,38,16000,16000.0,20000.0,20000,615100
+10357,Municipalidad Distrital de Awajun (MDA),Municipalidad,CAS,38,1807,1564.19,2264.19,4364,82648
+13658,Organismo de Supervisión de los Recursos Forestales y de Fauna Silvestre (OSINFOR),Regulador/Superintendencia,Ley Servir,38,8366,7533.92,8909.64,29574,370321
+10309,Municipalidad Provincial de Lamas (MPLamas),Municipalidad,CAS,38,3200,2720.0,3200.0,7000,121694
+13611,Direccion Regional de Transportes y Comunicaciones - Ayacucho (DRTCA),Organismo público,CAS,38,1561,1529.85,2006.75,3331,64656
+88987,Gerencia Sub Regional Churcampa (GSRCH),Organismo público,CAS,38,2164,1864.19,2464.19,5364,89139
+78976,Autoridad Nacional de Infraestructura (ANIN),Organismo público,Ley Servir,38,15419,12860.92,17898.21,25518,613168
+18826,Unidad de Gestión Educativa Local Dos de Mayo (UGEL-DM),Educación,CAS,37,2564,2064.19,3164.19,3764,95556
+12047,Municipalidad Distrital de Mariano Damaso Beraun (MD-MDBERAUN),Municipalidad,CAS,37,1850,1650.0,2050.0,3050,72703
+14300,CENTRO DE GESTIÓN TRIBUTARIA (CGT),Organismo público,CAS,37,1564,1389.19,1864.19,3164,65226
+13805,Servicio de Administración Tributaria de Huancayo (SATH),Organismo público,CAS,37,1789,1389.19,1889.19,2859,64514
+14038,ESCUELA NACIONAL SUPERIOR AUTÓNOMA DE BELLAS ARTES DEL PERÚ (ENSABAP),Educación,CAS,36,3864,2864.19,6364.19,8698,157698
+18718,UNIDAD DE GESTIÓN EDUCATIVA LOCAL CONTUMAZÁ (UGEL CONTUMAZÁ),Educación,CAS,36,1764,1564.19,2764.19,6000,85040
+10174,Gobierno Regional de Ucayali (GR-Ucayali),Gobierno Regional,Altos Funcionarios,36,6482,4290.0,6782.3,21240,229079
+145,Presidencia del Consejo de Ministros (PCM),Ministerio,FAG,35,15200,10000.0,15600.0,15600,439420
+1605,Municipalidad Provincial de Maynas (MPM),Municipalidad,Altos Funcionarios,35,6500,5150.0,8200.0,13460,227383
+14163,Dirección Regional de Educación Huánuco (DRE-HCO),Educación,CAS,35,2100,1800.0,2600.0,2950,73392
+11780,Municipalidad Distrital de Nueva Requena (MDNR),Municipalidad,CAS,35,3264,2264.19,4264.19,4864,111547
+11435,Municipalidad Distrital de Olmos (MDO),Municipalidad,CAS,35,4000,3000.0,5000.0,5000,126014
+88,Escuela Nacional de Marina Mercante (ENAMM),Educación,CAS,34,2632,1464.19,3264.19,6700,92647
+18836,UNIDAD DE GESTION EDUCATIVA LOCAL DE MARAÑON (UGELMARAÑON),Educación,CAS,34,3364,2600.0,4164.19,6164,115241
+12043,Municipalidad Distrital de Daniel Alomia Robles (MD-DanielAlomiaRoble),Municipalidad,CAS,34,2000,1700.0,2300.0,3900,73230
+17422,PROGRAMA NACIONAL A COMER PESCADO (PNACP),Organismo público,CAS,34,7864,6364.19,10364.19,15600,283517
+11910,Municipalidad Distrital de Yauli - Huancavelica (MDY),Municipalidad,CAS,34,1700,1500.0,1900.0,1900,58250
+145,Presidencia del Consejo de Ministros (PCM),Ministerio,PAC,33,22750,20500.0,22750.0,25000,670442
+18712,Universidad Nacional Superior de Folklore José María Arguedas (ENSFJMA),Universidad,CAS,33,1864,1564.19,2064.19,3364,63924
+10050,Municipalidad Distrital de Ate (MuniAte),Municipalidad,Altos Funcionarios,33,7164,7163.51,9041.88,13565,260897
+10352,Municipalidad Distrital de Tamburco (MDTamburco),Municipalidad,CAS,33,2950,2100.0,4250.0,5064,101068
+13270,Dirección Regional de Agricultura San Martín (DRASAM),Organismo público,CAS,33,2250,1550.0,3464.19,10364,99540
+18790,GERENCIA SUB REGIONAL ANGARAES (GSRANG),Organismo público,CAS,33,1900,1500.0,2300.0,5000,67583
+18820,UGEL N° 02 La Esperanza (UGEL N°02 L.E),Educación,CAS,32,2264,1964.19,2264.19,5264,75997
+38928,DIRECCION DE GESTION DE RECURSOS EDUCATIVOS (DIGERE),Educación,CAS,32,10364,9364.19,12364.19,14364,339938
+18723,UNIDAD DE GESTION EDUCATIVA LOCAL CUSCO (UGEL CUSCO),Educación,CAS,32,3164,3164.19,3560.0,3564,103741
+12090,Municipalidad Distrital de Mazamari (MD-MAZAMARI),Municipalidad,CAS,32,2650,1731.98,3779.35,5375,87392
+10894,Municipalidad Distrital de Huarango (MD-Huarango),Municipalidad,CAS,32,3075,2800.0,3300.0,4800,96340
+18788,Proyecto Especial Datem del Marañón Alto Amazonas Loreto Condorcanqui (PEDAMAALC),Organismo público,CAS,32,4754,4200.37,6526.88,12364,168925
+18665,DIRECCION REGIONAL DE AGRICULTURA LIMA (DRAL),Organismo público,CAS,32,4216,3237.77,4937.77,8564,130862
+16360,UGEL - 303 Educación Bagua (UGEL - 303 EDU-BAGUA),Educación,CAS,30,3234,2364.19,3864.19,5304,98510
+14315,Unidad de Gestión Educativa Local de Sánchez Carrión (UGEL-Sánchez Carrión),Educación,CAS,30,2444,1764.19,3264.19,3464,74516
+11021,Municipalidad Distrital de Kimbiri (MDK),Municipalidad,CAS,29,3564,2464.19,4864.19,5364,103027
+128,Instituto Nacional de Defensa Civil (INDECI),Organismo público,Ley Servir,28,18148,15508.13,22908.49,27984,529985
+14180,Comité de Administración del Fondo Educativo del Callao (Cafed Callao),Educación,CAS,28,6371,5360.84,6855.13,14364,175148
+14249,UNIDAD EJECUTORA 307 EDUCACION - UGEL MORROPON (UE - 307 - MORROPON),Educación,CAS,28,2497,2169.01,2742.91,5197,70963
+10482,Municipalidad Distrital de Characato (MD-CHARACATO),Municipalidad,CAS,28,1514,1464.19,1864.19,5437,55895
+11016,Municipalidad Distrital de Echarati (MDE),Municipalidad,Altos Funcionarios,28,5100,2250.0,7018.0,8341,131776
+16378,DIRECCION REGIONAL SECTORIAL DE EDUCACION - TACNA (DRSET),Organismo público,CAS,28,2686,1545.68,3346.63,3914,66067
+10494,Municipalidad Distrital de Sabandia (MDS),Municipalidad,CAS,28,1882,1800.0,2500.0,4500,60099
+18667,Unidad de Gestión Educativa Local Bambamarca (UE 307),Educación,PAC,27,6781,5400.96,8601.4,11701,190502
+26888,UNIDAD DE GESTION EDUCATIVA LOCAL ANGARAES (UGEL-ANGARAES),Educación,CAS,27,2364,2271.28,2864.19,5364,76324
+18837,UNIDAD DE GESTION EDUCATIVA LOCAL DE YAROWILCA (UGELYAROWILCA),Educación,CAS,27,2914,2264.19,3464.19,3764,77582
+15356,Municipalidad Distrital Andres Avelino Caceres Dorregaray (MDAACD),Municipalidad,CAS,27,2002,1863.1,2164.19,2564,54669
+18740,UNIDAD EJECUTORA HOSPITAL DE REHABILITACION DEL CALLAO (HRC),Salud,CAS,27,3864,3364.19,4164.19,9864,115122
+10154,Gobierno Regional Moquegua (GRM),Gobierno Regional,Altos Funcionarios,27,7300,7300.0,8300.0,28504,221581
+13766,Dirección Regional de Transportes y Comunicaciones de Huancavelica (DRTC-HVCA.),Organismo público,CAS,27,2364,1864.19,4564.19,7364,84826
+13167,Gerencia Regional de Educación Arequipa (GREAREQUIPA),Organismo público,CAS,27,2464,2064.19,2614.19,9500,74469
+13045,Programa Nacional de Inversiones en Salud - PRONIS (PRONIS),Salud,Altos Funcionarios,26,13364,13000.0,15000.0,17413,352395
+11018,Municipalidad Distrital de Maranura (MD-MARANURA),Municipalidad,CAS,26,4300,3293.33,4800.0,8300,113200
+131,Ministerio de Justicia y Derechos Humanos (MINJUS),Justicia/Fiscalía,PAC,25,20000,6825.0,22500.0,25000,402083
+14286,UNIDAD EJECUTORA 305 EDUCACION UGEL HUAMALIES (UGEL HUAMALIES),Educación,CAS,25,2764,2364.19,3152.25,3864,67694
+10358,Municipalidad Distrital de Elias Soplin Vargas (MD-ESV),Municipalidad,CAS,25,2500,2064.19,3000.0,5500,68956
+10939,Municipalidad Distrital de Carmen de la Legua Reynoso (MDCLR),Municipalidad,CAS,25,10264,10264.19,12264.19,12264,263574
+10669,Municipalidad Distrital de Sayán (MDS),Municipalidad,Altos Funcionarios,25,4452,3452.21,4452.21,6505,102558
+10670,Municipalidad Distrital de Vegueta (MD - VEGUETA),Municipalidad,CAS,25,3364,2014.19,4364.19,6364,80790
+11016,Municipalidad Distrital de Echarati (MDE),Municipalidad,CAS,25,3764,2164.19,4364.19,5900,88348
+127,Ministerio del Ambiente (MINAM),Ministerio,PAC,24,20500,20500.0,20500.0,25000,507750
+136,Ministerio de Desarrollo Agrario y Riego (MIDAGRI),Ministerio,PAC,24,20000,20000.0,20500.0,25000,484750
+13599,Direccion Regional de Educacion de Huancavelica (DRE - HUANCAVELICA),Educación,CAS,24,2664,2300.0,3364.19,10300,78005
+18786,Municipalidad Distrital de Megantoni (MDM),Municipalidad,CAS,24,11664,11664.19,12764.19,14764,294041
+13284,Instituto Metropolitano de Planificación (IMP),Organismo público,CAS,24,8226,4849.66,12364.19,14364,190259
+10940,Municipalidad Distrital de La Perla (MDLP),Municipalidad,Altos Funcionarios,23,12800,10500.0,12800.0,14800,271100
+10941,Municipalidad Distrital de La Punta (MDLP),Municipalidad,Altos Funcionarios,23,9250,9150.0,12250.0,24061,226056
+77,Ministerio de Cultura (CULTURA),Ministerio,PAC,22,20500,18250.0,20500.0,25000,413133
+95,Instituto Peruano de Energía Nuclear (IPEN),Organismo público,Ley Servir,22,6991,6619.5,8366.64,19571,167880
+132,Ministerio del Interior (MININTER),Ministerio,FAG,22,14000,12000.0,15000.0,15600,295300
+18647,ESCUELA NACIONAL SUPERIOR DE BALLET (ENSB),Educación,CAS,22,4764,1464.19,8264.19,8764,113364
+15353,UNIDAD EJECUTORA 314 UGEL CHURCAMPA (UGEL CHURCAMPA),Educación,CAS,22,2120,1664.19,3064.19,5264,58518
+18805,GERENCIA SUB REGIONAL DE TAYACAJA (GSRT),Organismo público,CAS,22,2014,1564.19,3164.19,7163,61586
+10220,MUNICIPALIDAD PROVINCIAL DE HUAYLAS (MPHy),Municipalidad,CAS,22,1627,1589.19,3800.0,3800,55109
+7,Organismo Supervisor de Inversión Privada en Telecomunicaciones (OSIPTEL),Regulador/Superintendencia,Ley Servir,21,16980,14635.86,17898.21,23214,354309
+16379,Escuela de Educación Superior Pedagógica Pública Monterrico (EESPP Monterrico),Educación,CAS,21,3864,1744.19,4864.19,9364,83034
+11550,Municipalidad Distrital de Cura Mori (MDCM),Municipalidad,CAS,21,2150,1750.0,3250.0,4250,53700
+11749,Municipalidad Distrital de Ilabaya (M.D.I.),Municipalidad,CAS,21,8747,8747.0,9622.0,9622,169059
+16377,INPE-DIRECCION REGIONAL NOR ORIENTE SAN MARTIN (INPE-DRNOSM),Justicia/Fiscalía,CAS,21,1500,1500.0,1680.0,3200,38040
+18630,ESCUELA NACIONAL SUPERIOR DE ARTE DRAMÁTICO GUILLERMO UGARTE CHAMORRO (ENSAD),Educación,CAS,20,5362,3857.21,7164.19,8864,111172
+11476,"Ministerio de Vivienda, Construcción y Saneamiento (VIVIENDA)",Ministerio,FAG,20,15600,15000.0,15600.0,15600,296680
+10170,Gobierno Regional Tumbes (GR-Tumbes),Gobierno Regional,Altos Funcionarios,20,5947,4290.0,7349.8,14279,128242
+11996,Municipalidad Distrital de Chinchao (MDCH),Municipalidad,CAS,20,2540,2000.0,3384.19,4264,53737
+12046,Municipalidad Distrital de Luyando (MD-Luyando),Municipalidad,CAS,20,3500,3500.0,5000.0,6000,76500
+10653,Municipalidad Distrital de Santa Eulalia (MDSE),Municipalidad,CAS,20,3000,1494.19,4000.0,4000,52757
+10031,Despacho Presidencial (DP),Organismo público,Ley Servir,20,18500,15600.0,20862.0,35568,383549
+133,Ministerio de Educación (MINEDU),Educación,PAC,19,20500,11000.0,20500.0,25000,339467
+14145,Ministerio de Desarrollo e Inclusión Social (MIDIS),Ministerio,Ley Servir,19,23431,23042.07,29246.38,34726,476296
+14251,Unidad de Gestión Educativa Local de Talara N°306 (UGEL Talara),Educación,CAS,19,3164,2164.19,3164.19,4864,53451
+12111,Municipalidad Distrital de La Victoria - Chiclayo (MDLV),Municipalidad,CAS,19,1864,1494.19,2400.0,5864,47109
+10055,Municipalidad Distrital de Chaclacayo (MDCH),Municipalidad,CAS,19,1750,1650.0,1964.19,2750,35146
+10501,Municipalidad Distrital de Uchumayo (MDU),Municipalidad,CAS,19,3650,2350.0,3964.19,4564,61071
+11889,Municipalidad Provincial de San Ignacio (MPSI),Municipalidad,CAS,19,3700,2364.19,4500.0,5564,68776
+18688,UNIDAD EJECUTORA N°307 EDUCACION - BELLAVISTA (UE 307 - BELLAVISTA),Organismo público,CAS,19,3464,3264.19,4364.19,6364,71356
+12200,Municipalidad Provincial de Bellavista (MP-BELLAVISTA),Municipalidad,CAS,19,2100,2000.0,2800.0,7300,52050
+1983,Municipalidad Provincial de Tumbes (MPTumbes),Municipalidad,CAS,18,1325,1325.0,1325.0,3300,25992
+10152,Gobierno Regional de Loreto (GOREL),Gobierno Regional,Altos Funcionarios,18,4294,4294.0,4294.0,14419,96729
+11042,Municipalidad Distrital de Camanti,Municipalidad,CAS,18,2900,2400.0,4350.0,6500,56614
+11373,Municipalidad Distrital de Cochorco (MD-COCHORCO),Municipalidad,CAS,18,4300,3800.0,4300.0,5500,72700
+18814,Programa Nacional de Telecomunicaciones (PRONATEL),Organismo público,CAS,18,7114,5364.19,11364.19,15600,144027
+13473,PROYECTO ESPECIAL OLMOS TINAJONES (PEOT),Organismo público,CAS,18,1130,1130.0,1400.0,2800,26200
+25878,Procuraduría General del Estado (PGE),Organismo público,Ley Servir,18,18963,15714.29,21535.71,25000,320474
+10031,Despacho Presidencial (DP),Organismo público,FAG,18,13000,12000.0,15000.0,15600,234300
+103012,DIRECCION REGIONAL DE YAKU TARPUY PARA LA LUCHA CONTRA LA POBREZA (DRYTPLCLP),Organismo público,CAS,18,3264,2503.29,3735.38,7864,63062
+13170,Dirección Regional de Transportes y Comunicaciones San Martin (DRTC-SM),Organismo público,CAS,18,5864,5364.19,7364.19,10310,100801
+4,Instituto Nacional de Estadística e Informática (INEI),Organismo público,Ley Servir,17,16688,11724.28,19071.43,23214,267793
+10011,Ministerio de Defensa (MINDEF),Ministerio,PAC,17,20500,14350.0,22750.0,25000,296108
+76971,UNIDAD DE GESTION EDUCATIVA DE PAUCAR DEL SARA SARA (UGELPSS),Educación,CAS,17,2164,2064.19,2308.19,3164,37993
+12177,Municipalidad Distrital de Miguel Checa (MD-MIGUEL CHECA),Municipalidad,CAS,17,3700,3700.0,4200.0,5400,68000
+140,Ministerio de Relaciones Exteriores (RREE),Ministerio,PAC,16,20500,18250.0,20500.0,25000,322708
+14193,UNIDAD DE GESTION EDUCATIVA LOCAL DE ISLAY (UGELI),Educación,CAS,16,2864,2064.19,2864.19,3764,38080
+18707,UNIDAD EJECUTORA 001631 GESTION DE PROYECTOS SECTORIALES (UEGPS),Organismo público,CAS,16,10364,6364.19,11864.19,15600,145063
+133,Ministerio de Educación (MINEDU),Educación,FAG,15,15600,9360.0,15600.0,15600,188760
+140,Ministerio de Relaciones Exteriores (RREE),Ministerio,FAG,15,10500,9500.0,14000.0,15600,169050
+1710,Municipalidad Provincial de Piura (MPPiura),Municipalidad,FAG,15,3978,3978.0,3978.0,3978,57681
+18827,UNIDAD DE GESTION EDUCATIVA LOCAL DE AMBO (UGELAMBO),Educación,PAC,15,2731,2731.0,2731.0,2812,41123
+17406,INPE-DIRECCION REGIONAL CENTRO (INPE-DRC),Justicia/Fiscalía,CAS,15,2564,1864.19,2864.19,5364,39888
+11587,Municipalidad Distrital de Colan (Municolan),Municipalidad,CAS,15,4000,4000.0,5000.0,5500,63400
+11552,Municipalidad Distrital de La Arena (MDLA),Municipalidad,CAS,15,5000,5000.0,5500.0,7200,76664
+11055,Municipalidad Distrital de Maras (MDM),Municipalidad,CAS,15,3700,2200.0,3700.0,4500,48100
+14078,Gerencia Regional de Transportes y Comunicaciones - Arequipa (GRTC-AQP),Organismo público,CAS,15,1864,1854.19,2164.19,2564,29558
+138,Ministerio de Comercio Exterior y Turismo (MINCETUR),Ministerio,PAC,14,22000,20500.0,22750.0,25000,307250
+14318,SUPERINTENDENCIA NACIONAL DE EDUCACION SUPERIOR UNIVERSITARIA (SUNEDU),Regulador/Superintendencia,Ley Servir,14,16716,15814.25,19800.0,25000,250341
+11048,Municipalidad Distrital de Marcapata,Municipalidad,CAS,14,5000,4000.0,6700.0,6700,69700
+11171,Municipalidad Provincial de Carhuaz (MPC),Municipalidad,Altos Funcionarios,14,4200,4200.0,4200.0,7700,59864
+13132,Instituto Catastral De Lima (ICL),Organismo público,CAS,14,3125,2440.19,4700.0,7000,52338
+18626,UNIDAD EJECUTORA FONDO SIERRA AZUL (UEFSA),Organismo público,CAS,14,11000,11000.0,13500.0,15600,168600
+12093,Municipalidad Distrital de Palca (MD-PALCA),Municipalidad,CAS,14,1500,1400.0,1800.0,2600,23200
+131,Ministerio de Justicia y Derechos Humanos (MINJUS),Justicia/Fiscalía,FAG,13,13000,11960.0,13000.0,15600,143653
+137,Ministerio de Energía y Minas (MINEM),Ministerio,FAG,13,13000,11960.0,15600.0,15600,167060
+980,Municipalidad Provincial de Huancavelica (MPH),Municipalidad,Altos Funcionarios,13,2500,2500.0,2500.0,9100,45300
+114027,Universidad Nacional del VRAEM (UNAVRAEM),Universidad,CAS,13,8100,7600.0,9100.0,15600,124100
+115048,Universidad Nacional Tecnológica de Chincha (UNATECH),Universidad,CAS,13,8100,7100.0,9100.0,15600,122300
+13662,Colegio Militar Pedro Ruiz Gallo (CMPRG),Educación,CAS,13,2564,2564.19,3064.19,3164,33934
+15355,UNIDAD DE GESTION EDUCATIVA LOCAL DE JULCAN (UGEL-JULCAN),Educación,CAS,13,1414,1364.19,1924.19,3764,23000
+14145,Ministerio de Desarrollo e Inclusión Social (MIDIS),Ministerio,PAC,13,25000,22750.0,25000.0,25000,313750
+11045,Municipalidad Distrital de Cusipata,Municipalidad,CAS,13,3453,3266.67,4200.0,5500,47542
+10161,Gobierno Regional de Piura (GR-Piura),Gobierno Regional,Altos Funcionarios,13,4290,4290.0,4290.0,14904,72695
+10122,Municipalidad Distrital de Villa El Salvador (MUNIVES),Municipalidad,Altos Funcionarios,13,4054,4053.66,4053.66,4054,52698
+11595,Municipalidad Distrital de Marcavelica (MDM),Municipalidad,CAS,13,3050,2133.45,3400.0,3850,38117
+22868,Unidad Ejecutora Pasco Selva Central (G.S.R.O. U.E.P.S.C.),Organismo público,CAS,13,2564,1664.19,2864.19,3364,30727
+11548,Municipalidad Distrital de Castilla (MDC),Municipalidad,Ley Servir,12,3435,3435.0,3435.0,11655,49440
+11417,Municipalidad Distrital de Cayalti (MDC),Municipalidad,CAS,12,3182,1600.0,4464.19,5014,35294
+10279,Municipalidad Distrital de Calzada (M.D.C),Municipalidad,CAS,12,2050,1750.0,2600.0,4000,26708
+11095,Municipalidad Distrital de Huayucachi (MDHchi.),Municipalidad,CAS,12,2,2.0,2.0,951,973
+11931,Municipalidad Distrital de San Antonio de Antaparco (MD-SAN ANTONIO),Municipalidad,CAS,12,2050,2050.0,2200.0,2200,24800
+18854,Unidad Ejecutora Lima Sur (UELS),Organismo público,CAS,12,2864,2564.19,3864.19,8364,41970
+14282,Servicio Nacional Forestal y de Fauna Silvestre (SERFOR),Organismo público,PAC,12,2054,1844.09,4004.11,4604,30849
+137,Ministerio de Energía y Minas (MINEM),Ministerio,Ley Servir,11,20266,16687.5,21473.21,23214,215121
+10152,Gobierno Regional de Loreto (GOREL),Gobierno Regional,FAG,11,7000,7000.0,8000.0,8000,80000
+18815,Secretaría Técnica del Consejo Fiscal (STCF),Justicia/Fiscalía,CAS,11,8000,6500.0,11000.0,12000,89500
+10896,Municipalidad Distrital de Namballe (MD - NAMBALLE),Municipalidad,CAS,11,3191,3190.68,3545.2,4077,34258
+10131,Gobierno Regional de Arequipa (GRA),Gobierno Regional,FAG,11,8500,8000.0,10000.0,10000,96333
+10069,Municipalidad Distrital de Miraflores - LIMA (MDMiraflores),Municipalidad,Altos Funcionarios,11,3420,3420.0,3420.0,3420,37620
+11863,Municipalidad Provincial de Caylloma (MP-CAYLLOMA),Municipalidad,Altos Funcionarios,11,2002,2002.0,2002.0,9100,30418
+12116,Municipalidad Provincial de Barranca (MPB),Municipalidad,Altos Funcionarios,11,3420,3420.0,3420.0,3420,37620
+11551,Municipalidad Distrital de El Tallan,Municipalidad,CAS,11,3800,3500.0,3800.0,4800,38200
+10062,Municipalidad Distrital de la Molina (Munimolina),Municipalidad,Altos Funcionarios,11,3480,3480.0,3480.0,11773,46573
+12063,Municipalidad Provincial de Lauricocha (MPL),Municipalidad,CAS,11,2250,2000.0,4200.0,4400,26839
+77,Ministerio de Cultura (CULTURA),Ministerio,FAG,10,14150,11873.33,15600.0,15600,119320
+132,Ministerio del Interior (MININTER),Ministerio,PAC,10,22750,22750.0,22750.0,25000,218917
+138,Ministerio de Comercio Exterior y Turismo (MINCETUR),Ministerio,FAG,10,15600,15600.0,15600.0,15600,150400
+10011,Ministerio de Defensa (MINDEF),Ministerio,FAG,10,14000,12000.0,15000.0,15600,124719
+17506,UNIDAD EJECUTORA 304 EDUCACIÓN PACHITEA (UGEL PACHITEA),Educación,CAS,10,2564,1764.19,2964.19,2964,23012
+10166,Gobierno Regional San Martín (GORESAM),Gobierno Regional,FAG,10,7000,6000.0,8000.0,12000,74067
+11189,Municipalidad Provincial de Corongo (MP-CORONGO),Municipalidad,CAS,10,1900,1600.0,2300.0,3500,20300
+141,Ministerio de Trabajo y Promoción del Empleo (MTPE),Ministerio,PAC,9,20500,20500.0,20500.0,25000,190167
+11476,"Ministerio de Vivienda, Construcción y Saneamiento (VIVIENDA)",Ministerio,PAC,9,25000,21750.0,25000.0,25000,205400
+15325,UNIDAD EJECUTORA N° 305 - EDUCACION LAMAS (UGEL - LAMAS),Educación,CAS,9,3064,3064.19,5741.44,5741,34651
+10130,Gobierno Regional de Apurimac (GR-Apurimac),Gobierno Regional,FAG,9,8000,8000.0,8000.0,10000,74000
+10149,Gobierno Regional de La Libertad (GRLL),Gobierno Regional,Altos Funcionarios,9,3834,1758.0,4062.0,14000,45378
+11864,Municipalidad Distrital de Majes (MD-Majes),Municipalidad,Altos Funcionarios,9,2250,2250.0,2250.0,2250,20250
+10487,Municipalidad Distrital de Miraflores - AREQUIPA (MDM),Municipalidad,Altos Funcionarios,9,2500,2500.0,2500.0,2500,22500
+10946,Municipalidad Distrital de San Jeronimo - Cusco (MDSJ-CUSCO),Municipalidad,Altos Funcionarios,9,975,975.0,975.0,975,8775
+11427,Municipalidad Distrital de Pueblo Nuevo - Ferreñafe - Lambayeque (MDPN-F),Municipalidad,CAS,9,1600,1130.0,1750.0,2250,13890
+13817,Direccion Regional de la Producción San Martín (DIREPRO-SM),Organismo público,CAS,9,4250,4250.0,4250.0,10364,41328
+13750,ZONA ESPECIAL DE DESARROLLO PAITA - ZED PAITA (ZED PAITA),Organismo público,CAS,9,2764,2700.0,3944.19,6764,30294
+180,Gobierno Regional del Callao (GR-Callao),Gobierno Regional,Altos Funcionarios,8,4290,4290.0,4290.0,4290,34320
+12761,Hospital Huacho y Red de Salud Huaura Oyón (HHRSHO),Salud,Altos Funcionarios,8,5710,5364.19,6364.19,9364,49551
+17407,INPE - OFICINA REGIONAL SUR AREQUIPA (INPE - ORS),Justicia/Fiscalía,CAS,8,2964,2364.19,4364.19,4864,25114
+14145,Ministerio de Desarrollo e Inclusión Social (MIDIS),Ministerio,FAG,8,15600,15600.0,15600.0,15600,118700
+10142,Gobierno Regional de Huancavelica (GR-Huancavelica),Gobierno Regional,FAG,8,8000,7000.0,8900.0,12000,65400
+11431,Municipalidad Distrital de Jayanca (MDJ - Jayanca),Municipalidad,CAS,8,3550,2800.0,4800.0,5300,28600
+10277,Municipalidad Distrital de Independencia - Huaraz (MDI),Municipalidad,Ley Servir,8,1824,1714.2,2114.2,3214,16154
+142,Ministerio de la Mujer y Poblaciones Vulnerables (MIMP),Ministerio,Ley Servir,7,30000,20533.33,49097.22,57400,234564
+10011,Ministerio de Defensa (MINDEF),Ministerio,Altos Funcionarios,7,28000,9000.0,40666.66,72022,213144
+10011,Ministerio de Defensa (MINDEF),Ministerio,Ley Servir,7,28000,9000.0,40666.66,72022,213144
+10021,JUNTA NACIONAL DE JUSTICIA (JNJ),Justicia/Fiscalía,Ley Servir,7,35017,35017.0,35017.0,35017,245119
+92994,Colegio Militar Leoncio Prado (CMLP),Educación,CAS,7,1564,1514.19,1564.19,2864,12099
+18827,UNIDAD DE GESTION EDUCATIVA LOCAL DE AMBO (UGELAMBO),Educación,Altos Funcionarios,7,2945,2945.0,3045.0,3730,21600
+103010,UNIDAD DE GESTION EDUCATIVA LOCAL N° 12 - CANTA (UGEL N° 12 - CANTA),Educación,CAS,7,2164,1889.19,2864.19,3464,17024
+10148,Gobierno Regional Junín (GRJ),Gobierno Regional,Altos Funcionarios,7,4441,4441.0,12480.0,14300,49487
+12196,Municipalidad Distrital de Habana (MD-Habana),Municipalidad,CAS,7,1800,1500.0,3000.0,3500,14900
+14203,ZONA ESPECIAL DE DESARROLLO - MATARANI (ZED MATARANI),Organismo público,CAS,7,1864,1739.39,4863.51,11362,28017
+80,Superintendencia del Mercado de Valores (SMV),Regulador/Superintendencia,Ley Servir,6,7904,5319.5,8496.28,28000,62944
+127,Ministerio del Ambiente (MINAM),Ministerio,FAG,6,15600,15600.0,15600.0,15600,88000
+136,Ministerio de Desarrollo Agrario y Riego (MIDAGRI),Ministerio,FAG,6,15600,15600.0,15600.0,15600,93400
+137,Ministerio de Energía y Minas (MINEM),Ministerio,Altos Funcionarios,6,25848,22093.2,26695.89,30000,136008
+139,Ministerio de la Producción (PRODUCE),Ministerio,Ley Servir,6,26500,22982.14,28000.0,30000,154248
+141,Ministerio de Trabajo y Promoción del Empleo (MTPE),Ministerio,FAG,6,13500,10000.0,15600.0,15600,78200
+11011,Municipalidad Distrital de Pichigua (MD-PICHIGUA),Municipalidad,CAS,6,3900,3500.0,4500.0,6000,25300
+10669,Municipalidad Distrital de Sayán (MDS),Municipalidad,CAS,6,1664,1564.19,1864.19,2864,11085
+10362,Municipalidad Distrital de San Fernando (MDSF),Municipalidad,CAS,6,2048,1650.0,2764.19,2764,12773
+10352,Municipalidad Distrital de Tamburco (MDTamburco),Municipalidad,Altos Funcionarios,6,1590,1590.0,1590.0,5605,13555
+11597,Municipalidad Distrital de Querecotillo - Piura (MDQ - QUERECOTILLO),Municipalidad,CAS,6,2817,2817.19,2817.19,2817,16639
+10165,Municipalidad Distrital de Supe (MDS),Municipalidad,CAS,6,4564,4564.19,4564.19,5564,25453
+18714,GERENCIA TERRITORIAL HUALLAGA CENTRAL - JUANJUI (GTHC-J),Organismo público,CAS,6,3033,1564.19,5364.19,10364,24923
+14206,UNIDAD EJECUTORA INSTITUTOS SUPERIORES DE EDUCACIÓN PÚBLICA REGIONAL DE PIURA (UEISEPRP),Organismo público,CAS,6,6364,6364.19,6364.19,6364,38185
+70968,AUTORIDAD PORTUARIA REGIONAL LAMBAYEQUE (APRL),Organismo público,CAS,6,5500,4200.0,6300.0,9200,34200
+14202,Gerencia Territorial Bajo Mayo - Tarapoto (GTBM-T),Organismo público,CAS,6,4307,3600.0,4364.19,10364,28507
+133,Ministerio de Educación (MINEDU),Educación,Ley Servir,5,27067,25000.0,30000.0,31733,114733
+136,Ministerio de Desarrollo Agrario y Riego (MIDAGRI),Ministerio,Altos Funcionarios,5,27067,25000.0,28000.0,30000,111000
+11911,Municipalidad Distrital De Ascensión (MD-Ascensión),Municipalidad,Altos Funcionarios,5,1500,1500.0,1500.0,1500,7500
+11413,Municipalidad Distrital de Santa Rosa (MDSR),Municipalidad,CAS,5,3000,2500.0,3000.0,3000,14000
+10071,Municipalidad Distrital de Pucusana (MDP),Municipalidad,Altos Funcionarios,5,1014,1014.0,1014.0,1014,5070
+11551,Municipalidad Distrital de El Tallan,Municipalidad,Altos Funcionarios,5,702,702.0,702.0,702,3510
+14084,DIRECCIÓN REGIONAL DE AGRICULTURA TACNA (DRAT),Organismo público,CAS,5,1589,1589.19,1664.19,1864,7157
+25879,Gerencia Territorial Alto Huallaga - Tocache (GTAH - T),Organismo público,CAS,5,3650,3635.72,3700.0,4264,18714
+77,Ministerio de Cultura (CULTURA),Ministerio,Ley Servir,4,28000,28000.0,30000.0,30000,112667
+132,Ministerio del Interior (MININTER),Ministerio,Ley Servir,4,32219,30870.32,36923.52,36924,132156
+138,Ministerio de Comercio Exterior y Turismo (MINCETUR),Ministerio,Ley Servir,4,28000,28000.0,30000.0,30000,111000
+141,Ministerio de Trabajo y Promoción del Empleo (MTPE),Ministerio,Ley Servir,4,36017,34533.33,42000.0,42000,147700
+143,Ministerio de Salud (MINSA),Salud,Altos Funcionarios,4,30800,30800.0,34083.33,34083,123947
+144,Ministerio de Transportes y Comunicaciones (MTC),Ministerio,Ley Servir,4,29000,28000.0,31666.67,31667,117667
+14065,DIRECCION REGIONAL DE EDUCACION AMAZONAS (DRE-AMAZONAS),Educación,CAS,4,1289,1264.19,2471.24,2471,6309
+35906,Unidad Ejecutora 303 Educacion Pisco (UGEL PISCO),Educación,CAS,4,3764,3764.19,4064.19,4064,14957
+14173,HOSPITAL REGIONAL DE AYACUCHO (HR MAMLL A),Salud,Altos Funcionarios,4,3387,3284.74,6364.19,6364,16013
+18815,Secretaría Técnica del Consejo Fiscal (STCF),Justicia/Fiscalía,FAG,4,15000,15000.0,15600.0,15600,58600
+14251,Unidad de Gestión Educativa Local de Talara N°306 (UGEL Talara),Educación,Altos Funcionarios,4,6716,4864.19,11001.4,11001,29298
+10130,Gobierno Regional de Apurimac (GR-Apurimac),Gobierno Regional,Altos Funcionarios,4,10000,10000.0,10000.0,10000,39800
+10139,Gobierno Regional Cusco (GRCusco),Gobierno Regional,Ley Servir,4,4058,3516.8,5191.67,5192,15017
+13722,Municipalidad Distrital de Manantay (MD - MANANTAY),Municipalidad,CAS,4,2850,1700.0,5300.0,5300,12700
+11887,Municipalidad Provincial de Hualgayoc (MPH-BCA),Municipalidad,FAG,4,8200,8200.0,8200.0,8200,32600
+13952,Gerencia Regional de Transportes y Comunicaciones Cusco (GRTC-CUSCO),Organismo público,CAS,4,4923,3154.19,9864.19,9864,22399
+11427,Municipalidad Distrital de Pueblo Nuevo - Ferreñafe - Lambayeque (MDPN-F),Municipalidad,Altos Funcionarios,4,2600,2100.0,6200.0,6200,13300
+12068,Municipalidad Distrital de Rondos (MD-RONDOS),Municipalidad,CAS,4,3325,3150.0,4000.0,4000,13550
+13285,DIRECCION REGIONAL DE COMERCIO EXTERIOR Y TURISMO DE UCAYALI (DIRCETUR),Organismo público,CAS,4,2120,1589.19,10300.0,10300,16128
+11976,Municipalidad Provincial de Tayacaja (MP-TAYACAJA),Municipalidad,CAS,4,5064,5064.19,5064.19,5064,20257
+145,Presidencia del Consejo de Ministros (PCM),Ministerio,Ley Servir,3,33583,31111.11,42000.0,42000,106694
+127,Ministerio del Ambiente (MINAM),Ministerio,Altos Funcionarios,3,28000,19167.0,30000.0,30000,77167
+131,Ministerio de Justicia y Derechos Humanos (MINJUS),Justicia/Fiscalía,Ley Servir,3,28000,28000.0,31916.67,31917,87917
+140,Ministerio de Relaciones Exteriores (RREE),Ministerio,Altos Funcionarios,3,28000,25000.0,30000.0,30000,83000
+10003,Comisión de Promoción del Perú para la Exportación y el Turismo (PROMPERÚ),Organismo público,PAC,3,19167,13650.0,20000.0,20000,52817
+10440,Universidad Nacional de Huancavelica (UNH),Universidad,Ley Servir,3,22500,22500.0,25000.0,25000,70000
+10409,Universidad Nacional de San Martí­n (UNSM),Universidad,Altos Funcionarios,3,22500,22500.0,25000.0,25000,70000
+10437,Universidad Nacional del Centro del Perú (UNCP),Universidad,Ley Servir,3,22500,22500.0,25000.0,25000,70000
+10407,Universidad Nacional Jorge Basadre Grohmann (UNJBG),Universidad,Altos Funcionarios,3,22500,22500.0,25000.0,25000,70000
+14119,Universidad Nacional José María Arguedas (UNAJMA),Universidad,Ley Servir,3,22500,22500.0,25000.0,25000,70000
+10428,Universidad Nacional Mayor de San Marcos (UNMSM),Universidad,Ley Servir,3,22500,22500.0,25000.0,25000,70000
+13625,Universidad Nacional Micaela Bastidas de Apurímac. (UNAMBA),Universidad,Ley Servir,3,22500,22500.0,25000.0,25000,70000
+10439,Universidad Nacional San Cristóbal de Huamanga (UNSCH),Universidad,Altos Funcionarios,3,45000,45000.0,50000.0,50000,140000
+10712,Municipalidad Distrital de Acos Vinchos (MD-ACOSV),Municipalidad,CAS,3,2200,1800.0,2500.0,2500,6500
+101001,SUB REGION DE DESARROLLO ILO U.E 003 (SRDI),Gobierno Regional,CAS,3,6092,1186.85,6322.4,6322,13601
+11431,Municipalidad Distrital de Jayanca (MDJ - Jayanca),Municipalidad,Altos Funcionarios,3,4300,4300.0,4300.0,4300,12900
+10894,Municipalidad Distrital de Huarango (MD-Huarango),Municipalidad,FAG,3,5800,4500.0,5800.0,5800,16100
+10986,Municipalidad Distrital de Pampamarca - Cusco (MD-PAMPAMARCA),Municipalidad,CAS,3,2800,2800.0,2800.0,2800,8400
+11154,Municipalidad Distrital de Nuevo Chimbote (MD - NVOCHIMBOTE),Municipalidad,FAG,3,8200,8000.0,8200.0,8200,24400
+10653,Municipalidad Distrital de Santa Eulalia (MDSE),Municipalidad,Ley Servir,3,4000,1636.61,6505.21,6505,12142
+11182,Municipalidad Provincial de Carlos Fermin Fitzcarrald (MPCFF),Municipalidad,CAS,3,5564,5564.19,5564.19,5564,16693
+11866,Municipalidad Provincial de Islay (MPI),Municipalidad,FAG,3,6700,6700.0,6800.0,6800,20200
+11758,Municipalidad Distrital de Ticaco (MDT),Municipalidad,CAS,3,3500,3500.0,4000.0,4000,11000
+12230,Municipalidad Provincial de Padre Abad (MPPA-A),Municipalidad,Ley Servir,3,7350,1796.0,11707.21,11707,20853
+10228,Municipalidad Distrital de Pamparomas (MD-Pamparomas),Municipalidad,CAS,3,3150,2450.0,3150.0,3150,8750
+137,Ministerio de Energía y Minas (MINEM),Ministerio,PAC,2,23875,22750.0,25000.0,25000,47750
+188,Instituto Geofísico del Perú (IGP),Organismo público,PAC,2,21625,18250.0,25000.0,25000,43250
+193,Municipalidad Provincial de Chachapoyas (MP-Chachapoyas),Municipalidad,Ley Servir,2,7602,7452.21,7752.21,7752,15204
+1190,Municipalidad Provincial de Huancayo (MPHuancayo),Municipalidad,Ley Servir,2,12980,12700.0,13260.0,13260,25960
+1434,Municipalidad Metropolitana de Lima (MUNLIMA),Municipalidad,Ley Servir,2,14852,14103.0,15600.0,15600,29703
+1710,Municipalidad Provincial de Piura (MPPiura),Municipalidad,PAC,2,20424,13260.0,27587.22,27587,40847
+13562,Dirección Regional de Educación de Junín (DREJUNIN),Educación,CAS,2,1661,1575.02,1747.34,1747,3322
+14092,UNIDAD DE GESTIÓN EDUCATIVA LOCAL N° 02 (UGEL 02),Educación,Ley Servir,2,1678,1488.15,1868.77,1869,3357
+14320,UNIDAD DE GESTIÓN EDUCATIVA LOCAL-BOLÍVAR (UGEL - BOLÍVAR),Educación,Altos Funcionarios,2,10951,10201.4,11701.4,11701,21903
+14315,Unidad de Gestión Educativa Local de Sánchez Carrión (UGEL-Sánchez Carrión),Educación,Altos Funcionarios,2,10668,8867.88,12468.31,12468,21336
+16380,UNIDAD DE GESTIÓN EDUCATIVA LOCAL HUARMACA (UGEL - HUARMACA),Educación,CAS,2,3389,2714.19,4064.19,4064,6778
+10146,Gobierno Regional de Huánuco (GOREHCO),Gobierno Regional,Altos Funcionarios,2,10858,7416.0,14300.0,14300,21716
+15325,UNIDAD EJECUTORA N° 305 - EDUCACION LAMAS (UGEL - LAMAS),Educación,Altos Funcionarios,2,10168,9101.2,11234.5,11234,20336
+106015,Unidad Ejecutora N° 002 Unidad de Coordinación de Proyectos del Poder Judicial (OCP),Justicia/Fiscalía,CAS,2,15600,15600.0,15600.0,15600,31200
+11911,Municipalidad Distrital De Ascensión (MD-Ascensión),Municipalidad,Ley Servir,2,5503,5453.0,5553.0,5553,11006
+10357,Municipalidad Distrital de Awajun (MDA),Municipalidad,FAG,2,4950,4900.0,5000.0,5000,9900
+12054,Municipalidad Distrital de Chaglla (MD-Chaglla),Municipalidad,Ley Servir,2,5325,5200.0,5450.0,5450,10650
+11314,Municipalidad Distrital de La Esperanza (MDE),Municipalidad,Altos Funcionarios,2,11455,11205.21,11705.21,11705,22910
+11510,Municipalidad Distrital de Balsapuerto (MD-Balsapuerto),Municipalidad,CAS,2,4864,4864.19,4864.19,4864,9728
+10939,Municipalidad Distrital de Carmen de la Legua Reynoso (MDCLR),Municipalidad,Altos Funcionarios,2,10882,7500.0,14264.19,14264,21764
+10894,Municipalidad Distrital de Huarango (MD-Huarango),Municipalidad,Ley Servir,2,12200,12000.0,12400.0,12400,24400
+10376,Municipalidad Distrital de Morales (MDMorales),Municipalidad,Ley Servir,2,6326,6200.0,6452.21,6452,12652
+10607,MUNICIPALIDAD DISTRITAL DE NUEVO IMPERIAL (MDNI),Municipalidad,Altos Funcionarios,2,6879,4000.0,9757.82,9758,13758
+11279,Municipalidad Distrital de Pangoa (MDPangoa),Municipalidad,Ley Servir,2,7655,7505.21,7805.21,7805,15310
+12047,Municipalidad Distrital de Mariano Damaso Beraun (MD-MDBERAUN),Municipalidad,Altos Funcionarios,2,5175,4050.0,6300.0,6300,10350
+10277,Municipalidad Distrital de Independencia - Huaraz (MDI),Municipalidad,Altos Funcionarios,2,9205,9005.21,9405.21,9405,18410
+11864,Municipalidad Distrital de Majes (MD-Majes),Municipalidad,Ley Servir,2,7400,7300.0,7500.0,7500,14800
+11413,Municipalidad Distrital de Santa Rosa (MDSR),Municipalidad,Ley Servir,2,5150,5000.0,5300.0,5300,10300
+11280,Municipalidad Distrital de Rio Tambo (MDRT),Municipalidad,Ley Servir,2,6100,6000.0,6200.0,6200,12200
+10482,Municipalidad Distrital de Characato (MD-CHARACATO),Municipalidad,Ley Servir,2,4002,2399.73,5605.21,5605,8005
+11154,Municipalidad Distrital de Nuevo Chimbote (MD - NVOCHIMBOTE),Municipalidad,Ley Servir,2,8900,8700.0,9100.0,9100,17800
+11435,Municipalidad Distrital de Olmos (MDO),Municipalidad,Ley Servir,2,7350,7200.0,7500.0,7500,14700
+10122,Municipalidad Distrital de Villa El Salvador (MUNIVES),Municipalidad,Ley Servir,2,14583,13565.21,15600.0,15600,29165
+10502,MUNICIPALIDAD DISTRITAL DE VÍTOR (MDV),Municipalidad,CAS,2,2400,2300.0,2500.0,2500,4800
+10505,Municipalidad Distrital de Yura (MDY),Municipalidad,Ley Servir,2,6100,6000.0,6200.0,6200,12200
+11889,Municipalidad Provincial de San Ignacio (MPSI),Municipalidad,Ley Servir,2,18304,17904.42,18704.42,18704,36609
+12178,Municipalidad Provincial de Talara (MP-TALARA),Municipalidad,CAS,2,2863,2698.59,3026.99,3027,5726
+11537,Municipalidad Distrital de Soplin (MDSoplin),Municipalidad,CAS,2,3500,3300.0,3700.0,3700,7000
+12116,Municipalidad Provincial de Barranca (MPB),Municipalidad,Ley Servir,2,11455,11205.21,11705.21,11705,22910
+11182,Municipalidad Provincial de Carlos Fermin Fitzcarrald (MPCFF),Municipalidad,Altos Funcionarios,2,5750,5700.0,5800.0,5800,11500
+11182,Municipalidad Provincial de Carlos Fermin Fitzcarrald (MPCFF),Municipalidad,Ley Servir,2,12704,12504.42,12904.42,12904,25409
+10598,Municipalidad Provincial de Cañete (MPC),Municipalidad,Ley Servir,2,20433,17561.11,23304.42,23304,40866
+10487,Municipalidad Distrital de Miraflores - AREQUIPA (MDM),Municipalidad,Ley Servir,2,9128,8850.0,9405.21,9405,18255
+10946,Municipalidad Distrital de San Jeronimo - Cusco (MDSJ-CUSCO),Municipalidad,Ley Servir,2,7655,7505.21,7805.21,7805,15310
+10947,Municipalidad Distrital de San Sebastián (MD - SSEBASTIAN),Municipalidad,Ley Servir,2,9205,9005.21,9405.21,9405,18410
+11555,Municipalidad Distrital de Tambogrande (MD - TGRANDE),Municipalidad,Ley Servir,2,9055,8410.0,9700.0,9700,18110
+14295,Municipalidad Distrital Veintiséis de Octubre (MDVO),Municipalidad,Ley Servir,2,8900,8700.0,9100.0,9100,17800
+11887,Municipalidad Provincial de Hualgayoc (MPH-BCA),Municipalidad,Altos Funcionarios,2,9152,8952.21,9352.21,9352,18304
+12173,Municipalidad Provincial de Huancabamba (MP-HUANCABAMBA),Municipalidad,Ley Servir,2,8900,8700.0,9100.0,9100,17800
+12108,Municipalidad Provincial de Virú (MP-VIRÚ),Municipalidad,Ley Servir,2,9102,8850.0,9353.0,9353,18203
+14130,Gerencia Sub Regional de Alto Amazonas (GSRAA),Organismo público,CAS,2,2864,1964.19,3764.19,3764,5728
+11144,Municipalidad Provincial del Santa (MPS - CHIMBOTE),Municipalidad,Ley Servir,2,13285,13005.21,13565.21,13565,26570
+10489,Municipalidad Distrital de Paucarpata (MDP-PAUCARPATA),Municipalidad,Altos Funcionarios,2,11150,10900.0,11400.0,11400,22300
+10116,Municipalidad Distrital de Santa Rosa - Lima (MDSR),Municipalidad,CAS,2,4464,4464.19,4464.19,4464,8928
+10614,Municipalidad Provincial de Huaral (MP-Huaral),Municipalidad,Ley Servir,2,8326,5000.0,11652.21,11652,16652
+11574,Municipalidad Provincial de Morropón Chulucanas (MP-MORROPONCH),Municipalidad,Ley Servir,2,11226,10950.0,11502.21,11502,22452
+12175,Municipalidad Provincial de Paita (MP-PAITA),Municipalidad,Ley Servir,2,8900,8700.0,9100.0,9100,17800
+10367,Municipalidad Provincial de San Martín (MPSM),Municipalidad,Ley Servir,2,10883,10266.66,11500.0,11500,21767
+10220,MUNICIPALIDAD PROVINCIAL DE HUAYLAS (MPHy),Municipalidad,Ley Servir,2,14700,14400.0,15000.0,15000,29400
+11976,Municipalidad Provincial de Tayacaja (MP-TAYACAJA),Municipalidad,FAG,2,8200,8200.0,8200.0,8200,16400
+11976,Municipalidad Provincial de Tayacaja (MP-TAYACAJA),Municipalidad,Ley Servir,2,18304,17904.42,18704.42,18704,36609
+12041,Municipalidad Provincial de Leoncio Prado (MPLP),Municipalidad,Ley Servir,2,8900,8700.0,9100.0,9100,17800
+4,Instituto Nacional de Estadística e Informática (INEI),Organismo público,PAC,1,25000,25000.0,25000.0,25000,25000
+5,Organismo Supervisor de la Inversión en Energía y Minería (OSINERGMIN),Regulador/Superintendencia,Ley Servir,1,28000,28000.0,28000.0,28000,28000
+8,Superintendencia Nacional de Servicios de Saneamiento (SUNASS),Regulador/Superintendencia,Ley Servir,1,42000,42000.0,42000.0,42000,42000
+102,Fondo Nacional de Desarrollo Pesquero (FONDEPES),Organismo público,PAC,1,25000,25000.0,25000.0,25000,25000
+142,Ministerio de la Mujer y Poblaciones Vulnerables (MIMP),Ministerio,PAC,1,4000,4000.0,4000.0,4000,4000
+180,Gobierno Regional del Callao (GR-Callao),Gobierno Regional,Ley Servir,1,14305,14305.21,14305.21,14305,14305
+185,Biblioteca Nacional del Perú (BNP),Organismo público,Ley Servir,1,1526,1526.15,1526.15,1526,1526
+739,Municipalidad Provincial de Cajamarca (MPC),Municipalidad,Ley Servir,1,28524,28524.42,28524.42,28524,28524
+866,Municipalidad Provincial del Callao (MPCallao),Municipalidad,Ley Servir,1,11260,11260.18,11260.18,11260,11260
+1396,Municipalidad Provincial de Chiclayo (MPChiclayo),Municipalidad,Ley Servir,1,13260,13260.0,13260.0,13260,13260
+10004,Agencia Peruana de Cooperación Internacional (APCI),Organismo público,PAC,1,25000,25000.0,25000.0,25000,25000
+10006,Instituto Nacional de Defensa de la Competencia y de la Protección de la Propiedad Intelectual (Indecopi),Regulador/Superintendencia,Ley Servir,1,25000,25000.0,25000.0,25000,25000
+10012,Gobierno Regional de Lima (GRL),Gobierno Regional,Ley Servir,1,14000,14000.0,14000.0,14000,14000
+115041,UNIVERSIDAD NACIONAL AUTONOMA DE CHUPACA (UNACHU),Universidad,CAS,1,9700,9700.0,9700.0,9700,9700
+115047,UNIVERSIDAD NACIONAL DE HUANCABAMBA (UNHBBA),Universidad,CAS,1,7100,7100.0,7100.0,7100,7100
+18622,UNIDAD DE GESTION LOCAL CHANCHAMAYO (UGEL - CHYO),Educación,CAS,1,3500,3500.0,3500.0,3500,3500
+13672,UNIDAD DE GESTION EDUCATIVA LOCAL Nº 07 (UGEL 07),Educación,CAS,1,3264,3264.19,3264.19,3264,3264
+14239,Unidad de Gestión Educativa Local N.º 05 (UGEL 05),Educación,CAS,1,5364,5364.19,5364.19,5364,5364
+14320,UNIDAD DE GESTIÓN EDUCATIVA LOCAL-BOLÍVAR (UGEL - BOLÍVAR),Educación,CAS,1,1564,1564.19,1564.19,1564,1564
+18840,UNIDAD GESTION EDUCATIVA LOCAL HUACAYBAMBA (UGEL HUACAYBAMBA),Educación,CAS,1,2600,2600.0,2600.0,2600,2600
+13933,"Superintendencia Nacional de Control de Servicios de Seguridad, Armas, Municiones y Explosivos de Us (SUCAMEC)",Regulador/Superintendencia,Ley Servir,1,8637,8637.21,8637.21,8637,8637
+10152,Gobierno Regional de Loreto (GOREL),Gobierno Regional,Ley Servir,1,14000,14000.0,14000.0,14000,14000
+10166,Gobierno Regional San Martín (GORESAM),Gobierno Regional,Ley Servir,1,14305,14305.21,14305.21,14305,14305
+14271,Red de Salud Santiago de Chuco (RSCH),Salud,CAS,1,738,738.1,738.1,738,738
+18815,Secretaría Técnica del Consejo Fiscal (STCF),Justicia/Fiscalía,Ley Servir,1,18118,18117.86,18117.86,18118,18118
+15348,UNIDAD EJECUTORA 309 EDUCACIÓN LAURICOCHA (UGEL LAURICOCHA),Educación,CAS,1,1614,1614.19,1614.19,1614,1614
+13855,Organismo de Evaluación y Fiscalización Ambiental (OEFA),Justicia/Fiscalía,PAC,1,25000,25000.0,25000.0,25000,25000
+12202,Municipalidad Distrital de Alto Biavo (MD-AltoBiavo),Municipalidad,CAS,1,2400,2400.0,2400.0,2400,2400
+10052,Municipalidad Distrital de Barranco (MD-BARRANCO),Municipalidad,Ley Servir,1,7235,7235.4,7235.4,7235,7235
+10147,Gobierno Regional de Ica (GORE-ICA),Gobierno Regional,Ley Servir,1,14000,14000.0,14000.0,14000,14000
+11796,Gobierno Regional de Amazonas (GR-Amazonas),Gobierno Regional,Ley Servir,1,21458,21457.82,21457.82,21458,21458
+10157,GOBIERNO REGIONAL PASCO (GOREPA),Gobierno Regional,Ley Servir,1,28,28.0,28.0,28,28
+10357,Municipalidad Distrital de Awajun (MDA),Municipalidad,Altos Funcionarios,1,5552,5552.21,5552.21,5552,5552
+10357,Municipalidad Distrital de Awajun (MDA),Municipalidad,Ley Servir,1,5452,5452.21,5452.21,5452,5452
+11417,Municipalidad Distrital de Cayalti (MDC),Municipalidad,Ley Servir,1,12504,12504.42,12504.42,12504,12504
+11044,Municipalidad Distrital de Ccatcca (MDCC),Municipalidad,Ley Servir,1,5605,5605.21,5605.21,5605,5605
+11086,Municipalidad Distrital de Chongos Alto,Municipalidad,CAS,1,2300,2300.0,2300.0,2300,2300
+11550,Municipalidad Distrital de Cura Mori (MDCM),Municipalidad,Ley Servir,1,6000,6000.0,6000.0,6000,6000
+11045,Municipalidad Distrital de Cusipata,Municipalidad,Ley Servir,1,5005,5005.21,5005.21,5005,5005
+12196,Municipalidad Distrital de Habana (MD-Habana),Municipalidad,Ley Servir,1,4100,4100.0,4100.0,4100,4100
+11996,Municipalidad Distrital de Chinchao (MDCH),Municipalidad,Ley Servir,1,6452,6452.21,6452.21,6452,6452
+11587,Municipalidad Distrital de Colan (Municolan),Municipalidad,Ley Servir,1,6452,6452.21,6452.21,6452,6452
+10060,Municipalidad Distrital de Independencia - LIMA (MDI),Municipalidad,Ley Servir,1,11652,11652.21,11652.21,11652,11652
+11431,Municipalidad Distrital de Jayanca (MDJ - Jayanca),Municipalidad,Ley Servir,1,12400,12400.0,12400.0,12400,12400
+10895,Municipalidad Distrital de la Coipa (MDLC),Municipalidad,CAS,1,1800,1800.0,1800.0,1800,1800
+10940,Municipalidad Distrital de La Perla (MDLP),Municipalidad,Ley Servir,1,9100,9100.0,9100.0,9100,9100
+10036,Municipalidad Distrital de Lince (MDL),Municipalidad,Ley Servir,1,9100,9100.0,9100.0,9100,9100
+12046,Municipalidad Distrital de Luyando (MD-Luyando),Municipalidad,Ley Servir,1,5552,5552.21,5552.21,5552,5552
+12090,Municipalidad Distrital de Mazamari (MD-MAZAMARI),Municipalidad,Ley Servir,1,5236,5235.59,5235.59,5236,5236
+10359,Municipalidad Distrital de Nueva Cajamarca (MDNC),Municipalidad,Ley Servir,1,15354,15354.0,15354.0,15354,15354
+81976,"Municipalidad Distrital de Conceptualizacion PTE (conceptualizacion, p)",Municipalidad,Ley Servir,1,9100,9100.0,9100.0,9100,9100
+11095,Municipalidad Distrital de Huayucachi (MDHchi.),Municipalidad,Ley Servir,1,10,10.0,10.0,10,10
+10131,Gobierno Regional de Arequipa (GRA),Gobierno Regional,Ley Servir,1,14305,14305.21,14305.21,14305,14305
+10057,MUNICIPALIDAD DISTRITAL DE CIENEGUILLA (MDC),Municipalidad,Ley Servir,1,7700,7700.0,7700.0,7700,7700
+18596,Municipalidad Distrital de Mi Perú (MDMP),Municipalidad,Ley Servir,1,7500,7500.0,7500.0,7500,7500
+11098,Municipalidad Distrital de Pilcomayo (MDP),Municipalidad,Ley Servir,1,6200,6200.0,6200.0,6200,6200
+11024,Municipalidad Distrital de Pichari (MDPichari),Municipalidad,Ley Servir,1,12,12.0,12.0,12,12
+10072,Municipalidad Distrital de Puente Piedra (MDPP),Municipalidad,Altos Funcionarios,1,12500,12500.0,12500.0,12500,12500
+10072,Municipalidad Distrital de Puente Piedra (MDPP),Municipalidad,Ley Servir,1,11400,11400.0,11400.0,11400,11400
+11780,Municipalidad Distrital de Nueva Requena (MDNR),Municipalidad,Ley Servir,1,4700,4700.0,4700.0,4700,4700
+10574,Municipalidad Distrital de Mejia (MD-Mejia),Municipalidad,Ley Servir,1,3605,3605.21,3605.21,3605,3605
+10230,Municipalidad Distrital de Pueblo Libre - LIMA (MD-PUEBLO LIBRE),Municipalidad,Ley Servir,1,9405,9405.21,9405.21,9405,9405
+10610,Municipalidad Distrital de San Antonio - Cañete (MDSA),Municipalidad,Ley Servir,1,8669,8668.61,8668.61,8669,8669
+10077,Municipalidad Distrital de San Bartolo (MDSanBartolo),Municipalidad,Ley Servir,1,5300,5300.0,5300.0,5300,5300
+10087,Municipalidad Distrital de San Luis - LIMA (MDSL),Municipalidad,Ley Servir,1,13650,13650.0,13650.0,13650,13650
+10118,Municipalidad Distrital de Surquillo (MDS),Municipalidad,Ley Servir,1,9100,9100.0,9100.0,9100,9100
+10071,Municipalidad Distrital de Pucusana (MDP),Municipalidad,Ley Servir,1,5552,5552.21,5552.21,5552,5552
+10073,Municipalidad Distrital de Punta Hermosa (MD-PUNTAHERMOSA),Municipalidad,Ley Servir,1,4641,4640.54,4640.54,4641,4641
+10513,Municipalidad Distrital de Quilca (MD - QUILCA),Municipalidad,CAS,1,4800,4800.0,4800.0,4800,4800
+10513,Municipalidad Distrital de Quilca (MD - QUILCA),Municipalidad,Ley Servir,1,3300,3300.0,3300.0,3300,3300
+10078,Municipalidad Distrital de San Borja (MDSanBorja),Municipalidad,Ley Servir,1,17558,17557.82,17557.82,17558,17558
+10080,Municipalidad Distrital de San Isidro Lima (MDSI),Municipalidad,Ley Servir,1,9405,9405.21,9405.21,9405,9405
+10081,Municipalidad Distrital de San Juan de Lurigancho (MDSJL),Municipalidad,Ley Servir,1,13260,13260.0,13260.0,13260,13260
+10592,Municipalidad Distrital de Arahuay (MD-ARAHUAY),Municipalidad,CAS,1,2100,2100.0,2100.0,2100,2100
+10617,Municipalidad Distrital de Aucallama (MD-AUCALLAMA),Municipalidad,Ley Servir,1,6200,6200.0,6200.0,6200,6200
+10053,Municipalidad Distrital de Breña (MD-BREÑA),Municipalidad,Ley Servir,1,18401,18401.09,18401.09,18401,18401
+11042,Municipalidad Distrital de Camanti,Municipalidad,Ley Servir,1,4352,4352.21,4352.21,4352,4352
+10042,Municipalidad Distrital de Santiago de Surco (MSS),Municipalidad,Ley Servir,1,13260,13260.0,13260.0,13260,13260
+11351,Municipalidad Distrital de Sinsicap (MD-Sinsicap),Municipalidad,CAS,1,2000,2000.0,2000.0,2000,2000
+10124,Municipalidad Distrital de Villa María del Triunfo (MVMT),Municipalidad,Ley Servir,1,13413,13413.0,13413.0,13413,13413
+12188,Municipalidad Provincial de Melgar (MPM-A),Municipalidad,FAG,1,8700,8700.0,8700.0,8700,8700
+12192,Municipalidad Provincial de San Román - Juliaca (MPSR),Municipalidad,Ley Servir,1,22800,22800.0,22800.0,22800,22800
+11327,Municipalidad Distrital de Santiago de Cao (MDSC),Municipalidad,Ley Servir,1,6253,6253.0,6253.0,6253,6253
+12149,Municipalidad Distrital de Simón Bolivar (MDSB),Municipalidad,Ley Servir,1,5605,5605.21,5605.21,5605,5605
+11866,Municipalidad Provincial de Islay (MPI),Municipalidad,Ley Servir,1,1677,1677.11,1677.11,1677,1677
+11373,Municipalidad Distrital de Cochorco (MD-COCHORCO),Municipalidad,Ley Servir,1,11104,11104.42,11104.42,11104,11104
+11551,Municipalidad Distrital de El Tallan,Municipalidad,Ley Servir,1,9400,9400.0,9400.0,9400,9400
+10941,Municipalidad Distrital de La Punta (MDLP),Municipalidad,Ley Servir,1,11210,11210.42,11210.42,11210,11210
+10065,Municipalidad Distrital de Lurigancho-Chosica (MDLCH),Municipalidad,Ley Servir,1,11400,11400.0,11400.0,11400,11400
+10067,Municipalidad Distrital de Magdalena del Mar - LIMA (MDMM),Municipalidad,Ley Servir,1,9,9.0,9.0,9,9
+11597,Municipalidad Distrital de Querecotillo - Piura (MDQ - QUERECOTILLO),Municipalidad,Ley Servir,1,6517,6517.19,6517.19,6517,6517
+11168,Municipalidad Distrital de Ranrahirca (MDR),Municipalidad,CAS,1,1700,1700.0,1700.0,1700,1700
+11168,Municipalidad Distrital de Ranrahirca (MDR),Municipalidad,Ley Servir,1,4352,4352.21,4352.21,4352,4352
+10493,Municipalidad Distrital de Sachaca (MDS),Municipalidad,Ley Servir,1,7805,7805.21,7805.21,7805,7805
+11931,Municipalidad Distrital de San Antonio de Antaparco (MD-SAN ANTONIO),Municipalidad,Ley Servir,1,3605,3605.21,3605.21,3605,3605
+11437,Municipalidad Distrital de San José - Lambayeque (MDSJ),Municipalidad,CAS,1,1400,1400.0,1400.0,1400,1400
+13243,Municipalidad Distrital de San Miguel (MDSM),Municipalidad,CAS,1,1200,1200.0,1200.0,1200,1200
+11696,Municipalidad Distrital de Santa Rosa - Melgar (MDSantaRosa),Municipalidad,CAS,1,3000,3000.0,3000.0,3000,3000
+10165,Municipalidad Distrital de Supe (MDS),Municipalidad,Ley Servir,1,12904,12904.42,12904.42,12904,12904
+11758,Municipalidad Distrital de Ticaco (MDT),Municipalidad,Ley Servir,1,3300,3300.0,3300.0,3300,3300
+10942,Municipalidad Distrital de Ventanilla (MDV),Municipalidad,Ley Servir,1,11400,11400.0,11400.0,11400,11400
+10503,Municipalidad Distrital de Yanahuara (MD-YANAHUARA),Municipalidad,Ley Servir,1,7500,7500.0,7500.0,7500,7500
+12100,Municipalidad Provincial de Julcan (MP-JULCAN),Municipalidad,Ley Servir,1,14794,14793.62,14793.62,14794,14794
+14190,Dirección Regional de Trabajo y Promoción del Empleo San Martin (DRTPE-SM),Organismo público,CAS,1,2800,2800.0,2800.0,2800,2800
+18613,UNIDAD EJECUTORA EDUCACIÓN YAULI LA OROYA (UEE YAULI - LA OROYA),Organismo público,CAS,1,4,4.0,4.0,4,4
+14284,Servicio Nacional de Certificación Ambiental para las Inversiones Sostenibles (Senace),Organismo público,Ley Servir,1,25000,25000.0,25000.0,25000,25000
+10070,Municipalidad Distrital de Pachacámac (MDPACHACAMAC),Municipalidad,Ley Servir,1,9405,9405.21,9405.21,9405,9405
+12093,Municipalidad Distrital de Palca (MD-PALCA),Municipalidad,Ley Servir,1,4953,4953.0,4953.0,4953,4953
+10228,Municipalidad Distrital de Pamparomas (MD-Pamparomas),Municipalidad,Ley Servir,1,5200,5200.0,5200.0,5200,5200
+10074,Municipalidad Distrital de Punta Negra (MDPN),Municipalidad,Ley Servir,1,5400,5400.0,5400.0,5400,5400
+10494,Municipalidad Distrital de Sabandia (MDS),Municipalidad,Ley Servir,1,5005,5005.21,5005.21,5005,5005
+10083,Municipalidad Distrital de San Juan de Miraflores - LIMA (SJM),Municipalidad,Ley Servir,1,13512,13512.21,13512.21,13512,13512
+10089,Municipalidad Distrital de San Martín de Porres (MDSMP),Municipalidad,Ley Servir,1,13260,13260.0,13260.0,13260,13260
+10113,Municipalidad Distrital de Santa María del Mar (MDSMM),Municipalidad,Ley Servir,1,3450,3450.0,3450.0,3450,3450
+11288,Municipalidad Distrital de Tapo,Municipalidad,CAS,1,1600,1600.0,1600.0,1600,1600
+11779,Municipalidad Distrital de Yarinacocha (MDY),Municipalidad,Ley Servir,1,9253,9253.0,9253.0,9253,9253
+12200,Municipalidad Provincial de Bellavista (MP-BELLAVISTA),Municipalidad,Ley Servir,1,15400,15400.0,15400.0,15400,15400
+11868,Municipalidad Provincial de Huamanga (MP-HUAMANGA),Municipalidad,Ley Servir,1,11705,11705.21,11705.21,11705,11705
+12063,Municipalidad Provincial de Lauricocha (MPL),Municipalidad,Altos Funcionarios,1,6400,6400.0,6400.0,6400,6400
+11845,Municipalidad Provincial de Pomabamba (MPP),Municipalidad,Ley Servir,1,5055,5054.95,5054.95,5055,5055
+12092,Municipalidad Provincial de Tarma (MPT),Municipalidad,Ley Servir,1,9352,9352.21,9352.21,9352,9352
+11823,Municipalidad Provincial de Utcubamba (MP-UTCUBAMBA),Municipalidad,Altos Funcionarios,1,8700,8700.0,8700.0,8700,8700
+11823,Municipalidad Provincial de Utcubamba (MP-UTCUBAMBA),Municipalidad,Ley Servir,1,9100,9100.0,9100.0,9100,9100
+12785,Proyecto Especial Chira - Piura (PECHP - Piura),Organismo público,CAS,1,2588,2588.0,2588.0,2588,2588
+14282,Servicio Nacional Forestal y de Fauna Silvestre (SERFOR),Organismo público,Ley Servir,1,33333,33333.33,33333.33,33333,33333
