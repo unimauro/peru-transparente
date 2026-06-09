@@ -11,9 +11,15 @@ const ICON: Record<string, string> = {
   "Gerente": "📊", "Jefe/a": "🗂️",
 };
 
+interface Airhsp {
+  periodo: string; total: number; masa_mensual: number;
+  por_regimen: { regimen: string; n: number; prom: number; masa: number }[];
+}
+
 export function Funcionarios() {
   const [items, setItems] = useState<FuncionarioItem[]>([]);
   const [kpis, setKpis] = useState<NationalKpis | null>(null);
+  const [airhsp, setAirhsp] = useState<Airhsp | null>(null);
   const [q, setQ] = useState("");
   const [soloClave, setSoloClave] = useState(false);
   const [nivel, setNivel] = useState<string>("");
@@ -25,6 +31,7 @@ export function Funcionarios() {
       .catch(() => {})
       .finally(() => setLoading(false));
     staticData.nationalKpis().then((d) => setKpis(d as NationalKpis)).catch(() => {});
+    staticData.airhsp().then((d) => setAirhsp(d as Airhsp)).catch(() => {});
   }, []);
 
   const filtered = useMemo(() => {
@@ -91,6 +98,40 @@ export function Funcionarios() {
             {nivel
               ? `Filtrando la tabla por “${nivel}”. Clic de nuevo para quitar.`
               : `Cifras del dataset completo (${fmt.format(kpis.entities_with_data)} entidades con datos). Clic en un nivel para filtrar la tabla.`}
+          </p>
+        </div>
+      )}
+
+      {airhsp && (
+        <div className="mt-5 glass p-5">
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-violet/80">Panorama nacional · AIRHSP (MEF)</div>
+              <h2 className="text-lg font-semibold text-ink">Todo el Estado por tipo de empleo</h2>
+            </div>
+            <div className="text-right">
+              <div className="tabular text-2xl font-bold text-accent-violet">{fmt.format(airhsp.total)}</div>
+              <div className="text-[11px] text-ink-mute">servidores · {airhsp.periodo}</div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            {airhsp.por_regimen.map((r) => {
+              const max = Math.max(...airhsp.por_regimen.map((x) => x.n));
+              return (
+                <div key={r.regimen}>
+                  <div className="flex items-baseline justify-between text-sm">
+                    <span className="text-ink-soft">{r.regimen}</span>
+                    <span className="text-ink-mute"><span className="tabular font-semibold text-ink">{fmt.format(r.n)}</span> · prom {money(r.prom)}</span>
+                  </div>
+                  <div className="mt-1 h-2 overflow-hidden rounded-full bg-surface/[0.06]">
+                    <div className="h-full rounded-full bg-gradient-to-r from-accent-violet to-accent-blue" style={{ width: `${Math.max(2, (r.n / max) * 100)}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="mt-3 text-[11px] text-ink-faint">
+            Fuente: AIRHSP — MEF (planilla oficial agregada, <b>sin nombres</b>). Cubre lo que el PTE no publica: <b>docentes</b> (Carreras Especiales) y <b>FF.AA./Policía</b>. La tabla nominal de abajo es del PTE (con nombres).
           </p>
         </div>
       )}

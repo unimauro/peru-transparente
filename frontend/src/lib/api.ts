@@ -21,6 +21,7 @@ export const staticData = {
   funcionariosClave: () => getJSON(`${STATIC_BASE}/funcionarios_clave.json`),
   entidad: (id: string) => getJSON(`${STATIC_BASE}/entidad/${id}.json`),
   regiones: () => getJSON(`${STATIC_BASE}/regiones.json`),
+  airhsp: () => getJSON(`${STATIC_BASE}/airhsp.json`),
   autoridades: () => getJSON(`${STATIC_BASE}/autoridades.json`),
 };
 

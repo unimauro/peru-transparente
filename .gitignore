@@ -33,3 +33,5 @@ data/shards/
 
 # CSV monolítico (se versiona comprimido .gz)
 data/funcionarios.csv
+data/airhsp_por_pliego_regimen.csv.gz
+data/salarios_pt_*.csv
