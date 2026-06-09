@@ -20,7 +20,7 @@ export function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/[0.06]">
+      <section className="relative overflow-hidden border-b border-surface/[0.06]">
         <NetworkHero />
         <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-16">
           <div className="chip mb-4 animate-fade-up">🇵🇪 Plataforma open source de transparencia</div>
@@ -78,14 +78,14 @@ export function Home() {
                 <SectionTitle kicker="Ranking">Entidades con más funcionarios</SectionTitle>
                 <div className="space-y-3">
                   {top.map((e, i) => (
-                    <Link key={e.id} to={`/entidad/${e.id}`} className="block rounded-lg px-2 py-1 transition-colors hover:bg-white/[0.04]">
+                    <Link key={e.id} to={`/entidad/${e.id}`} className="block rounded-lg px-2 py-1 transition-colors hover:bg-surface/[0.04]">
                       <div className="flex items-baseline justify-between text-sm">
                         <span className="truncate pr-2 text-ink-soft">
                           <span className="mr-2 text-ink-faint">{i + 1}.</span>{e.nombre}
                         </span>
                         <span className="tabular shrink-0 font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</span>
                       </div>
-                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-surface/[0.06]">
                         <div className="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan" style={{ width: `${Math.max(4, (e.funcionarios / top[0].funcionarios) * 100)}%` }} />
                       </div>
                     </Link>

@@ -29,7 +29,7 @@ export function Funcionarios() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="chip mb-3">Muestra · {fmt.format(items.length)} registros</div>
-      <h1 className="text-3xl font-bold tracking-tight text-white">Funcionarios y cargos</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-ink">Funcionarios y cargos</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
         Cada persona mapeada a su período, cargo, dependencia, remuneración y URL fuente.
       </p>
@@ -39,7 +39,7 @@ export function Funcionarios() {
         <button
           onClick={() => setSoloClave((v) => !v)}
           className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
-            soloClave ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-white/10 bg-white/[0.02] text-ink-soft hover:text-white"
+            soloClave ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"
           }`}
         >
           ⭐ Solo cargos clave
@@ -54,7 +54,7 @@ export function Funcionarios() {
         <div className="glass mt-5 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/[0.06] text-left text-xs uppercase tracking-wide text-ink-mute">
+              <tr className="border-b border-surface/[0.06] text-left text-xs uppercase tracking-wide text-ink-mute">
                 <th className="px-4 py-3">Persona</th>
                 <th className="px-4 py-3">Cargo</th>
                 <th className="px-4 py-3">Entidad / Dependencia</th>
@@ -65,7 +65,7 @@ export function Funcionarios() {
             </thead>
             <tbody>
               {filtered.map((f, i) => (
-                <tr key={i} className="border-b border-white/[0.04] last:border-0 transition-colors hover:bg-white/[0.03]">
+                <tr key={i} className="border-b border-surface/[0.04] last:border-0 transition-colors hover:bg-surface/[0.03]">
                   <td className="px-4 py-3 font-medium text-ink">{f.nombre}</td>
                   <td className="px-4 py-3">
                     <div className="text-ink-soft">{f.cargo}</div>

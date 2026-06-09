@@ -9,7 +9,7 @@ export const money = (n: number | string) => {
 export function Stat({ value, label, hint, accent }: { value: ReactNode; label: string; hint?: string; accent?: string }) {
   return (
     <div className="glass glass-hover animate-fade-up p-5">
-      <div className={`tabular text-3xl font-bold tracking-tight ${accent ?? "text-white"}`}>{value}</div>
+      <div className={`tabular text-3xl font-bold tracking-tight ${accent ?? "text-ink"}`}>{value}</div>
       <div className="mt-1 text-[11px] font-medium uppercase tracking-wider text-ink-mute">{label}</div>
       {hint && <div className="mt-1.5 text-xs text-ink-faint">{hint}</div>}
     </div>
@@ -24,7 +24,7 @@ export function Bar({ label, value, max, color = "from-accent-blue to-accent-cya
         <span className="truncate pr-2 text-ink-soft">{label}</span>
         <span className="tabular text-ink-mute">{fmt.format(value)}</span>
       </div>
-      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-surface/[0.06]">
         <div className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-700`} style={{ width: `${pct}%` }} />
       </div>
     </div>
@@ -39,7 +39,7 @@ export function LevelBadge({ nivel }: { nivel: string }) {
     : /secretari|gerente general/.test(key) ? "border-accent-cyan/40 bg-accent-cyan/15 text-accent-cyan"
     : /director|gerente/.test(key) ? "border-accent-blue/40 bg-accent-blue/15 text-accent-blue"
     : /jefe/.test(key) ? "border-accent-amber/40 bg-accent-amber/15 text-accent-amber"
-    : "border-white/10 bg-white/5 text-ink-mute";
+    : "border-surface/10 bg-surface/5 text-ink-mute";
   return <span className={`inline-block rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${tone}`}>{nivel}</span>;
 }
 
@@ -47,7 +47,7 @@ export function SectionTitle({ children, kicker }: { children: ReactNode; kicker
   return (
     <div className="mb-4">
       {kicker && <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-peru-redsoft/80">{kicker}</div>}
-      <h2 className="text-lg font-semibold text-white">{children}</h2>
+      <h2 className="text-lg font-semibold text-ink">{children}</h2>
     </div>
   );
 }

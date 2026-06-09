@@ -1,7 +1,17 @@
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH5WX1J0M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6EH5WX1J0M');
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Perú Transparente — Mapa Nacional de Funcionarios y Redes de Poder</title>
     <meta name="description" content="Plataforma open source de transparencia, datos abiertos y análisis de la gestión pública del Perú." />
@@ -10,6 +20,12 @@
     <link rel="alternate icon" href="favicon.ico" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta name="theme-color" content="#070b12" />
+    <script>
+      // Tema día/noche sin parpadeo (default: noche)
+      try {
+        if (localStorage.getItem("pt-theme") === "light") document.documentElement.classList.add("light");
+      } catch (e) {}
+    </script>
 
     <!-- Open Graph / redes sociales -->
     <meta property="og:type" content="website" />

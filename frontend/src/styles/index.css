@@ -2,34 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: dark; }
+/* ===== Temas: oscuro (default) y claro (html.light) ===== */
+:root {
+  --bg-base: 7 11 18;
+  --bg-deep: 5 8 14;
+  --ink: 230 237 246;
+  --ink-soft: 170 182 198;
+  --ink-mute: 118 128 144;
+  --ink-faint: 90 100 116;
+  --surface: 255 255 255;     /* tinte de paneles/bordes/hover */
+  --peru-soft: 255 120 130;
+  --mesh-red: rgba(225, 29, 42, 0.18);
+  --mesh-blue: rgba(79, 140, 255, 0.10);
+  --grid: rgba(255, 255, 255, 0.025);
+  color-scheme: dark;
+}
+html.light {
+  --bg-base: 247 248 251;
+  --bg-deep: 255 255 255;
+  --ink: 17 24 39;
+  --ink-soft: 51 65 85;
+  --ink-mute: 100 116 139;
+  --ink-faint: 148 163 184;
+  --surface: 15 23 42;        /* tinte oscuro sobre fondo claro */
+  --peru-soft: 200 20 35;
+  --mesh-red: rgba(225, 29, 42, 0.10);
+  --mesh-blue: rgba(79, 140, 255, 0.08);
+  --grid: rgba(15, 23, 42, 0.04);
+  color-scheme: light;
+}
 
 @layer base {
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-bg-base text-ink font-sans antialiased;
-    background-image: theme("backgroundImage.mesh"), theme("backgroundImage.grid");
-    background-size: 100% 100%, 44px 44px, 44px 44px;
+    @apply bg-bg-base font-sans antialiased;
+    color: rgb(var(--ink));
+    background-image:
+      radial-gradient(60% 60% at 85% 8%, var(--mesh-red) 0%, transparent 60%),
+      radial-gradient(50% 50% at 10% 100%, var(--mesh-blue) 0%, transparent 60%),
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
     background-attachment: fixed;
     min-height: 100vh;
+    transition: background-color .25s, color .25s;
   }
-  ::selection { background: rgba(225, 29, 42, 0.35); }
+  ::selection { background: rgba(225, 29, 42, 0.30); }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-thumb { background: #1b2430; border-radius: 8px; }
-  ::-webkit-scrollbar-thumb:hover { background: #283446; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--surface) / 0.18); border-radius: 8px; }
 }
 
 @layer components {
   .tabular { font-variant-numeric: tabular-nums; }
 
   .glass {
-    @apply rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-md;
+    @apply rounded-2xl;
+    background: rgb(var(--surface) / 0.035);
+    border: 1px solid rgb(var(--surface) / 0.09);
     box-shadow: theme("boxShadow.card");
+    backdrop-filter: blur(8px);
   }
-  .glass-hover { @apply transition-colors hover:border-white/15 hover:bg-white/[0.05]; }
+  .glass-hover { @apply transition-colors; }
+  .glass-hover:hover { background: rgb(var(--surface) / 0.06); border-color: rgb(var(--surface) / 0.16); }
 
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-ink-soft;
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs;
+    color: rgb(var(--ink-soft));
+    background: rgb(var(--surface) / 0.05);
+    border: 1px solid rgb(var(--surface) / 0.1);
   }
 
   .btn-primary {
@@ -37,24 +77,31 @@
            shadow-glow transition-transform hover:-translate-y-0.5 active:translate-y-0;
   }
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm
-           font-medium text-ink-soft transition-colors hover:border-white/20 hover:text-ink;
+    @apply inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors;
+    color: rgb(var(--ink-soft));
+    border: 1px solid rgb(var(--surface) / 0.12);
+    background: rgb(var(--surface) / 0.02);
   }
+  .btn-ghost:hover { color: rgb(var(--ink)); border-color: rgb(var(--surface) / 0.22); }
 
   .input {
-    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-ink
-           placeholder-ink-mute outline-none transition focus:border-peru-red/60 focus:bg-white/[0.05];
+    @apply w-full rounded-xl px-4 py-2.5 outline-none transition;
+    color: rgb(var(--ink));
+    background: rgb(var(--surface) / 0.04);
+    border: 1px solid rgb(var(--surface) / 0.12);
   }
+  .input::placeholder { color: rgb(var(--ink-mute)); }
+  .input:focus { border-color: rgb(225 29 42 / 0.55); background: rgb(var(--surface) / 0.06); }
 
-  .skeleton { @apply relative overflow-hidden rounded-lg bg-white/[0.05]; }
+  .skeleton { @apply relative overflow-hidden rounded-lg; background: rgb(var(--surface) / 0.05); }
   .skeleton::after {
     content: ""; @apply absolute inset-0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--surface) / 0.07), transparent);
     transform: translateX(-100%); animation: shimmer 1.4s infinite;
   }
 
   .gradient-text {
-    background: linear-gradient(100deg, #ffffff 0%, #ffd9dd 55%, #ff8a93 100%);
+    background: linear-gradient(100deg, rgb(var(--ink)) 0%, var(--peru-soft, #ff8a93) 70%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
 }

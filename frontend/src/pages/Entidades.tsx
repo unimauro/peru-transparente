@@ -45,7 +45,7 @@ export function Entidades() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="chip mb-3">Catálogo · {fmt.format(items.length)} entidades</div>
-      <h1 className="text-3xl font-bold tracking-tight text-white">Entidades del Estado</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-ink">Entidades del Estado</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
         Todo el universo del Portal de Transparencia: ministerios, organismos reguladores, fuerzas
         armadas, empresas públicas y gobiernos regionales/locales. {fmt.format(conDatos)} ya con personal descargado.
@@ -57,7 +57,7 @@ export function Entidades() {
             key={qk.label}
             onClick={() => setQuick(i)}
             className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-              quick === i ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-white/10 bg-white/[0.03] text-ink-soft hover:border-white/20 hover:text-white"
+              quick === i ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:border-surface/20 hover:text-ink"
             }`}
           >
             {qk.label}
@@ -77,7 +77,7 @@ export function Entidades() {
       ) : filtered.length === 0 ? (
         <Empty>Sin resultados para tu búsqueda.</Empty>
       ) : (
-        <div className="glass mt-5 divide-y divide-white/[0.05] overflow-hidden">
+        <div className="glass mt-5 divide-y divide-surface/[0.05] overflow-hidden">
           {filtered.map((e) => {
             const inner = (
               <>
@@ -98,7 +98,7 @@ export function Entidades() {
               </>
             );
             return e.funcionarios ? (
-              <Link key={e.id} to={`/entidad/${e.id}`} className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-white/[0.04]">
+              <Link key={e.id} to={`/entidad/${e.id}`} className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-surface/[0.04]">
                 {inner}
               </Link>
             ) : (

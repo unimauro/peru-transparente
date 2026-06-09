@@ -23,9 +23,9 @@ export function EntidadDetalle() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <Link to="/entidades" className="text-sm text-ink-mute hover:text-white">← Entidades</Link>
+      <Link to="/entidades" className="text-sm text-ink-mute hover:text-ink">← Entidades</Link>
       <div className="mt-2 chip">{d.tipo}</div>
-      <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">{d.nombre}</h1>
+      <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink">{d.nombre}</h1>
       <div className="mt-3 flex flex-wrap gap-2 text-sm">
         <span className="chip">👥 {fmt.format(d.total)} funcionarios</span>
         <span className="chip">⭐ {fmt.format(d.clave)} cargos clave</span>
@@ -41,7 +41,7 @@ export function EntidadDetalle() {
             <div key={dep.dependencia} className="glass overflow-hidden">
               <button
                 onClick={() => setOpen(isOpen ? null : dep.dependencia)}
-                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-surface/[0.04]"
               >
                 <div className="flex min-w-0 items-center gap-3">
                   <span className={`text-ink-mute transition-transform ${isOpen ? "rotate-90" : ""}`}>▸</span>
@@ -53,11 +53,11 @@ export function EntidadDetalle() {
                 </div>
               </button>
               {isOpen && (
-                <div className="border-t border-white/[0.06]">
+                <div className="border-t border-surface/[0.06]">
                   <table className="w-full text-sm">
                     <tbody>
                       {dep.personas.map((p, i) => (
-                        <tr key={i} className="border-t border-white/[0.04] first:border-0">
+                        <tr key={i} className="border-t border-surface/[0.04] first:border-0">
                           <td className="px-4 py-2 text-ink">{p.nombre}</td>
                           <td className="px-4 py-2">
                             <div className="text-ink-soft">{p.cargo}</div>
