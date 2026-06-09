@@ -60,6 +60,8 @@ def write(name: str, data: object) -> None:
 def main() -> None:
     entidades = read_csv(ENT)
     funcionarios = read_csv(FUN)
+    ckpt = Path("data/funcionarios.checkpoint.json")
+    processed = len(json.loads(ckpt.read_text()).get("done", [])) if ckpt.exists() else 0
 
     fun_por_entidad = Counter(f["id_entidad"] for f in funcionarios)
     niv_count = Counter(nivel(f.get("cargo", "")) for f in funcionarios)
@@ -82,6 +84,7 @@ def main() -> None:
 
     write("national_kpis.json", {
         "total_entities": len(entidades),
+        "entities_processed": processed,
         "entities_with_data": sum(1 for c in cat if c["funcionarios"]),
         "total_funcionarios": len(funcionarios),
         "total_cargos_clave": clave_total,
@@ -135,9 +138,10 @@ def main() -> None:
 
     write("meta.json", {
         "entidades_catalogo": len(entidades),
+        "entidades_procesadas": processed,
         "entidades_con_datos": sum(1 for c in cat if c["funcionarios"]),
         "funcionarios_descargados": len(funcionarios),
-        "cobertura_pct": round(100 * sum(1 for c in cat if c["funcionarios"]) / max(len(entidades), 1), 2),
+        "cobertura_pct": round(100 * processed / max(len(entidades), 1), 2),
         "actualizado": datetime.now(timezone.utc).isoformat(),
     })
 

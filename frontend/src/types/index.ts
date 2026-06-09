@@ -1,5 +1,6 @@
 export interface NationalKpis {
   total_entities: number;
+  entities_processed?: number;
   entities_with_data: number;
   total_funcionarios: number;
   total_cargos_clave: number;

@@ -49,9 +49,9 @@ export function Home() {
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="catálogo PTE completo" />
-              <Stat value={fmt.format(k.total_funcionarios)} label="Funcionarios" hint={`${k.entities_with_data} entidades con datos`} accent="text-accent-cyan" />
+              <Stat value={fmt.format(k.total_funcionarios)} label="Servidores públicos" hint={`${fmt.format(k.entities_with_data)} entidades con datos`} accent="text-accent-cyan" />
               <Stat value={fmt.format(k.total_cargos_clave)} label="Cargos clave" hint="dirección + jefaturas" accent="text-peru-redsoft" />
-              <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura" hint="entidades barridas" accent="text-accent-blue" />
+              <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura del barrido" hint={`${fmt.format(k.entities_processed ?? 0)} de ${fmt.format(k.total_entities)} entidades`} accent="text-accent-blue" />
             </div>
 
             <div className="mt-8 grid gap-5 lg:grid-cols-2">
