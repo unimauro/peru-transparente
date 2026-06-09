@@ -47,7 +47,7 @@ html.light {
     min-height: 100vh;
     transition: background-color .25s, color .25s;
   }
-  ::selection { background: rgba(225, 29, 42, 0.30); }
+  ::selection { background: rgba(225, 29, 42, 0.16); color: inherit; }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-thumb { background: rgb(var(--surface) / 0.18); border-radius: 8px; }
 }
