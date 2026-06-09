@@ -5,7 +5,13 @@ import { fmt, money, LevelBadge, Empty } from "@/components/ui";
 
 interface Persona { nombre: string; cargo: string; nivel: string; regimen: string; total: string; url: string }
 interface Dep { dependencia: string; n: number; clave: number; personas: Persona[] }
-interface Detalle { id: string; nombre: string; tipo: string; periodo: string; total: number; clave: number; dependencias: Dep[] }
+interface Aut { nombre: string; cargo: string; email: string; telefono: string; url: string }
+interface Detalle {
+  id: string; nombre: string; tipo: string; periodo: string; total: number; clave: number;
+  regimenes?: [string, number][]; cobertura_parcial?: boolean; nota_cobertura?: string;
+  autoridades?: Aut[];
+  dependencias: Dep[];
+}
 
 export function EntidadDetalle() {
   const { id } = useParams();
@@ -30,10 +36,40 @@ export function EntidadDetalle() {
         <span className="chip">👥 {fmt.format(d.total)} servidores públicos</span>
         <span className="chip">⭐ {fmt.format(d.clave)} funcionarios/directivos (jefe ↑)</span>
         <span className="chip">🏛️ {d.dependencias.length} dependencias</span>
-        <span className="chip">📅 período {d.periodo}</span>
+        {d.periodo && <span className="chip">📅 período {d.periodo}</span>}
+        {d.regimenes?.map(([r, n]) => <span key={r} className="chip">{r} {fmt.format(n)}</span>)}
       </div>
 
-      <h2 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-peru-redsoft/80">Organigrama por dependencias</h2>
+      {d.cobertura_parcial && d.nota_cobertura && (
+        <div className="mt-4 rounded-xl border border-accent-amber/30 bg-accent-amber/10 p-3 text-sm text-ink-soft">
+          ⚠️ <b>Cobertura parcial:</b> {d.nota_cobertura}
+        </div>
+      )}
+
+      {d.autoridades && d.autoridades.length > 0 && (
+        <section className="mt-8">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent-cyan/80">
+            Autoridades · directorio gob.pe
+          </h2>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {d.autoridades.map((a, i) => (
+              <div key={i} className="glass flex items-center justify-between gap-3 p-3">
+                <div className="min-w-0">
+                  <div className="truncate font-medium text-ink">{a.nombre}</div>
+                  <div className="truncate text-xs text-accent-cyan">{a.cargo}</div>
+                  {a.email && <div className="truncate text-[11px] text-ink-mute">{a.email}{a.telefono ? ` · ${a.telefono}` : ""}</div>}
+                </div>
+                <a href={a.url} target="_blank" rel="noreferrer" className="shrink-0 text-accent-blue">↗</a>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 text-[11px] text-ink-faint">Fuente: gob.pe (directorio oficial). Complementa la planilla del PTE con las autoridades.</p>
+        </section>
+      )}
+
+      {d.dependencias.length > 0 && (
+        <h2 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-peru-redsoft/80">Organigrama por dependencias (PTE)</h2>
+      )}
       <div className="space-y-2">
         {d.dependencias.map((dep) => {
           const isOpen = open === dep.dependencia;

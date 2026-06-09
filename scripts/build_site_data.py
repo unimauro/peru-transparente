@@ -104,18 +104,29 @@ def main() -> None:
         "_generated_at": datetime.now(timezone.utc).isoformat(),
     })
 
-    # muestra para tabla (priorizar cargos clave)
-    funcionarios.sort(key=lambda f: 0 if nivel(f.get("cargo", "")) in CLAVE else 1)
-    sample = [
-        {"entidad": f["entidad"], "nombre": f["apellidos_nombres"], "cargo": f["cargo"],
-         "dependencia": f["dependencia"], "regimen": f["regimen"],
-         "anio": f["anio"], "mes": f["mes"], "total": f["total_ingreso_mensual"],
-         "url": f["fuente_url"], "nivel": nivel(f.get("cargo", ""))}
-        for f in funcionarios[:2000]
-    ]
+    # muestra para tabla: TODOS los cargos clave (para que los botones de nivel cuadren)
+    # + una muestra de Profesional/Apoyo para el navegado general.
+    def to_item(f: dict) -> dict:
+        return {"entidad": f["entidad"], "nombre": f["apellidos_nombres"], "cargo": f["cargo"],
+                "dependencia": f["dependencia"], "regimen": f["regimen"],
+                "anio": f["anio"], "mes": f["mes"], "total": f["total_ingreso_mensual"],
+                "url": f["fuente_url"], "nivel": nivel(f.get("cargo", ""))}
+
+    clave_rows = [to_item(f) for f in funcionarios if nivel(f.get("cargo", "")) in CLAVE]
+    otros = [to_item(f) for f in funcionarios if nivel(f.get("cargo", "")) not in CLAVE][:4000]
+    sample = clave_rows + otros  # clave completos + muestra de apoyo
     write("funcionarios_sample.json", {"items": sample})
-    write("funcionarios_clave.json",
-          {"items": [s for s in sample if s["nivel"] in CLAVE][:1000]})
+    write("funcionarios_clave.json", {"items": clave_rows})
+
+    # Autoridades de gob.pe (directorio: rector/ministro/jefes con contacto) por entidad
+    autoridades_por_ent: dict[str, list] = defaultdict(list)
+    aut_path = Path("data/autoridades.csv")
+    if aut_path.exists():
+        for a in csv.DictReader(aut_path.open(encoding="utf-8")):
+            autoridades_por_ent[a["id_entidad"]].append({
+                "nombre": a["nombre"], "cargo": a["cargo"],
+                "email": a["email"], "telefono": a["telefono"], "url": a["detalle_url"],
+            })
 
     # Per-entidad: dependencias agrupadas (organigrama-lite) para entidades con datos.
     by_ent = defaultdict(list)
@@ -124,7 +135,9 @@ def main() -> None:
     ent_name = {e["id_entidad"]: e["nombre"] for e in entidades}
     ent_tipo = ent_cat
     (OUT / "entidad").mkdir(parents=True, exist_ok=True)
-    for eid, fs in by_ent.items():
+    # entidades con PTE o con autoridades de gob.pe
+    for eid in set(by_ent) | set(autoridades_por_ent):
+        fs = by_ent.get(eid, [])
         deps = defaultdict(list)
         for f in fs:
             deps[f["dependencia"] or "(Sin dependencia)"].append({
@@ -140,10 +153,24 @@ def main() -> None:
             key=lambda x: (-x["clave"], -x["n"]),
         )
         period = f"{fs[0]['mes']}/{fs[0]['anio']}" if fs else ""
+        regimenes = Counter(f["regimen"] for f in fs)
+        # Cobertura parcial: si publica SOLO CAS (sin nombrados/docentes/altos funcionarios)
+        es_uni_o_edu = ent_tipo.get(eid, "") in ("Universidad", "Educación")
+        solo_cas = bool(fs) and set(regimenes) <= {"CAS"}
+        nombre_ent = ent_name.get(eid) or (fs[0]["entidad"] if fs else "")
         (OUT / "entidad" / f"{eid}.json").write_text(json.dumps({
-            "id": eid, "nombre": ent_name.get(eid, fs[0]["entidad"]),
+            "id": eid, "nombre": nombre_ent,
             "tipo": ent_tipo.get(eid, ""), "periodo": period,
             "total": len(fs), "clave": sum(1 for f in fs if nivel(f.get("cargo", "")) in CLAVE),
+            "regimenes": regimenes.most_common(),
+            "autoridades": autoridades_por_ent.get(eid, []),
+            "cobertura_parcial": bool(solo_cas),
+            "nota_cobertura": (
+                "Esta entidad publica en el PTE solo su planilla CAS (administrativa). "
+                "No figuran docentes nombrados ni autoridades (rector/vicerrectores), que van por el régimen universitario."
+                if (solo_cas and es_uni_o_edu) else
+                ("Esta entidad publica solo su planilla CAS; pueden faltar nombrados (276/728) y otros regímenes." if solo_cas else "")
+            ),
             "dependencias": dep_list,
         }, ensure_ascii=False), encoding="utf-8")
 
