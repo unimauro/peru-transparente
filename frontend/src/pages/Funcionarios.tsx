@@ -1,12 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { staticData } from "@/lib/api";
-import type { FuncionarioItem } from "@/types";
+import type { FuncionarioItem, NationalKpis } from "@/types";
 import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/components/ui";
 
 const MESES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
 
+const ICON: Record<string, string> = {
+  "Ministro/Titular": "👑", "Viceministro": "🎖️", "Secretario General": "📋",
+  "Gerente General": "🏢", "Director/a": "🧭", "Gerente": "📊", "Jefe/a": "🗂️",
+};
+
 export function Funcionarios() {
   const [items, setItems] = useState<FuncionarioItem[]>([]);
+  const [kpis, setKpis] = useState<NationalKpis | null>(null);
   const [q, setQ] = useState("");
   const [soloClave, setSoloClave] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,6 +22,7 @@ export function Funcionarios() {
       .then((d) => setItems((d as { items: FuncionarioItem[] }).items))
       .catch(() => {})
       .finally(() => setLoading(false));
+    staticData.nationalKpis().then((d) => setKpis(d as NationalKpis)).catch(() => {});
   }, []);
 
   const filtered = useMemo(() => {
@@ -34,6 +41,34 @@ export function Funcionarios() {
       <p className="mt-2 max-w-2xl text-ink-soft">
         Cada persona mapeada a su período, cargo, dependencia, remuneración y URL fuente.
       </p>
+
+      {/* Resumen del dataset completo (antes del buscador) */}
+      {kpis && (
+        <div className="mt-6 glass p-5">
+          <div className="flex flex-wrap items-end gap-x-8 gap-y-3">
+            <div>
+              <div className="tabular text-3xl font-bold text-ink">{fmt.format(kpis.total_funcionarios)}</div>
+              <div className="text-[11px] uppercase tracking-wider text-ink-mute">funcionarios indexados</div>
+            </div>
+            <div>
+              <div className="tabular text-3xl font-bold text-peru-redsoft">{fmt.format(kpis.total_cargos_clave)}</div>
+              <div className="text-[11px] uppercase tracking-wider text-ink-mute">cargos clave (dirección + jefaturas)</div>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {kpis.por_nivel.map(([nivel, n]) => (
+              <span key={nivel} className="inline-flex items-center gap-1.5 rounded-lg border border-surface/10 bg-surface/[0.04] px-3 py-1.5 text-sm">
+                <span>{ICON[nivel] ?? "•"}</span>
+                <span className="text-ink-soft">{nivel}</span>
+                <span className="tabular font-semibold text-ink">{fmt.format(n)}</span>
+              </span>
+            ))}
+          </div>
+          <p className="mt-3 text-[11px] text-ink-faint">
+            Cifras del dataset completo ({kpis.entities_with_data} entidades con datos). La tabla de abajo es una muestra buscable.
+          </p>
+        </div>
+      )}
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar nombre, cargo, entidad o dependencia…" className="input flex-1" />
