@@ -35,7 +35,7 @@ export function Home() {
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/entidades" className="btn-primary">Explorar entidades →</Link>
             <Link to="/funcionarios" className="btn-ghost">Funcionarios y cargos</Link>
-            <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente/blob/main/data/funcionarios.csv" target="_blank" rel="noreferrer">Descargar CSV</a>
+            <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente/raw/main/data/funcionarios.csv.gz" target="_blank" rel="noreferrer">Descargar CSV (.gz)</a>
           </div>
         </div>
       </section>

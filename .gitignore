@@ -30,3 +30,6 @@ data/raw/
 
 # shards temporales de workers paralelos
 data/shards/
+
+# CSV monolítico (se versiona comprimido .gz)
+data/funcionarios.csv
