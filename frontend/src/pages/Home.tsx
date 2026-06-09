@@ -1,93 +1,108 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
-import type { NationalKpis, Meta } from "@/types";
-
-const fmt = new Intl.NumberFormat("es-PE");
-
-function Kpi({ label, value, hint }: { label: string; value: string; hint?: string }) {
-  return (
-    <div className="rounded-lg border border-gray-800 bg-peru-panel p-4">
-      <div className="tabular text-3xl font-semibold text-white">{value}</div>
-      <div className="text-xs uppercase tracking-wide text-gray-400">{label}</div>
-      {hint && <div className="mt-1 text-[11px] text-gray-500">{hint}</div>}
-    </div>
-  );
-}
+import type { NationalKpis, Meta, EntidadCat } from "@/types";
+import { Stat, Bar, SectionTitle, fmt } from "@/components/ui";
+import { NetworkHero } from "@/components/NetworkHero";
 
 export function Home() {
   const [k, setK] = useState<NationalKpis | null>(null);
   const [m, setM] = useState<Meta | null>(null);
+  const [top, setTop] = useState<EntidadCat[]>([]);
   useEffect(() => {
     staticData.nationalKpis().then((d) => setK(d as NationalKpis)).catch(() => {});
     staticData.meta().then((d) => setM(d as Meta)).catch(() => {});
+    staticData.entidades()
+      .then((d) => setTop((d as { items: EntidadCat[] }).items.filter((e) => e.funcionarios > 0).slice(0, 12)))
+      .catch(() => {});
   }, []);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-3xl font-bold text-white">
-        Perú Transparente <span className="text-peru-red">·</span>
-      </h1>
-      <p className="mt-2 max-w-2xl text-gray-300">
-        Mapa nacional de funcionarios, entidades públicas, empresas estatales y redes de poder.
-        Datos públicos del Estado peruano, trazables a su fuente.
-      </p>
-
-      {k && (
-        <>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Kpi label="Entidades del Estado" value={fmt.format(k.total_entities)} hint="catálogo PTE completo" />
-            <Kpi label="Funcionarios descargados" value={fmt.format(k.total_funcionarios)} hint={`${k.entities_with_data} entidades con datos`} />
-            <Kpi label="Cargos clave" value={fmt.format(k.total_cargos_clave)} hint="dirección + jefaturas" />
-            <Kpi label="Cobertura" value={`${m ? m.cobertura_pct : 0}%`} hint="entidades con personal" />
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/[0.06]">
+        <NetworkHero />
+        <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-16">
+          <div className="chip mb-4 animate-fade-up">🇵🇪 Plataforma open source de transparencia</div>
+          <h1 className="max-w-3xl animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+            <span className="gradient-text">Mapa nacional</span> de funcionarios,
+            entidades y <span className="text-peru-redsoft">redes de poder</span>.
+          </h1>
+          <p className="mt-5 max-w-2xl animate-fade-up text-lg text-ink-soft">
+            Todo el Estado peruano —ministerios, organismos reguladores, gobiernos regionales y
+            locales, fuerzas armadas y empresas públicas— en datos públicos, trazables a su fuente.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link to="/entidades" className="btn-primary">Explorar entidades →</Link>
+            <Link to="/funcionarios" className="btn-ghost">Funcionarios y cargos</Link>
+            <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente/blob/main/data/funcionarios.csv" target="_blank" rel="noreferrer">Descargar CSV</a>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg border border-gray-800 bg-peru-panel p-4">
-              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-300">Entidades por tipo</h2>
-              {k.por_tipo.map(([t, n]) => (
-                <Bar key={t} label={t} value={n} max={k.por_tipo[0][1]} />
-              ))}
-            </div>
-            <div className="rounded-lg border border-gray-800 bg-peru-panel p-4">
-              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-300">Cargos clave hallados</h2>
-              {k.por_nivel.length ? (
-                k.por_nivel.map(([t, n]) => (
-                  <Bar key={t} label={t} value={n} max={Math.max(...k.por_nivel.map((x) => x[1]))} color="bg-peru-red" />
-                ))
-              ) : (
-                <p className="text-sm text-gray-500">Descargando…</p>
-              )}
-            </div>
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        {!k ? (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-24" />)}
           </div>
-        </>
-      )}
+        ) : (
+          <>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="catálogo PTE completo" />
+              <Stat value={fmt.format(k.total_funcionarios)} label="Funcionarios" hint={`${k.entities_with_data} entidades con datos`} accent="text-accent-cyan" />
+              <Stat value={fmt.format(k.total_cargos_clave)} label="Cargos clave" hint="dirección + jefaturas" accent="text-peru-redsoft" />
+              <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura" hint="entidades barridas" accent="text-accent-blue" />
+            </div>
 
-      <nav className="mt-10 flex flex-wrap gap-3 text-sm">
-        <Link to="/entidades" className="rounded bg-peru-red px-4 py-2 font-medium text-white">Ver entidades →</Link>
-        <Link to="/funcionarios" className="rounded border border-gray-700 px-4 py-2 hover:bg-peru-panel">Funcionarios y cargos</Link>
-        <a href="https://github.com/unimauro/peru-transparente/blob/main/data/funcionarios.csv" className="rounded border border-gray-700 px-4 py-2 hover:bg-peru-panel" target="_blank" rel="noreferrer">Descargar CSV</a>
-      </nav>
+            <div className="mt-8 grid gap-5 lg:grid-cols-2">
+              <div className="glass p-6">
+                <SectionTitle kicker="Universo">Entidades por tipo</SectionTitle>
+                {k.por_tipo.map(([t, n]) => (
+                  <Bar key={t} label={t} value={n} max={k.por_tipo[0][1]} />
+                ))}
+              </div>
+              <div className="glass p-6">
+                <SectionTitle kicker="Personas clave">Cargos hallados por nivel</SectionTitle>
+                {k.por_nivel.length ? (
+                  k.por_nivel.map(([t, n]) => (
+                    <Bar key={t} label={t} value={n} max={Math.max(...k.por_nivel.map((x) => x[1]))} color="from-peru-red to-accent-amber" />
+                  ))
+                ) : (
+                  <p className="text-sm text-ink-mute">Descargando…</p>
+                )}
+              </div>
+            </div>
 
-      {m && (
-        <p className="mt-6 text-xs text-gray-500">
-          Última actualización: {new Date(m.actualizado).toLocaleString("es-PE")} ·
-          Fuente: Portal de Transparencia Estándar · El barrido continúa: las cifras crecen en cada corrida.
-        </p>
-      )}
-    </div>
-  );
-}
+            {top.length > 0 && (
+              <div className="glass mt-5 p-6">
+                <SectionTitle kicker="Ranking">Entidades con más funcionarios</SectionTitle>
+                <div className="space-y-3">
+                  {top.map((e, i) => (
+                    <Link key={e.id} to={`/entidad/${e.id}`} className="block rounded-lg px-2 py-1 transition-colors hover:bg-white/[0.04]">
+                      <div className="flex items-baseline justify-between text-sm">
+                        <span className="truncate pr-2 text-ink-soft">
+                          <span className="mr-2 text-ink-faint">{i + 1}.</span>{e.nombre}
+                        </span>
+                        <span className="tabular shrink-0 font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</span>
+                      </div>
+                      <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                        <div className="h-full rounded-full bg-gradient-to-r from-accent-blue to-accent-cyan" style={{ width: `${Math.max(4, (e.funcionarios / top[0].funcionarios) * 100)}%` }} />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                <Link to="/entidades" className="mt-4 inline-block text-sm text-accent-blue hover:underline">Ver todas las entidades →</Link>
+              </div>
+            )}
 
-function Bar({ label, value, max, color = "bg-blue-600" }: { label: string; value: number; max: number; color?: string }) {
-  return (
-    <div className="mb-2">
-      <div className="flex justify-between text-xs text-gray-300">
-        <span className="truncate pr-2">{label}</span>
-        <span className="tabular text-gray-400">{new Intl.NumberFormat("es-PE").format(value)}</span>
-      </div>
-      <div className="mt-1 h-2 rounded bg-gray-800">
-        <div className={`h-2 rounded ${color}`} style={{ width: `${Math.max(3, (value / max) * 100)}%` }} />
+            {m && (
+              <p className="mt-6 text-xs text-ink-faint">
+                Actualizado {new Date(m.actualizado).toLocaleString("es-PE")} · el barrido avanza por
+                corridas: las cifras crecen automáticamente.
+              </p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

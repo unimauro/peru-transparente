@@ -13,10 +13,15 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import re
+import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
+from clasificacion import categoria  # noqa: E402
 
 OUT = Path("frontend/public/data")
 ENT = Path("data/entidades.csv")
@@ -57,14 +62,15 @@ def main() -> None:
     fun_por_entidad = Counter(f["id_entidad"] for f in funcionarios)
     niv_count = Counter(nivel(f.get("cargo", "")) for f in funcionarios)
     clave_total = sum(niv_count[k] for k in CLAVE)
-    tipo_count = Counter(e["tipo_label"] for e in entidades)
+    ent_cat = {e["id_entidad"]: e.get("categoria") or categoria(e["nombre"]) for e in entidades}
+    tipo_count = Counter(ent_cat[e["id_entidad"]] for e in entidades)
 
     # catálogo enriquecido con nº de funcionarios scrapeados
     cat = [
         {
             "id": e["id_entidad"],
             "nombre": e["nombre"],
-            "tipo": e["tipo_label"],
+            "tipo": ent_cat[e["id_entidad"]],
             "funcionarios": fun_por_entidad.get(e["id_entidad"], 0),
         }
         for e in entidades
@@ -94,6 +100,36 @@ def main() -> None:
     write("funcionarios_sample.json", {"items": sample})
     write("funcionarios_clave.json",
           {"items": [s for s in sample if s["nivel"] in CLAVE][:1000]})
+
+    # Per-entidad: dependencias agrupadas (organigrama-lite) para entidades con datos.
+    by_ent = defaultdict(list)
+    for f in funcionarios:
+        by_ent[f["id_entidad"]].append(f)
+    ent_name = {e["id_entidad"]: e["nombre"] for e in entidades}
+    ent_tipo = ent_cat
+    (OUT / "entidad").mkdir(parents=True, exist_ok=True)
+    for eid, fs in by_ent.items():
+        deps = defaultdict(list)
+        for f in fs:
+            deps[f["dependencia"] or "(Sin dependencia)"].append({
+                "nombre": f["apellidos_nombres"], "cargo": f["cargo"],
+                "nivel": nivel(f.get("cargo", "")), "regimen": f["regimen"],
+                "total": f["total_ingreso_mensual"], "url": f["fuente_url"],
+            })
+        dep_list = sorted(
+            ({"dependencia": d, "n": len(p),
+              "clave": sum(1 for x in p if x["nivel"] in CLAVE),
+              "personas": sorted(p, key=lambda x: 0 if x["nivel"] in CLAVE else 1)}
+             for d, p in deps.items()),
+            key=lambda x: (-x["clave"], -x["n"]),
+        )
+        period = f"{fs[0]['mes']}/{fs[0]['anio']}" if fs else ""
+        (OUT / "entidad" / f"{eid}.json").write_text(json.dumps({
+            "id": eid, "nombre": ent_name.get(eid, fs[0]["entidad"]),
+            "tipo": ent_tipo.get(eid, ""), "periodo": period,
+            "total": len(fs), "clave": sum(1 for f in fs if nivel(f.get("cargo", "")) in CLAVE),
+            "dependencias": dep_list,
+        }, ensure_ascii=False), encoding="utf-8")
 
     write("meta.json", {
         "entidades_catalogo": len(entidades),

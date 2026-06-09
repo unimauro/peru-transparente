@@ -1,76 +1,113 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import type { EntidadCat } from "@/types";
+import { fmt, Empty } from "@/components/ui";
 
-const fmt = new Intl.NumberFormat("es-PE");
+// Filtros rápidos por palabra clave (categorías que el usuario suele buscar).
+const QUICK: { label: string; rx: RegExp | null }[] = [
+  { label: "Todos", rx: null },
+  { label: "UNI", rx: /universidad nacional de ingenier|\(uni\)/i },
+  { label: "Universidades", rx: /universidad/i },
+  { label: "Educación", rx: /colegio|instituto|escuela|educativ|pedag|ugel|magisterio|eespp|cetpro|educaci/i },
+  { label: "Salud", rx: /hospital|salud|essalud|diresa|geresa|minsa|sanidad|materno|seguro social/i },
+  { label: "Fiscalías/Justicia", rx: /fiscal|ministerio p[uú]blico|corte|judicial|magistratura|justicia|inpe|tribunal/i },
+  { label: "Ministerios", rx: /ministerio|presidencia del consejo/i },
+  { label: "Reguladores", rx: /osinergmin|osiptel|ositran|sunass|sutran|sunedu|superintendencia|indecopi|regulador/i },
+  { label: "Empresas públicas", rx: /S\.?A\.?|empresa|petro|electro|sedapal|essalud|banco|fonafe/i },
+  { label: "Fuerzas Armadas", rx: /ej[eé]rcito|marina|fuerza a[eé]rea|fap|defensa|comando conjunto|militar|polic/i },
+  { label: "Municipalidades", rx: /municipalidad|gobierno regional|regional/i },
+];
 
 export function Entidades() {
   const [items, setItems] = useState<EntidadCat[]>([]);
   const [q, setQ] = useState("");
-  const [tipo, setTipo] = useState("");
+  const [quick, setQuick] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    staticData.entidades().then((d) => setItems((d as { items: EntidadCat[] }).items)).catch(() => {});
+    staticData.entidades()
+      .then((d) => setItems((d as { items: EntidadCat[] }).items))
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
-  const tipos = useMemo(() => [...new Set(items.map((e) => e.tipo))].sort(), [items]);
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
+    const rx = QUICK[quick].rx;
     return items
-      .filter((e) => (!tipo || e.tipo === tipo) && (!nq || e.nombre.toLowerCase().includes(nq)))
-      .slice(0, 500);
-  }, [items, q, tipo]);
+      .filter((e) => (!rx || rx.test(e.nombre)) && (!nq || e.nombre.toLowerCase().includes(nq)))
+      .slice(0, 600);
+  }, [items, q, quick]);
+
+  const conDatos = items.filter((e) => e.funcionarios).length;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <h1 className="text-2xl font-semibold text-white">Entidades del Estado</h1>
-      <p className="mt-1 text-sm text-gray-400">
-        Catálogo completo del Portal de Transparencia ({fmt.format(items.length)} entidades, incluye militares y empresas públicas).
+    <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="chip mb-3">Catálogo · {fmt.format(items.length)} entidades</div>
+      <h1 className="text-3xl font-bold tracking-tight text-white">Entidades del Estado</h1>
+      <p className="mt-2 max-w-2xl text-ink-soft">
+        Todo el universo del Portal de Transparencia: ministerios, organismos reguladores, fuerzas
+        armadas, empresas públicas y gobiernos regionales/locales. {fmt.format(conDatos)} ya con personal descargado.
       </p>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar entidad… (ej. Ejército, Petroperú, Municipalidad)"
-          className="flex-1 rounded-md border border-gray-700 bg-peru-panel px-3 py-2 text-gray-100 placeholder-gray-500"
-        />
-        <select value={tipo} onChange={(e) => setTipo(e.target.value)}
-          className="rounded-md border border-gray-700 bg-peru-panel px-3 py-2 text-gray-200">
-          <option value="">Todos los tipos</option>
-          {tipos.map((t) => <option key={t} value={t}>{t}</option>)}
-        </select>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {QUICK.map((qk, i) => (
+          <button
+            key={qk.label}
+            onClick={() => setQuick(i)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              quick === i ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-white/10 bg-white/[0.03] text-ink-soft hover:border-white/20 hover:text-white"
+            }`}
+          >
+            {qk.label}
+          </button>
+        ))}
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-lg border border-gray-800">
-        <table className="w-full text-sm">
-          <thead className="bg-peru-panel text-left text-gray-400">
-            <tr>
-              <th className="px-3 py-2">Entidad</th>
-              <th className="px-3 py-2">Tipo</th>
-              <th className="px-3 py-2 text-right">Funcionarios</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((e) => (
-              <tr key={e.id} className="border-t border-gray-800 hover:bg-peru-panel/50">
-                <td className="px-3 py-2 text-gray-100">{e.nombre}</td>
-                <td className="px-3 py-2 text-gray-400">{e.tipo}</td>
-                <td className="tabular px-3 py-2 text-right">
+      <input
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder="Buscar entidad… (ej. Ejército, Petroperú, OSIPTEL, Municipalidad de Lima)"
+        className="input mt-4"
+      />
+
+      {loading ? (
+        <div className="mt-5 space-y-2">{[...Array(8)].map((_, i) => <div key={i} className="skeleton h-12" />)}</div>
+      ) : filtered.length === 0 ? (
+        <Empty>Sin resultados para tu búsqueda.</Empty>
+      ) : (
+        <div className="glass mt-5 divide-y divide-white/[0.05] overflow-hidden">
+          {filtered.map((e) => {
+            const inner = (
+              <>
+                <div className="min-w-0">
+                  <div className="truncate font-medium text-ink">{e.nombre}</div>
+                  <div className="text-xs text-ink-mute">{e.tipo}</div>
+                </div>
+                <div className="shrink-0 text-right">
                   {e.funcionarios ? (
-                    <span className="text-conf-high">{fmt.format(e.funcionarios)}</span>
+                    <>
+                      <div className="tabular font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</div>
+                      <div className="text-[10px] uppercase tracking-wide text-ink-faint">funcionarios →</div>
+                    </>
                   ) : (
-                    <span className="text-gray-600">—</span>
+                    <span className="text-xs text-ink-faint">aún no barrida</span>
                   )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="mt-3 text-xs text-gray-500">
-        Mostrando {filtered.length} de {fmt.format(items.length)}. "—" = aún no barrida (el scraping avanza por corridas).
-      </p>
+                </div>
+              </>
+            );
+            return e.funcionarios ? (
+              <Link key={e.id} to={`/entidad/${e.id}`} className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-white/[0.04]">
+                {inner}
+              </Link>
+            ) : (
+              <div key={e.id} className="flex items-center justify-between gap-4 px-4 py-3 opacity-70">{inner}</div>
+            );
+          })}
+        </div>
+      )}
+      <p className="mt-3 text-xs text-ink-faint">Mostrando {filtered.length} de {fmt.format(items.length)}.</p>
     </div>
   );
 }

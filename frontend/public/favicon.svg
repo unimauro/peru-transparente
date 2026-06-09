@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1320"/>
+      <stop offset="1" stop-color="#1a0610"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <!-- red de poder -->
+  <g stroke="#39465c" stroke-width="2" opacity="0.9">
+    <line x1="32" y1="20" x2="20" y2="38"/>
+    <line x1="32" y1="20" x2="46" y2="34"/>
+    <line x1="20" y1="38" x2="34" y2="48"/>
+    <line x1="46" y1="34" x2="34" y2="48"/>
+  </g>
+  <g>
+    <circle cx="32" cy="20" r="7" fill="#e11d2a"/>
+    <circle cx="20" cy="38" r="4.5" fill="#4f8cff"/>
+    <circle cx="46" cy="34" r="4.5" fill="#a78bfa"/>
+    <circle cx="34" cy="48" r="4" fill="#22d3ee"/>
+  </g>
+</svg>

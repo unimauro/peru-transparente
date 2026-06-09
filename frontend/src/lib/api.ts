@@ -19,6 +19,7 @@ export const staticData = {
   entidades: () => getJSON(`${STATIC_BASE}/entidades.json`),
   funcionariosSample: () => getJSON(`${STATIC_BASE}/funcionarios_sample.json`),
   funcionariosClave: () => getJSON(`${STATIC_BASE}/funcionarios_clave.json`),
+  entidad: (id: string) => getJSON(`${STATIC_BASE}/entidad/${id}.json`),
 };
 
 /** Vistas dinámicas que requieren backend. */

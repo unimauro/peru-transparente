@@ -3,5 +3,58 @@
 @tailwind utilities;
 
 :root { color-scheme: dark; }
-body { @apply bg-peru-dark text-gray-100 font-sans antialiased; }
-.tabular { font-variant-numeric: tabular-nums; }
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-bg-base text-ink font-sans antialiased;
+    background-image: theme("backgroundImage.mesh"), theme("backgroundImage.grid");
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  ::selection { background: rgba(225, 29, 42, 0.35); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #1b2430; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #283446; }
+}
+
+@layer components {
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  .glass {
+    @apply rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-md;
+    box-shadow: theme("boxShadow.card");
+  }
+  .glass-hover { @apply transition-colors hover:border-white/15 hover:bg-white/[0.05]; }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-ink-soft;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-xl bg-peru-red px-4 py-2.5 text-sm font-semibold text-white
+           shadow-glow transition-transform hover:-translate-y-0.5 active:translate-y-0;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm
+           font-medium text-ink-soft transition-colors hover:border-white/20 hover:text-ink;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-ink
+           placeholder-ink-mute outline-none transition focus:border-peru-red/60 focus:bg-white/[0.05];
+  }
+
+  .skeleton { @apply relative overflow-hidden rounded-lg bg-white/[0.05]; }
+  .skeleton::after {
+    content: ""; @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    transform: translateX(-100%); animation: shimmer 1.4s infinite;
+  }
+
+  .gradient-text {
+    background: linear-gradient(100deg, #ffffff 0%, #ffd9dd 55%, #ff8a93 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+}
