@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { staticData } from "@/lib/api";
 import type { FuncionarioItem } from "@/types";
-import { fmt, money, LevelBadge, Empty } from "@/components/ui";
+import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/components/ui";
 
 const MESES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
 
@@ -22,9 +22,10 @@ export function Funcionarios() {
     const nq = q.trim().toLowerCase();
     return items
       .filter((f) => (!soloClave || f.nivel !== "Profesional/Apoyo"))
-      .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}`.toLowerCase().includes(nq))
-      .slice(0, 400);
+      .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}`.toLowerCase().includes(nq));
   }, [items, q, soloClave]);
+
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}`);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -64,7 +65,7 @@ export function Funcionarios() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((f, i) => (
+              {slice.map((f, i) => (
                 <tr key={i} className="border-b border-surface/[0.04] last:border-0 transition-colors hover:bg-surface/[0.03]">
                   <td className="px-4 py-3 font-medium text-ink">{f.nombre}</td>
                   <td className="px-4 py-3">
@@ -84,7 +85,8 @@ export function Funcionarios() {
           </table>
         </div>
       )}
-      <p className="mt-3 text-xs text-ink-faint">Mostrando {filtered.length} filas · datos públicos del PTE, trazables a la fuente.</p>
+      {!loading && filtered.length > 0 && <Pagination page={page} pages={pages} setPage={setPage} total={total} />}
+      <p className="mt-3 text-xs text-ink-faint">Datos públicos del PTE, trazables a la fuente. Para ver todo el personal de una entidad, ábrela en Entidades.</p>
     </div>
   );
 }

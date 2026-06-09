@@ -1,6 +1,31 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 export const fmt = new Intl.NumberFormat("es-PE");
+
+/** Paginación client-side para listas grandes (renderiza solo la página actual). */
+export function usePaged<T>(items: T[], pageSize: number, resetKey: unknown) {
+  const [page, setPage] = useState(0);
+  useEffect(() => setPage(0), [resetKey]);
+  const pages = Math.max(1, Math.ceil(items.length / pageSize));
+  const p = Math.min(page, pages - 1);
+  return {
+    slice: items.slice(p * pageSize, p * pageSize + pageSize),
+    page: p, pages, setPage, total: items.length,
+  };
+}
+
+export function Pagination({ page, pages, setPage, total }: { page: number; pages: number; setPage: (n: number) => void; total: number }) {
+  if (pages <= 1) return <p className="mt-3 text-xs text-ink-faint">{fmt.format(total)} resultados</p>;
+  return (
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+      <span className="text-ink-mute">Página <b className="text-ink">{page + 1}</b> de {pages} · {fmt.format(total)} resultados</span>
+      <div className="flex items-center gap-2">
+        <button disabled={page === 0} onClick={() => setPage(page - 1)} className="btn-ghost disabled:cursor-not-allowed disabled:opacity-40">← Anterior</button>
+        <button disabled={page >= pages - 1} onClick={() => setPage(page + 1)} className="btn-ghost disabled:cursor-not-allowed disabled:opacity-40">Siguiente →</button>
+      </div>
+    </div>
+  );
+}
 export const money = (n: number | string) => {
   const v = typeof n === "string" ? parseFloat(n) : n;
   return isNaN(v) ? "—" : new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN", maximumFractionDigits: 0 }).format(v);

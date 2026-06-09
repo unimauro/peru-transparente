@@ -27,3 +27,6 @@ data/raw/
 .DS_Store
 .idea/
 .vscode/
+
+# shards temporales de workers paralelos
+data/shards/

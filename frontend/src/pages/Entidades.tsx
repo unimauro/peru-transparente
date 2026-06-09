@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import type { EntidadCat } from "@/types";
-import { fmt, Empty } from "@/components/ui";
+import { fmt, Empty, usePaged, Pagination } from "@/components/ui";
 
 // Filtros rápidos por palabra clave (categorías que el usuario suele buscar).
 const QUICK: { label: string; rx: RegExp | null }[] = [
@@ -35,11 +35,10 @@ export function Entidades() {
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
     const rx = QUICK[quick].rx;
-    return items
-      .filter((e) => (!rx || rx.test(e.nombre)) && (!nq || e.nombre.toLowerCase().includes(nq)))
-      .slice(0, 600);
+    return items.filter((e) => (!rx || rx.test(e.nombre)) && (!nq || e.nombre.toLowerCase().includes(nq)));
   }, [items, q, quick]);
 
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${quick}`);
   const conDatos = items.filter((e) => e.funcionarios).length;
 
   return (
@@ -78,7 +77,7 @@ export function Entidades() {
         <Empty>Sin resultados para tu búsqueda.</Empty>
       ) : (
         <div className="glass mt-5 divide-y divide-surface/[0.05] overflow-hidden">
-          {filtered.map((e) => {
+          {slice.map((e) => {
             const inner = (
               <>
                 <div className="min-w-0">
@@ -107,7 +106,7 @@ export function Entidades() {
           })}
         </div>
       )}
-      <p className="mt-3 text-xs text-ink-faint">Mostrando {filtered.length} de {fmt.format(items.length)}.</p>
+      {!loading && filtered.length > 0 && <Pagination page={page} pages={pages} setPage={setPage} total={total} />}
     </div>
   );
 }
