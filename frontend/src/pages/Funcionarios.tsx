@@ -22,6 +22,7 @@ export function Funcionarios() {
   const [airhsp, setAirhsp] = useState<Airhsp | null>(null);
   const [q, setQ] = useState("");
   const [soloClave, setSoloClave] = useState(false);
+  const [soloLocadores, setSoloLocadores] = useState(false);
   const [nivel, setNivel] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
@@ -39,10 +40,11 @@ export function Funcionarios() {
     return items
       .filter((f) => (!nivel || f.nivel === nivel))
       .filter((f) => (!soloClave || f.nivel !== "Profesional/Apoyo"))
+      .filter((f) => (!soloLocadores || ["FAG", "PAC", "PNUD"].includes(f.regimen)))
       .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}`.toLowerCase().includes(nq));
-  }, [items, q, soloClave, nivel]);
+  }, [items, q, soloClave, soloLocadores, nivel]);
 
-  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}|${nivel}`);
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}|${soloLocadores}|${nivel}`);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -145,6 +147,15 @@ export function Funcionarios() {
           }`}
         >
           ⭐ Solo cargos clave
+        </button>
+        <button
+          onClick={() => setSoloLocadores((v) => !v)}
+          className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
+            soloLocadores ? "border-accent-amber/50 bg-accent-amber/15 text-accent-amber" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"
+          }`}
+          title="Locadores por servicio: FAG / PAC / PNUD (consultores)"
+        >
+          📄 Locadores (FAG/PAC)
         </button>
       </div>
 

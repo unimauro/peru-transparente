@@ -140,9 +140,13 @@ def main() -> None:
                 "anio": f["anio"], "mes": f["mes"], "total": f["total_ingreso_mensual"],
                 "url": f["fuente_url"], "nivel": nivel(f.get("cargo", ""))}
 
+    LOCADOR_REG = {"FAG", "PAC", "PNUD"}
     clave_rows = [to_item(f) for f in funcionarios if nivel(f.get("cargo", "")) in CLAVE]
-    otros = [to_item(f) for f in funcionarios if nivel(f.get("cargo", "")) not in CLAVE][:4000]
-    sample = clave_rows + otros  # clave completos + muestra de apoyo
+    locadores = [to_item(f) for f in funcionarios
+                 if f.get("regimen") in LOCADOR_REG and nivel(f.get("cargo", "")) not in CLAVE]
+    otros = [to_item(f) for f in funcionarios
+             if nivel(f.get("cargo", "")) not in CLAVE and f.get("regimen") not in LOCADOR_REG][:4000]
+    sample = clave_rows + locadores + otros  # clave + TODOS los locadores + muestra de apoyo
     write("funcionarios_sample.json", {"items": sample})
     write("funcionarios_clave.json", {"items": clave_rows})
 
