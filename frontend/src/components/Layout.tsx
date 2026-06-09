@@ -32,6 +32,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <NavItem to="/">Inicio</NavItem>
             <NavItem to="/entidades">Entidades</NavItem>
             <NavItem to="/funcionarios">Funcionarios</NavItem>
+            <NavItem to="/personas">Personas</NavItem>
             <NavItem to="/autoridades">Autoridades</NavItem>
             <NavItem to="/regiones">Regiones</NavItem>
             <NavItem to="/metodologia">FAQ</NavItem>

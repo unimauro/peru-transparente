@@ -54,7 +54,7 @@ def read_csv(p: Path) -> list[dict]:
 
 def write(name: str, data: object) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / name).write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    (OUT / name).write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
 def main() -> None:
@@ -194,7 +194,7 @@ def main() -> None:
                 ("Esta entidad publica solo su planilla CAS; pueden faltar nombrados (276/728) y otros regímenes." if solo_cas else "")
             ),
             "dependencias": dep_list,
-        }, ensure_ascii=False), encoding="utf-8")
+        }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     # ───── Distribución por región (mapa) ─────
     import unicodedata

@@ -7,6 +7,7 @@ import { Funcionarios } from "@/pages/Funcionarios";
 import { Metodologia } from "@/pages/Metodologia";
 import { Regiones } from "@/pages/Regiones";
 import { Autoridades } from "@/pages/Autoridades";
+import { Personas } from "@/pages/Personas";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/entidades" element={<Entidades />} />
         <Route path="/entidad/:id" element={<EntidadDetalle />} />
         <Route path="/funcionarios" element={<Funcionarios />} />
+        <Route path="/personas" element={<Personas />} />
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/regiones" element={<Regiones />} />
         <Route path="/metodologia" element={<Metodologia />} />
