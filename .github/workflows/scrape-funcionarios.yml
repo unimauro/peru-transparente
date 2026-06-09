@@ -38,26 +38,31 @@ jobs:
       - name: Actualizar catálogo de entidades
         run: python scripts/descargar_catalogo.py
 
-      - name: Barrer funcionarios (catálogo completo, resumable)
-        run: |
-          python scripts/scrape_funcionarios.py \
-            --ids-file data/entidades.csv \
-            --year "${{ github.event.inputs.year || '2026' }}" \
-            --delay 0.35 \
-            --max-minutes "${{ github.event.inputs.max_minutes || '300' }}" \
-            --resume \
-            --out data/funcionarios.csv
-
-      - name: Generar datos del sitio
-        run: |
-          python scripts/analizar_funcionarios.py --in data/funcionarios.csv || true
-          python scripts/build_site_data.py
-
-      - name: Commit avance
+      - name: Barrer y commitear por ciclos (se ve crecer)
+        env:
+          YEAR: ${{ github.event.inputs.year || '2026' }}
+          TOTAL_MIN: ${{ github.event.inputs.max_minutes || '300' }}
+          CYCLE_MIN: "15"
         run: |
           git config user.name "peru-transparente-bot"
           git config user.email "unimauro@users.noreply.github.com"
-          git add data/ frontend/public/data/
-          n=$(($(wc -l < data/funcionarios.csv) - 1))
-          git diff --staged --quiet || git commit -m "data: barrido progresivo — ${n} funcionarios $(date -u +%F)"
-          git push
+          cycles=$(( TOTAL_MIN / CYCLE_MIN )); [ "$cycles" -lt 1 ] && cycles=1
+          for c in $(seq 1 "$cycles"); do
+            echo "::group::Ciclo $c/$cycles"
+            python scripts/scrape_funcionarios.py \
+              --ids-file data/entidades.csv --year "$YEAR" --delay 0.35 \
+              --max-minutes "$CYCLE_MIN" --resume --out data/funcionarios.csv
+            python scripts/analizar_funcionarios.py --in data/funcionarios.csv || true
+            python scripts/build_site_data.py
+            git add data/ frontend/public/data/
+            n=$(($(wc -l < data/funcionarios.csv) - 1))
+            done_n=$(python3 -c "import json;print(len(json.load(open('data/funcionarios.checkpoint.json'))['done']))" 2>/dev/null || echo 0)
+            if git diff --staged --quiet; then
+              echo "Sin cambios nuevos; barrido completo. Fin."
+              echo "::endgroup::"; break
+            fi
+            git commit -m "data: barrido progresivo — ${n} funcionarios, ${done_n}/2308 entidades $(date -u +%F\ %H:%M)"
+            git pull --rebase --autostash -q origin main || true
+            git push
+            echo "::endgroup::"
+          done
