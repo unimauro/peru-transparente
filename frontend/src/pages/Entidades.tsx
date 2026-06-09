@@ -19,10 +19,19 @@ const QUICK: { label: string; rx: RegExp | null }[] = [
   { label: "Municipalidades", rx: /municipalidad|gobierno regional|regional/i },
 ];
 
+type Estado = "" | "con_datos" | "sin_datos" | "pendiente";
+const ESTADOS: { key: Estado; label: string }[] = [
+  { key: "", label: "Todas" },
+  { key: "con_datos", label: "Con datos" },
+  { key: "sin_datos", label: "Sin datos publicados" },
+  { key: "pendiente", label: "Pendientes de barrer" },
+];
+
 export function Entidades() {
   const [items, setItems] = useState<EntidadCat[]>([]);
   const [q, setQ] = useState("");
   const [quick, setQuick] = useState(0);
+  const [estado, setEstado] = useState<Estado>("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,11 +44,17 @@ export function Entidades() {
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
     const rx = QUICK[quick].rx;
-    return items.filter((e) => (!rx || rx.test(e.nombre)) && (!nq || e.nombre.toLowerCase().includes(nq)));
-  }, [items, q, quick]);
+    return items.filter((e) =>
+      (!rx || rx.test(e.nombre)) &&
+      (!nq || e.nombre.toLowerCase().includes(nq)) &&
+      (!estado || e.estado === estado)
+    );
+  }, [items, q, quick, estado]);
 
-  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${quick}`);
-  const conDatos = items.filter((e) => e.funcionarios).length;
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${quick}|${estado}`);
+  const conDatos = items.filter((e) => e.estado === "con_datos").length;
+  const sinDatos = items.filter((e) => e.estado === "sin_datos").length;
+  const pend = items.filter((e) => e.estado === "pendiente").length;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -47,10 +62,30 @@ export function Entidades() {
       <h1 className="text-3xl font-bold tracking-tight text-ink">Entidades del Estado</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
         Todo el universo del Portal de Transparencia: ministerios, organismos reguladores, fuerzas
-        armadas, empresas públicas y gobiernos regionales/locales. {fmt.format(conDatos)} ya con personal descargado.
+        armadas, empresas públicas y gobiernos regionales/locales.
       </p>
 
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-2 text-xs">
+        <span className="chip"><span className="text-accent-cyan">●</span> {fmt.format(conDatos)} con datos</span>
+        <span className="chip"><span className="text-ink-mute">●</span> {fmt.format(sinDatos)} sin datos publicados</span>
+        <span className="chip"><span className="text-ink-faint">○</span> {fmt.format(pend)} pendientes de barrer</span>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {ESTADOS.map((s) => (
+          <button
+            key={s.key}
+            onClick={() => setEstado(s.key)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+              estado === s.key ? "border-accent-blue/50 bg-accent-blue/15 text-accent-blue" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:border-surface/20 hover:text-ink"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
         {QUICK.map((qk, i) => (
           <button
             key={qk.label}
@@ -85,13 +120,15 @@ export function Entidades() {
                   <div className="text-xs text-ink-mute">{e.tipo}</div>
                 </div>
                 <div className="shrink-0 text-right">
-                  {e.funcionarios ? (
+                  {e.estado === "con_datos" ? (
                     <>
                       <div className="tabular font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</div>
                       <div className="text-[10px] uppercase tracking-wide text-ink-faint">funcionarios →</div>
                     </>
+                  ) : e.estado === "sin_datos" ? (
+                    <span className="text-xs text-ink-mute">sin datos publicados</span>
                   ) : (
-                    <span className="text-xs text-ink-faint">aún no barrida</span>
+                    <span className="text-xs text-ink-faint">pendiente de barrer</span>
                   )}
                 </div>
               </>

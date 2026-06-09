@@ -61,7 +61,8 @@ def main() -> None:
     entidades = read_csv(ENT)
     funcionarios = read_csv(FUN)
     ckpt = Path("data/funcionarios.checkpoint.json")
-    processed = len(json.loads(ckpt.read_text()).get("done", [])) if ckpt.exists() else 0
+    done = set(json.loads(ckpt.read_text()).get("done", [])) if ckpt.exists() else set()
+    processed = len(done)
 
     fun_por_entidad = Counter(f["id_entidad"] for f in funcionarios)
     niv_count = Counter(nivel(f.get("cargo", "")) for f in funcionarios)
@@ -70,21 +71,31 @@ def main() -> None:
     tipo_count = Counter(ent_cat[e["id_entidad"]] for e in entidades)
 
     # catálogo enriquecido con nº de funcionarios scrapeados
+    def estado(eid: str, n: int) -> str:
+        if n > 0:
+            return "con_datos"
+        return "sin_datos" if int(eid) in done else "pendiente"
+
     cat = [
         {
             "id": e["id_entidad"],
             "nombre": e["nombre"],
             "tipo": ent_cat[e["id_entidad"]],
             "funcionarios": fun_por_entidad.get(e["id_entidad"], 0),
+            "estado": estado(e["id_entidad"], fun_por_entidad.get(e["id_entidad"], 0)),
         }
         for e in entidades
     ]
     cat.sort(key=lambda x: (-x["funcionarios"], x["nombre"]))
+    sin_datos = sum(1 for c in cat if c["estado"] == "sin_datos")
+    pendientes = sum(1 for c in cat if c["estado"] == "pendiente")
     write("entidades.json", {"items": cat})
 
     write("national_kpis.json", {
         "total_entities": len(entidades),
         "entities_processed": processed,
+        "entities_no_data": sin_datos,
+        "entities_pending": pendientes,
         "entities_with_data": sum(1 for c in cat if c["funcionarios"]),
         "total_funcionarios": len(funcionarios),
         "total_cargos_clave": clave_total,
