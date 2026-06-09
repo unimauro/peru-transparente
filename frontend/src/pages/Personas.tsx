@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { staticData } from "@/lib/api";
 import { fmt, money, Empty } from "@/components/ui";
 import { PersonaGrafo } from "@/components/PersonaGrafo";
+import { RedInstitucional } from "@/components/RedInstitucional";
 
 type Ap = [string, string, string, string, number]; // id_entidad, abrev, cargo, regimen, sueldo
 type Persona = [string, number, Ap[]];               // nombre, n_entidades, apariciones
@@ -12,6 +13,7 @@ export function Personas() {
   const [results, setResults] = useState<Persona[] | null>(null);
   const [sel, setSel] = useState<Persona | null>(null);
   const [loadingShard, setLoadingShard] = useState(false);
+  const [vista, setVista] = useState<"buscar" | "red">("buscar");
   const cache = useRef<Record<string, Persona[]>>({});
 
   useEffect(() => {
@@ -43,6 +45,18 @@ export function Personas() {
         Por defecto se muestran quienes figuran en 2+ entidades.
       </p>
 
+      <div className="mt-4 flex gap-2">
+        <button onClick={() => setVista("buscar")} className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${vista === "buscar" ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:text-ink"}`}>🔍 Buscar persona</button>
+        <button onClick={() => setVista("red")} className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${vista === "red" ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:text-ink"}`}>🕸️ Red institucional</button>
+      </div>
+
+      {vista === "red" ? (
+        <div className="mt-5">
+          <div className="mb-2 text-xs uppercase tracking-wide text-ink-mute">Entidades conectadas por personal compartido (80 más conectadas)</div>
+          <RedInstitucional />
+        </div>
+      ) : (
+      <>
       <input
         value={q}
         onChange={(e) => setQ(e.target.value)}
@@ -93,6 +107,8 @@ export function Personas() {
           )}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 }
