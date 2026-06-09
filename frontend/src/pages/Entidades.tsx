@@ -125,6 +125,8 @@ export function Entidades() {
                       <div className="tabular font-semibold text-accent-cyan">{fmt.format(e.funcionarios)}</div>
                       <div className="text-[10px] uppercase tracking-wide text-ink-faint">funcionarios →</div>
                     </>
+                  ) : e.estado === "compartida" ? (
+                    <span className="text-xs text-accent-amber" title={`Comparte planilla con ${e.comparte_con ?? "su entidad padre"}`}>planilla compartida</span>
                   ) : (e.autoridades ?? 0) > 0 ? (
                     <>
                       <div className="tabular font-semibold text-accent-violet">{fmt.format(e.autoridades ?? 0)}</div>

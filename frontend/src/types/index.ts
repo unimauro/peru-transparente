@@ -25,7 +25,8 @@ export interface EntidadCat {
   tipo: string;
   funcionarios: number;
   autoridades?: number;
-  estado: "con_datos" | "sin_datos" | "pendiente";
+  estado: "con_datos" | "sin_datos" | "pendiente" | "compartida";
+  comparte_con?: string | null;
 }
 
 export interface FuncionarioItem {

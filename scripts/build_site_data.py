@@ -63,6 +63,10 @@ def main() -> None:
     ckpt = Path("data/funcionarios.checkpoint.json")
     done = set(json.loads(ckpt.read_text()).get("done", [])) if ckpt.exists() else set()
     processed = len(done)
+    # entidades cuya planilla del PTE es en realidad la de su "padre" (dedup)
+    comp_path = Path("data/_planillas_compartidas.json")
+    compartido = json.loads(comp_path.read_text()) if comp_path.exists() else {}
+    ent_nombre = {e["id_entidad"]: e["nombre"] for e in entidades}
 
     fun_por_entidad = Counter(f["id_entidad"] for f in funcionarios)
     niv_count = Counter(nivel(f.get("cargo", "")) for f in funcionarios)
@@ -92,6 +96,8 @@ def main() -> None:
 
     # catálogo enriquecido con nº de funcionarios scrapeados
     def estado(eid: str, n: int) -> str:
+        if eid in compartido:
+            return "compartida"
         if n > 0:
             return "con_datos"
         return "sin_datos" if int(eid) in done else "pendiente"
@@ -104,6 +110,7 @@ def main() -> None:
             "funcionarios": fun_por_entidad.get(e["id_entidad"], 0),
             "autoridades": aut_count.get(e["id_entidad"], 0),
             "estado": estado(e["id_entidad"], fun_por_entidad.get(e["id_entidad"], 0)),
+            "comparte_con": ent_nombre.get(compartido.get(e["id_entidad"])) if e["id_entidad"] in compartido else None,
         }
         for e in entidades
     ]
