@@ -6,8 +6,9 @@ import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/component
 const MESES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
 
 const ICON: Record<string, string> = {
-  "Ministro/Titular": "👑", "Viceministro": "🎖️", "Secretario General": "📋",
-  "Gerente General": "🏢", "Director/a": "🧭", "Gerente": "📊", "Jefe/a": "🗂️",
+  "Ministro": "👑", "Viceministro": "🎖️", "Presidente Ejecutivo": "🏛️",
+  "Secretario General": "📋", "Gerente General": "🏢", "Director/a": "🧭",
+  "Gerente": "📊", "Jefe/a": "🗂️",
 };
 
 export function Funcionarios() {

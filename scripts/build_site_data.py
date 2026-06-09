@@ -28,8 +28,10 @@ ENT = Path("data/entidades.csv")
 FUN = Path("data/funcionarios.csv")
 
 NIVELES = [
-    ("Ministro/Titular", re.compile(r"\bMINISTR[OA]\b|PRESIDENTE EJECUTIV|\bTITULAR\b", re.I)),
+    # Viceministro ANTES que Ministro (para no contar "VICE MINISTRO" como ministro)
     ("Viceministro", re.compile(r"VICE\s?MINISTR", re.I)),
+    ("Ministro", re.compile(r"\bMINISTR[OA]\b", re.I)),
+    ("Presidente Ejecutivo", re.compile(r"PRESIDENTE\s+EJECUTIV|\bTITULAR\b", re.I)),
     ("Secretario General", re.compile(r"SECRETARI[OA] GENERAL", re.I)),
     ("Gerente General", re.compile(r"GERENTE GENERAL", re.I)),
     ("Director/a", re.compile(r"\bDIRECTOR(A|ES|AS)?\b|\bDIRECCI[ÓO]N\b", re.I)),

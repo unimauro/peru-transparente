@@ -59,9 +59,9 @@ export function Bar({ label, value, max, color = "from-accent-blue to-accent-cya
 export function LevelBadge({ nivel }: { nivel: string }) {
   const key = nivel.toLowerCase();
   const tone =
-    /ministr|titular/.test(key) ? "border-peru-red/40 bg-peru-red/15 text-peru-redsoft"
+    /ministro\b|^ministr/.test(key) ? "border-peru-red/40 bg-peru-red/15 text-peru-redsoft"
     : /vice/.test(key) ? "border-accent-violet/40 bg-accent-violet/15 text-accent-violet"
-    : /secretari|gerente general/.test(key) ? "border-accent-cyan/40 bg-accent-cyan/15 text-accent-cyan"
+    : /presidente ejec|titular|secretari|gerente general/.test(key) ? "border-accent-cyan/40 bg-accent-cyan/15 text-accent-cyan"
     : /director|gerente/.test(key) ? "border-accent-blue/40 bg-accent-blue/15 text-accent-blue"
     : /jefe/.test(key) ? "border-accent-amber/40 bg-accent-amber/15 text-accent-amber"
     : "border-surface/10 bg-surface/5 text-ink-mute";
