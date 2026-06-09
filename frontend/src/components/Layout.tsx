@@ -32,6 +32,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <NavItem to="/">Inicio</NavItem>
             <NavItem to="/entidades">Entidades</NavItem>
             <NavItem to="/funcionarios">Funcionarios</NavItem>
+            <NavItem to="/metodologia">FAQ</NavItem>
             <a
               href="https://github.com/unimauro/peru-transparente"
               target="_blank"

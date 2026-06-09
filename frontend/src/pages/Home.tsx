@@ -48,10 +48,43 @@ export function Home() {
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="catálogo PTE completo" />
+              <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="universo fijo del PTE" />
               <Stat value={fmt.format(k.total_funcionarios)} label="Servidores públicos" hint={`${fmt.format(k.entities_with_data)} entidades con datos`} accent="text-accent-cyan" />
               <Stat value={fmt.format(k.total_cargos_clave)} label="Cargos clave" hint="dirección + jefaturas" accent="text-peru-redsoft" />
               <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura del barrido" hint={`${fmt.format(k.entities_processed ?? 0)} de ${fmt.format(k.total_entities)} entidades`} accent="text-accent-blue" />
+            </div>
+
+            {/* Progreso del barrido (3 estados) + qué es el PTE */}
+            <div className="glass mt-6 p-6">
+              <div className="mb-2 flex items-baseline justify-between">
+                <SectionTitle kicker="Progreso">Avance del barrido nacional</SectionTitle>
+                <span className="tabular text-sm font-semibold text-accent-blue">{m ? m.cobertura_pct : 0}%</span>
+              </div>
+              {(() => {
+                const t = k.total_entities;
+                const cd = k.entities_with_data;
+                const sd = k.entities_no_data ?? 0;
+                const pd = k.entities_pending ?? (t - cd - sd);
+                const pct = (n: number) => `${(n / t) * 100}%`;
+                return (
+                  <>
+                    <div className="flex h-3 w-full overflow-hidden rounded-full bg-surface/[0.06]">
+                      <div className="bg-accent-cyan" style={{ width: pct(cd) }} title="con datos" />
+                      <div className="bg-ink-faint/60" style={{ width: pct(sd) }} title="sin datos publicados" />
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+                      <span className="text-ink-soft"><span className="text-accent-cyan">●</span> {fmt.format(cd)} con datos</span>
+                      <span className="text-ink-soft"><span className="text-ink-faint">●</span> {fmt.format(sd)} barridas sin personal publicado</span>
+                      <span className="text-ink-mute"><span className="text-ink-faint">○</span> {fmt.format(pd)} pendientes</span>
+                    </div>
+                  </>
+                );
+              })()}
+              <p className="mt-4 border-t border-surface/[0.06] pt-3 text-xs text-ink-mute">
+                <b className="text-ink-soft">PTE = Portal de Transparencia Estándar</b> (transparencia.gob.pe): el portal oficial
+                donde cada entidad pública su personal, presupuesto y contrataciones. Es nuestra fuente. Las entidades
+                "sin personal publicado" existen pero no suben ese rubro — eso también es un dato de transparencia.
+              </p>
             </div>
 
             <div className="mt-8 grid gap-5 lg:grid-cols-2">
