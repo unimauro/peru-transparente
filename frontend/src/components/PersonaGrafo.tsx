@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import cytoscape from "cytoscape";
 
-// aparición: [id_entidad, entidad_abrev, cargo, regimen, sueldo]
-type Ap = [string, string, string, string, number];
+// aparición: [id_entidad, entidad_abrev, cargo, regimen, sueldo, año]
+type Ap = [string, string, string, string, number, string];
 
 export function PersonaGrafo({ nombre, apariciones }: { nombre: string; apariciones: Ap[] }) {
   const ref = useRef<HTMLDivElement>(null);

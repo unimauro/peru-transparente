@@ -33,11 +33,21 @@ def main() -> None:
                     edge_people[k].append(persona)
 
     top_ents = [e for e, _ in deg.most_common(80)]
-    nodes = [{"id": e, "label": ent_nom.get(e, e)[:28], "deg": deg[e],
-              "cat": categoria(ent_nom.get(e, e))} for e in top_ents]
     ts = set(top_ents)
-    edges = [{"a": a, "b": b, "w": w, "quienes": edge_people[(a, b)]}
-             for (a, b), w in pares.items() if a in ts and b in ts]
+    # solo conexiones fuertes (≥3 personas en común) para que el grafo sea legible
+    MIN_W = 3
+    edges = sorted(
+        ({"a": a, "b": b, "w": w, "quienes": edge_people[(a, b)]}
+         for (a, b), w in pares.items() if a in ts and b in ts and w >= MIN_W),
+        key=lambda x: -x["w"],
+    )[:400]
+    # recalcular grado solo con aristas visibles (para el tamaño de nodo)
+    vis_deg = Counter()
+    for e in edges:
+        vis_deg[e["a"]] += 1
+        vis_deg[e["b"]] += 1
+    nodes = [{"id": e, "label": ent_nom.get(e, e)[:28], "deg": vis_deg.get(e, 1),
+              "cat": categoria(ent_nom.get(e, e))} for e in top_ents if vis_deg.get(e, 0) > 0]
 
     Path("frontend/public/data/redes_entidades.json").write_text(
         json.dumps({"nodes": nodes, "edges": edges}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

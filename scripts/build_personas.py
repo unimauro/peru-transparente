@@ -29,14 +29,24 @@ def ab(e: str) -> str:
 
 def main() -> None:
     pers: dict[str, list] = defaultdict(list)
-    for r in csv.DictReader(open("data/funcionarios.csv", encoding="utf-8")):
-        try:
-            s = round(float(r["total_ingreso_mensual"]))
-        except (TypeError, ValueError):
-            s = 0
-        pers[na(r["apellidos_nombres"])].append(
-            [r["id_entidad"], ab(r["entidad"]), r["cargo"][:38], r["regimen"], s]
-        )
+    fuentes = ["data/funcionarios.csv"]
+    if Path("data/funcionarios_historico.csv").exists():
+        fuentes.append("data/funcionarios_historico.csv")
+    vistos: set = set()  # dedup por (nombre, entidad, cargo, año)
+    for fn in fuentes:
+        for r in csv.DictReader(open(fn, encoding="utf-8")):
+            try:
+                s = round(float(r["total_ingreso_mensual"]))
+            except (TypeError, ValueError):
+                s = 0
+            nm = na(r["apellidos_nombres"])
+            anio = r.get("anio", "")
+            k = (nm, r["id_entidad"], r["cargo"][:38], anio)
+            if k in vistos:
+                continue
+            vistos.add(k)
+            # aparición: [id_entidad, abrev, cargo, regimen, sueldo, año]
+            pers[nm].append([r["id_entidad"], ab(r["entidad"]), r["cargo"][:38], r["regimen"], s, anio])
 
     shards: dict[str, list] = defaultdict(list)
     red: list = []

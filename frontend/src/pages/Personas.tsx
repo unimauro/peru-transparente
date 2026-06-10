@@ -4,8 +4,8 @@ import { fmt, money, Empty } from "@/components/ui";
 import { PersonaGrafo } from "@/components/PersonaGrafo";
 import { RedInstitucional } from "@/components/RedInstitucional";
 
-type Ap = [string, string, string, string, number]; // id_entidad, abrev, cargo, regimen, sueldo
-type Persona = [string, number, Ap[]];               // nombre, n_entidades, apariciones
+type Ap = [string, string, string, string, number, string]; // id, abrev, cargo, regimen, sueldo, año
+type Persona = [string, number, Ap[]];                       // nombre, n_entidades, apariciones
 
 export function Personas() {
   const [red, setRed] = useState<Persona[]>([]);
@@ -41,8 +41,8 @@ export function Personas() {
       <div className="chip mb-3">Buscador global · grafo de poder</div>
       <h1 className="text-3xl font-bold tracking-tight text-ink">Personas</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Busca a cualquier persona en todo el Estado y mira <b>en cuántas entidades aparece</b> (por nombre).
-        Aparecer en 2+ no implica doble empleo: casi siempre es <b>rotación</b> (cambió de trabajo) u <b>homónimos</b>.
+        Busca a cualquier persona y mira su <b>trayectoria</b> en el Estado (2026 + histórico 2015–2024).
+        Aparecer en 2+ entidades casi siempre es <b>rotación</b> en el tiempo, no doble empleo.
       </p>
 
       <div className="mt-4 flex gap-2">
@@ -91,10 +91,14 @@ export function Personas() {
             <div className="glass p-4">
               <div className="mb-2 font-semibold text-ink">{sel[0]}</div>
               <PersonaGrafo nombre={sel[0]} apariciones={sel[2]} />
-              <div className="mt-3 space-y-1.5">
-                {sel[2].map((a, i) => (
+              <div className="mb-1 mt-3 text-[11px] font-semibold uppercase tracking-wide text-accent-cyan/80">Trayectoria (línea de tiempo)</div>
+              <div className="space-y-1.5">
+                {[...sel[2]].sort((x, y) => (y[5] || "").localeCompare(x[5] || "")).map((a, i) => (
                   <div key={i} className="flex items-center justify-between gap-2 text-sm">
-                    <span className="min-w-0 truncate text-ink-soft"><span className="text-accent-blue">{a[1]}</span> · {a[2]}</span>
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span className="shrink-0 rounded bg-surface/10 px-1.5 py-0.5 text-[10px] tabular text-ink-mute">{a[5] || "—"}</span>
+                      <span className="min-w-0 truncate text-ink-soft"><span className="text-accent-blue">{a[1]}</span> · {a[2]}</span>
+                    </span>
                     <span className="shrink-0 text-ink-mute">{a[3]} · {money(a[4])}</span>
                   </div>
                 ))}
