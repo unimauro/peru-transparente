@@ -25,6 +25,7 @@ export const staticData = {
   personasRed: () => getJSON(`${STATIC_BASE}/personas_red.json`),
   personasShard: (l: string) => getJSON(`${STATIC_BASE}/personas/${l}.json`),
   redesEntidades: () => getJSON(`${STATIC_BASE}/redes_entidades.json`),
+  salarios: () => getJSON(`${STATIC_BASE}/salarios.json`),
   autoridades: () => getJSON(`${STATIC_BASE}/autoridades.json`),
 };
 
