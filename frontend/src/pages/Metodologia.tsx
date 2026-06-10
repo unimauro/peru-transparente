@@ -64,6 +64,19 @@ export function Metodologia() {
           <p>Ejército, Marina, FAP y PNP <b>no publican su personal individual</b> en el PTE (excepción de seguridad). Solo aparece personal administrativo de algunas (Comando Conjunto, MINDEF). Los nombramientos de generales se hacen por Resolución Suprema (El Peruano), otra fuente.</p>
         </QA>
 
+        <QA q="¿Qué significa que dos entidades estén 'conectadas' en el grafo?">
+          <p>Hay <b>dos tipos de relación</b> entre entidades, y conviene no confundirlos:</p>
+          <ul className="list-inside list-disc space-y-1">
+            <li><b>Funcional / jerárquica (la real):</b> definida por el ROF — un programa pertenece a un ministerio, una dirección coordina con el MEF por presupuesto, etc. Es <b>necesaria y legítima</b>.</li>
+            <li><b>Por personal (la del grafo "Red institucional"):</b> mide <b>coincidencia de nombres</b> entre entidades. El 89% son <b>rotaciones</b> (la persona cambió de trabajo) y el resto homónimos o entidades renombradas. <b>No implica doble empleo ni irregularidad.</b></li>
+          </ul>
+          <p>El grafo de personal es una señal exploratoria, no una afirmación. La relación institucional formal es la del ROF.</p>
+        </QA>
+
+        <QA q="¿Cómo está organizado el organigrama de cada entidad?">
+          <p>Agrupamos las dependencias según la <b>taxonomía del ROF/LOPE</b> (Ley de Organización y Funciones del Poder Ejecutivo): <b>Alta Dirección</b> (despacho, viceministerios, secretaría general), <b>Órganos de Línea</b> (direcciones generales), <b>Asesoramiento</b>, <b>Apoyo/Administración</b>, <b>Órgano de Control</b> (OCI) y <b>Programas/Proyectos</b>. La clasificación es automática por el nombre de la dependencia — aproximada, no reemplaza al ROF oficial.</p>
+        </QA>
+
         <QA q="Si una persona aparece en dos entidades, ¿es la misma?">
           <p>No necesariamente. Buscar por nombre puede traer <b>homónimos</b>. Confirmar que es la misma persona (ej. profesor de la UNI que también asesora en SUNAT) requiere <b>resolución de entidades</b> con DNI/contexto — la capa de IA del roadmap.</p>
         </QA>

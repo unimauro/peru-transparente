@@ -48,6 +48,25 @@ def nivel(cargo: str) -> str:
     return "Profesional/Apoyo"
 
 
+# Taxonomía de órganos según el ROF/LOPE (Ley de Organización del Poder Ejecutivo).
+ORGANOS = [
+    ("Alta Dirección", re.compile(r"DESPACHO|VICEMINISTER|SECRETAR[IÍ]A GENERAL|GABINETE|RECTORADO|ALTA DIRECCI|CONSEJO DIRECTIVO|DIRECTORIO", re.I)),
+    ("Órgano de Control", re.compile(r"CONTROL INSTITUCIONAL|\bOCI\b|[OÓ]RGANO DE CONTROL|AUDITOR[IÍ]A", re.I)),
+    ("Asesoramiento", re.compile(r"ASESOR[IÍ]A|ASESORES|PLANEAMIENTO|PRESUPUESTO|JUR[IÍ]DIC|ASUNTOS JUR|COOPERACI[OÓ]N|MODERNIZACI|PLANIFICACI", re.I)),
+    ("Apoyo / Administración", re.compile(r"ADMINISTRACI[OÓ]N|RECURSOS HUMANOS|ABASTECIMIENTO|TECNOLOG[IÍ]A|INFORM[AÁ]TICA|CONTABILIDAD|TESORER[IÍ]A|FINANZAS|GESTI[OÓ]N DOCUMENTARIA|TRAMITE DOCUMENTARIO|COMUNICACION|IMAGEN|LOG[IÍ]STICA|BIENESTAR|OFICINA GENERAL", re.I)),
+    ("Órganos de Línea", re.compile(r"DIRECCI[OÓ]N GENERAL|DIRECCI[OÓ]N NACIONAL|DIRECCI[OÓ]N T[EÉ]CNICA|DIRECCI[OÓ]N DE L[IÍ]NEA|GERENCIA CENTRAL|\bDIRECCI[OÓ]N\b", re.I)),
+    ("Órganos Desconcentrados", re.compile(r"DIRECCI[OÓ]N REGIONAL|[OÓ]RGANO DESCONCENTRAD|UNIDAD TERRITORIAL|ZONAL|AGENCIA|SEDE", re.I)),
+    ("Programas / Proyectos", re.compile(r"PROGRAMA|PROYECTO|UNIDAD EJECUTORA", re.I)),
+]
+
+
+def organo(dep: str) -> str:
+    for name, rx in ORGANOS:
+        if rx.search(dep or ""):
+            return name
+    return "Otros órganos / oficinas"
+
+
 def read_csv(p: Path) -> list[dict]:
     return list(csv.DictReader(p.open(encoding="utf-8"))) if p.exists() else []
 
@@ -174,6 +193,16 @@ def main() -> None:
              for d, p in deps.items()),
             key=lambda x: (-x["clave"], -x["n"]),
         )
+        # Organigrama por tipo de órgano (taxonomía ROF/LOPE)
+        ORG_ORDER = ["Alta Dirección", "Órgano de Control", "Órganos de Línea", "Asesoramiento",
+                     "Apoyo / Administración", "Órganos Desconcentrados", "Programas / Proyectos",
+                     "Otros órganos / oficinas"]
+        org_grp = defaultdict(list)
+        for d in dep_list:
+            org_grp[organo(d["dependencia"])].append(d)
+        organigrama = [{"organo": o, "n": sum(x["n"] for x in org_grp[o]),
+                        "clave": sum(x["clave"] for x in org_grp[o]), "dependencias": org_grp[o]}
+                       for o in ORG_ORDER if o in org_grp]
         period = f"{fs[0]['mes']}/{fs[0]['anio']}" if fs else ""
         regimenes = Counter(f["regimen"] for f in fs)
         # Cobertura parcial: si publica SOLO CAS (sin nombrados/docentes/altos funcionarios)
@@ -185,6 +214,7 @@ def main() -> None:
             "tipo": ent_tipo.get(eid, ""), "periodo": period,
             "total": len(fs), "clave": sum(1 for f in fs if nivel(f.get("cargo", "")) in CLAVE),
             "regimenes": regimenes.most_common(),
+            "organigrama": organigrama,
             "autoridades": autoridades_por_ent.get(eid, []),
             "cobertura_parcial": bool(solo_cas),
             "nota_cobertura": (

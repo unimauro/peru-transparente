@@ -6,10 +6,12 @@ import { fmt, money, LevelBadge, Empty } from "@/components/ui";
 interface Persona { nombre: string; cargo: string; nivel: string; regimen: string; total: string; url: string }
 interface Dep { dependencia: string; n: number; clave: number; personas: Persona[] }
 interface Aut { nombre: string; cargo: string; email: string; telefono: string; url: string }
+interface Organo { organo: string; n: number; clave: number; dependencias: Dep[] }
 interface Detalle {
   id: string; nombre: string; tipo: string; periodo: string; total: number; clave: number;
   regimenes?: [string, number][]; cobertura_parcial?: boolean; nota_cobertura?: string;
   autoridades?: Aut[];
+  organigrama?: Organo[];
   dependencias: Dep[];
 }
 
@@ -68,13 +70,22 @@ export function EntidadDetalle() {
       )}
 
       {d.dependencias.length > 0 && (
-        <h2 className="mb-3 mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-peru-redsoft/80">Organigrama por dependencias (PTE)</h2>
+        <>
+          <h2 className="mb-1 mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-peru-redsoft/80">Organigrama por órganos (estructura ROF)</h2>
+          <p className="mb-3 text-[11px] text-ink-faint">Agrupado según la taxonomía del ROF/LOPE: alta dirección, órganos de línea, asesoramiento, apoyo, control y programas. Clasificación automática por el nombre de la dependencia.</p>
+        </>
       )}
-      <div className="space-y-2">
-        {d.dependencias.map((dep) => {
-          const isOpen = open === dep.dependencia;
-          return (
-            <div key={dep.dependencia} className="glass overflow-hidden">
+      {(d.organigrama ?? []).map((org) => (
+        <div key={org.organo} className="mb-5">
+          <div className="mb-2 flex items-baseline justify-between border-b border-surface/[0.06] pb-1">
+            <span className="text-xs font-semibold uppercase tracking-wide text-accent-cyan">{org.organo}</span>
+            <span className="text-[11px] text-ink-mute">{org.dependencias.length} deps · {fmt.format(org.n)} pers.{org.clave ? ` · ${org.clave} clave` : ""}</span>
+          </div>
+          <div className="space-y-2">
+            {org.dependencias.map((dep) => {
+              const isOpen = open === dep.dependencia;
+              return (
+                <div key={dep.dependencia} className="glass overflow-hidden">
               <button
                 onClick={() => setOpen(isOpen ? null : dep.dependencia)}
                 className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-surface/[0.04]"
@@ -108,9 +119,11 @@ export function EntidadDetalle() {
                 </div>
               )}
             </div>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
