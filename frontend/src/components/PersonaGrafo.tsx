@@ -32,5 +32,12 @@ export function PersonaGrafo({ nombre, apariciones }: { nombre: string; aparicio
     return () => cy.destroy();
   }, [nombre, apariciones]);
 
-  return <div ref={ref} className="h-[340px] w-full rounded-xl border border-surface/10 bg-bg-deep" />;
+  return (
+    <div>
+      <div ref={ref} className="h-[340px] w-full rounded-xl border border-surface/10 bg-bg-deep" />
+      <p className="mt-1.5 text-[11px] text-ink-faint">
+        <span className="text-peru-redsoft">●</span> la persona · <span className="text-accent-blue">▪</span> cada entidad donde aparece · la línea muestra el cargo. Si hay 2+ entidades, esta persona conecta varias instituciones.
+      </p>
+    </div>
+  );
 }
