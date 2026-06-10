@@ -35,3 +35,8 @@ data/shards/
 data/funcionarios.csv
 data/airhsp_por_pliego_regimen.csv.gz
 data/salarios_pt_*.csv
+
+# histórico (se versiona comprimido)
+data/funcionarios_historico.csv
+data/_con_datos.csv
+data/historico.checkpoint.json
