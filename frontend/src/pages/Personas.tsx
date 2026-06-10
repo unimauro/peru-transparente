@@ -41,8 +41,8 @@ export function Personas() {
       <div className="chip mb-3">Buscador global · grafo de poder</div>
       <h1 className="text-3xl font-bold tracking-tight text-ink">Personas</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Busca a cualquier persona en todo el Estado y mira <b>en cuántas entidades aparece</b> (su red).
-        Por defecto se muestran quienes figuran en 2+ entidades.
+        Busca a cualquier persona en todo el Estado y mira <b>en cuántas entidades aparece</b> (por nombre).
+        Aparecer en 2+ no implica doble empleo: casi siempre es <b>rotación</b> (cambió de trabajo) u <b>homónimos</b>.
       </p>
 
       <div className="mt-4 flex gap-2">

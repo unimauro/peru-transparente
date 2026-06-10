@@ -102,10 +102,13 @@ export function RedInstitucional() {
         </div>
       )}
 
-      <p className="mt-2 text-[11px] text-ink-faint">
-        Las conexiones fuertes suelen ser <b>programas afines</b> (los del MIDIS: Qali Warma, Cuna Más…) o entidades con el
-        mismo personal. No implica irregularidad — solo muestra vínculos de personal compartido.
-      </p>
+      <div className="mt-3 rounded-xl border border-accent-amber/30 bg-accent-amber/10 p-3 text-[11px] text-ink-soft">
+        ⚠️ <b>Importante — no implica doble empleo ni irregularidad.</b> El vínculo se mide por <b>coincidencia de nombre</b>,
+        no por DNI. El <b>89%</b> de estos casos son apariciones en <b>períodos distintos</b> (la persona <b>rotó</b> de una
+        entidad a otra — legal), y el resto son en su mayoría <b>homónimos</b> (distintas personas con el mismo nombre) o la
+        <b>misma entidad renombrada</b> (ej. Qali Warma). La ley prohíbe 2 cargos pagados a la vez (salvo docencia);
+        confirmar un caso real exige cruzar por <b>DNI</b> (resolución de entidades, en el roadmap).
+      </div>
     </div>
   );
 }
