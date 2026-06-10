@@ -38,7 +38,7 @@ export function RedInstitucional() {
       layout: { name: "cose", animate: false, nodeRepulsion: 11000, idealEdgeLength: 95 },
     });
     cy.on("mouseover", "node", (e) => { e.target.addClass("hl"); e.target.connectedEdges().addClass("hl"); e.target.neighborhood("node").addClass("hl"); });
-    cy.on("mouseout", "node", (e) => { cy.elements().removeClass("hl"); });
+    cy.on("mouseout", "node", () => { cy.elements().removeClass("hl"); });
     cy.on("tap", "node", (e) => { window.location.hash = `#/entidad/${e.target.id()}`; });
     return () => cy.destroy();
   }, [data]);
