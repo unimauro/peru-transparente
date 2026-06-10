@@ -23,8 +23,10 @@ const color = (cat: string) => CAT_COLOR[cat] ?? "#64748b";
 
 export function RedInstitucional() {
   const ref = useRef<HTMLDivElement>(null);
+  const cyRef = useRef<cytoscape.Core | null>(null);
   const [data, setData] = useState<Red | null>(null);
   const [sel, setSel] = useState<{ a: string; b: string; w: number; quienes: string[] } | null>(null);
+  const [filtro, setFiltro] = useState<string>("");
 
   useEffect(() => {
     staticData.redesEntidades().then((d) => setData(d as Red)).catch(() => {});
@@ -40,7 +42,7 @@ export function RedInstitucional() {
       container: ref.current,
       elements: [
         ...data.nodes.map((n) => ({
-          data: { id: n.id, label: n.label, full: n.label, color: color(n.cat), size: 12 + (n.deg / maxDeg) * 38, big: n.deg >= umbral ? 1 : 0 },
+          data: { id: n.id, label: n.label, full: n.label, cat: n.cat, color: color(n.cat), size: 12 + (n.deg / maxDeg) * 38, big: n.deg >= umbral ? 1 : 0 },
         })),
         ...data.edges.map((e, i) => ({ data: { id: `x${i}`, source: e.a, target: e.b, w: Math.min(8, 1 + Math.log(e.w)) } })),
       ],
@@ -48,11 +50,14 @@ export function RedInstitucional() {
         { selector: "node", style: { width: "data(size)", height: "data(size)", "background-color": "data(color)", "border-width": 0 } },
         { selector: 'node[big = 1]', style: { label: "data(label)", color: "#cdd8e6", "font-size": "9px", "text-wrap": "wrap", "text-max-width": "84px", "text-valign": "bottom", "text-margin-y": 2 } },
         { selector: "node.hl", style: { label: "data(full)", "border-width": 3, "border-color": "#fff", "z-index": 99, color: "#fff", "font-size": "11px" } },
+        { selector: "node.dim", style: { opacity: 0.08 } },
         { selector: "edge", style: { width: "data(w)", "line-color": "#64748b", "line-opacity": 0.28, "curve-style": "bezier" } },
         { selector: "edge.hl", style: { "line-opacity": 0.95, "line-color": "#e11d2a", width: 3 } },
+        { selector: "edge.dim", style: { opacity: 0.04 } },
       ],
       layout: { name: "cose", animate: false, nodeRepulsion: 11000, idealEdgeLength: 95 },
     });
+    cyRef.current = cy;
     cy.on("mouseover", "node", (e) => { e.target.addClass("hl"); e.target.connectedEdges().addClass("hl"); e.target.neighborhood("node").addClass("hl"); });
     cy.on("mouseout", () => cy.elements().removeClass("hl"));
     cy.on("tap", "edge", (e) => {
@@ -64,7 +69,20 @@ export function RedInstitucional() {
     return () => cy.destroy();
   }, [data]);
 
-  const cats = data ? [...new Set(data.nodes.map((n) => n.cat))] : [];
+  // aplicar filtro por categoría
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) return;
+    cy.batch(() => {
+      cy.elements().removeClass("dim");
+      if (filtro) {
+        cy.nodes().forEach((n) => { if (n.data("cat") !== filtro) n.addClass("dim"); });
+        cy.edges().forEach((e) => { if (e.source().hasClass("dim") || e.target().hasClass("dim")) e.addClass("dim"); });
+      }
+    });
+  }, [filtro, data]);
+
+  const cats = data ? [...new Set(data.nodes.map((n) => n.cat))].sort() : [];
 
   return (
     <div>
@@ -74,14 +92,18 @@ export function RedInstitucional() {
         <span className="text-ink-soft"><span className="text-peru-red">━</span> línea = <b>personas en común</b></span>
         <span className="text-ink-soft">🖱️ <b>clic en una línea</b> → ve quiénes · clic en una bola → abre la entidad</span>
       </div>
-      {/* leyenda de colores */}
-      <div className="mb-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px]">
+
+      {/* Filtro por tipo (botones) */}
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        <button onClick={() => setFiltro("")} className={`rounded-full border px-3 py-1 text-[11px] font-medium transition ${!filtro ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:text-ink"}`}>Todos</button>
         {cats.map((c) => (
-          <span key={c} className="flex items-center gap-1 text-ink-mute">
+          <button key={c} onClick={() => setFiltro(filtro === c ? "" : c)}
+            className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-medium transition ${filtro === c ? "border-ink/40 bg-surface/10 text-ink" : "border-surface/10 bg-surface/[0.03] text-ink-soft hover:text-ink"}`}>
             <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: color(c) }} /> {c}
-          </span>
+          </button>
         ))}
       </div>
+
       <div ref={ref} className="h-[560px] w-full rounded-xl border border-surface/10 bg-bg-deep" />
 
       {sel && (
@@ -103,11 +125,9 @@ export function RedInstitucional() {
       )}
 
       <div className="mt-3 rounded-xl border border-accent-amber/30 bg-accent-amber/10 p-3 text-[11px] text-ink-soft">
-        ⚠️ <b>Importante — no implica doble empleo ni irregularidad.</b> El vínculo se mide por <b>coincidencia de nombre</b>,
-        no por DNI. El <b>89%</b> de estos casos son apariciones en <b>períodos distintos</b> (la persona <b>rotó</b> de una
-        entidad a otra — legal), y el resto son en su mayoría <b>homónimos</b> (distintas personas con el mismo nombre) o la
-        <b>misma entidad renombrada</b> (ej. Qali Warma). La ley prohíbe 2 cargos pagados a la vez (salvo docencia);
-        confirmar un caso real exige cruzar por <b>DNI</b> (resolución de entidades, en el roadmap).
+        ⚠️ <b>No implica doble empleo ni irregularidad.</b> El vínculo es por <b>coincidencia de nombre</b> (no DNI): el
+        89% son <b>rotaciones</b> (cambio de trabajo en distintos períodos) y el resto homónimos o entidades renombradas.
+        La relación institucional formal es la del ROF; cruzar por DNI está en el roadmap.
       </div>
     </div>
   );

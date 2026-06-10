@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { staticData } from "@/lib/api";
 import type { FuncionarioItem, NationalKpis } from "@/types";
 import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/components/ui";
+import { JerarquiaEstado } from "@/components/JerarquiaEstado";
 
 const MESES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
 
@@ -137,6 +138,8 @@ export function Funcionarios() {
           </p>
         </div>
       )}
+
+      <JerarquiaEstado />
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar nombre, cargo, entidad o dependencia…" className="input flex-1" />
