@@ -156,6 +156,7 @@ cd scrapers && pip install -e . && scrapy crawl fonafe_empresas
 | Documento | Contenido |
 |---|---|
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Arquitectura completa del sistema |
+| [FLUJO.md](docs/FLUJO.md) | **Flujo del pipeline** (fuentes → scrapers → datos → sitio) con diagrama |
 | [DATA_MODEL.md](docs/DATA_MODEL.md) | Modelo de datos relacional + diccionario |
 | [NEO4J_SCHEMA.md](docs/NEO4J_SCHEMA.md) | Esquema del grafo de poder (nodos, relaciones, Cypher) |
 | [INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md) | Diagrama de infraestructura y costos |
