@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { YapeModal } from "@/components/YapeModal";
+import { ChatBot } from "@/components/ChatBot";
 
 function NavItem({ to, children }: { to: string; children: ReactNode }) {
   return (
@@ -33,6 +34,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <NavItem to="/entidades">Entidades</NavItem>
             <NavItem to="/funcionarios">Funcionarios</NavItem>
             <NavItem to="/personas">Personas</NavItem>
+            <NavItem to="/ordenes">Locadores</NavItem>
             <NavItem to="/autoridades">Autoridades</NavItem>
             <NavItem to="/regiones">Regiones</NavItem>
             <NavItem to="/metodologia">FAQ</NavItem>
@@ -52,6 +54,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
 
       <Footer />
+      <ChatBot />
     </div>
   );
 }

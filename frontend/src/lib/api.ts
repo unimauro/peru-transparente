@@ -27,8 +27,32 @@ export const staticData = {
   redesEntidades: () => getJSON(`${STATIC_BASE}/redes_entidades.json`),
   salarios: () => getJSON(`${STATIC_BASE}/salarios.json`),
   jerarquia: () => getJSON(`${STATIC_BASE}/jerarquia_estado.json`),
+  ordenes: () => getJSON(`${STATIC_BASE}/ordenes_servicio.json`),
   autoridades: () => getJSON(`${STATIC_BASE}/autoridades.json`),
+  botContext: () => getJSON<{ context: string }>(`${STATIC_BASE}/bot_context.json`),
 };
+
+// ── Asistente (gateway IA ai.tunky.net → OpenRouter) ──────────────────────
+// El token de cliente solo habilita el ORIGEN del portal; la API key de
+// OpenRouter vive server-side en el gateway y NUNCA llega al navegador.
+const GATEWAY_URL = "https://ai.tunky.net/v1/chat";
+const GATEWAY_TOKEN = "pte_1f2f2f2ab628a3dac4e83871b17d0ae9";
+
+export interface ChatMsg {
+  role: "system" | "user" | "assistant";
+  content: string;
+}
+
+export async function askGateway(messages: ChatMsg[]): Promise<string> {
+  const res = await fetch(GATEWAY_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Client-Token": GATEWAY_TOKEN },
+    body: JSON.stringify({ project: "peru-transparente", messages }),
+  });
+  const data = (await res.json().catch(() => ({}))) as { reply?: string; error?: string };
+  if (!res.ok || !data.reply) throw new Error(data.error || `error ${res.status}`);
+  return data.reply;
+}
 
 /** Vistas dinámicas que requieren backend. */
 export const liveApi = {
