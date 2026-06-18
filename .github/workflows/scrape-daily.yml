@@ -5,8 +5,11 @@ name: Scrape Daily
 # Si hay deltas, commitea data y dispara el redeploy de Pages.
 
 on:
-  schedule:
-    - cron: "0 9 * * *" # 04:00 hora Perú (UTC-5)
+  # Cron DESACTIVADO: el API del OECE bloquea las IPs de datacenter de GitHub
+  # Actions (403 Forbidden). La actualización diaria se corre desde una IP de
+  # Perú con ./actualizar.sh (laptop). Se deja el disparo manual por si acaso.
+  # schedule:
+  #   - cron: "0 9 * * *" # 04:00 hora Perú (UTC-5)
   workflow_dispatch:
     inputs:
       source:
