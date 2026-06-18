@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { askGateway, staticData, type ChatMsg } from "@/lib/api";
+import { renderMarkdown } from "@/lib/markdown";
 
 // Asistente del portal. Responde SOLO con los datos de Perú Transparente
 // (grounding vía bot_context.json), breve, cordial y humano, con enlaces a las
@@ -15,7 +16,7 @@ function systemPrompt(context: string): string {
     "- Responde ÚNICAMENTE con la información de los DATOS DEL PORTAL de abajo. No inventes ni uses conocimiento externo.",
     "- Si la pregunta no se puede responder con estos datos, dilo con amabilidad y sugiere la sección del portal donde mirar.",
     "- Sé BREVE (1-3 frases), cordial y humano. Da el número o el resultado directo; no argumentes de más.",
-    "- NO uses tablas ni formato markdown; responde en texto plano corto.",
+    "- Puedes usar markdown ligero (negrita, listas o una tabla pequeña) SOLO si mejora la claridad de varias cifras; si no, texto corto.",
     "- Cuando ayude, incluye un enlace a la sección como ruta corta. Secciones disponibles: " + SECCIONES + ".",
     "- Anti-overclaiming: NO imputes irregularidades ni hagas acusaciones; estos datos solo describen información pública.",
     "- Responde siempre en español.",
@@ -34,33 +35,6 @@ const SUGERENCIAS = [
 
 const BIENVENIDA =
   "Hola 👋 Soy el asistente de Perú Transparente. Pregúntame sobre el capital humano del Estado: cuántos servidores hay, sueldos, entidades, locadores… Te doy el dato y el enlace.";
-
-// Mini-render de markdown: **negrita**, *cursiva*, rutas (#/x) y URLs → nodos.
-// Los modelos free emiten markdown aunque se les pida texto plano; lo renderizamos
-// en vez de pelear con el modelo, para que nunca se vean los asteriscos crudos.
-function render(text: string) {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*|#\/[a-z]+|https?:\/\/[^\s)]+)/g);
-  return parts.map((p, i) => {
-    if (!p) return null;
-    if (/^\*\*[^*]+\*\*$/.test(p))
-      return <strong key={i} className="font-semibold text-ink">{p.slice(2, -2)}</strong>;
-    if (/^\*[^*\n]+\*$/.test(p))
-      return <em key={i}>{p.slice(1, -1)}</em>;
-    if (/^#\/[a-z]+$/.test(p))
-      return (
-        <a key={i} href={`${import.meta.env.BASE_URL}${p}`} className="text-accent-cyan underline underline-offset-2">
-          {p.replace("#/", "")}
-        </a>
-      );
-    if (/^https?:\/\//.test(p))
-      return (
-        <a key={i} href={p} target="_blank" rel="noreferrer" className="text-accent-cyan underline underline-offset-2">
-          enlace
-        </a>
-      );
-    return <span key={i}>{p}</span>;
-  });
-}
 
 export function ChatBot() {
   const [open, setOpen] = useState(false);
@@ -137,7 +111,7 @@ export function ChatBot() {
                       : "bg-surface/[0.04] text-ink-soft"
                   }`}
                 >
-                  {m.role === "assistant" ? render(m.content) : m.content}
+                  {m.role === "assistant" ? renderMarkdown(m.content) : m.content}
                 </div>
               </div>
             ))}
