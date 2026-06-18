@@ -35,10 +35,17 @@ const SUGERENCIAS = [
 const BIENVENIDA =
   "Hola 👋 Soy el asistente de Perú Transparente. Pregúntame sobre el capital humano del Estado: cuántos servidores hay, sueldos, entidades, locadores… Te doy el dato y el enlace.";
 
-// Convierte texto plano con rutas (#/x) y URLs en nodos con enlaces clicables.
+// Mini-render de markdown: **negrita**, *cursiva*, rutas (#/x) y URLs → nodos.
+// Los modelos free emiten markdown aunque se les pida texto plano; lo renderizamos
+// en vez de pelear con el modelo, para que nunca se vean los asteriscos crudos.
 function render(text: string) {
-  const parts = text.split(/(#\/[a-z]+|https?:\/\/[^\s)]+)/g);
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*\n]+\*|#\/[a-z]+|https?:\/\/[^\s)]+)/g);
   return parts.map((p, i) => {
+    if (!p) return null;
+    if (/^\*\*[^*]+\*\*$/.test(p))
+      return <strong key={i} className="font-semibold text-ink">{p.slice(2, -2)}</strong>;
+    if (/^\*[^*\n]+\*$/.test(p))
+      return <em key={i}>{p.slice(1, -1)}</em>;
     if (/^#\/[a-z]+$/.test(p))
       return (
         <a key={i} href={`${import.meta.env.BASE_URL}${p}`} className="text-accent-cyan underline underline-offset-2">
