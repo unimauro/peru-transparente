@@ -25,6 +25,12 @@ def na(s: str) -> str:
                   .encode("ascii", "ignore").decode().upper()).strip()
 
 
+def rows(path: Path):
+    """csv.DictReader tolerante a bytes NUL (líneas corruptas del scraping)."""
+    fh = path.open(encoding="utf-8", errors="ignore", newline="")
+    return csv.DictReader(line.replace("\x00", "") for line in fh)
+
+
 def main() -> None:
     if not SRC.exists():
         print("aún no hay datos de órdenes de servicio")
@@ -35,11 +41,14 @@ def main() -> None:
     for fn in ["data/funcionarios.csv", "data/funcionarios_historico.csv"]:
         p = Path(fn)
         if p.exists():
-            for r in csv.DictReader(p.open(encoding="utf-8")):
-                planilla[na(r["apellidos_nombres"])] = r["entidad"]
+            for r in rows(p):
+                if r.get("apellidos_nombres"):
+                    planilla[na(r["apellidos_nombres"])] = r.get("entidad", "")
 
     by_ruc = defaultdict(lambda: {"dni": "", "nombre": "", "n": 0, "monto": 0.0, "entidades": set(), "desc": set(), "_ocids": set()})
-    for r in csv.DictReader(SRC.open(encoding="utf-8")):
+    for r in rows(SRC):
+        if not r.get("ruc"):
+            continue
         g = by_ruc[r["ruc"]]
         oc = r.get("ocid", "")
         if oc in g["_ocids"]:   # evitar contar 2 veces la misma orden (re-runs del sweep)
