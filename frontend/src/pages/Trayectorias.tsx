@@ -28,13 +28,16 @@ export function Trayectorias() {
   useEffect(() => { staticData.trayectorias().then((x) => setD(x as Data)).catch(() => {}); }, []);
 
   const lista = useMemo(() => {
-    if (!d) return [];
     const nq = q.trim().toLowerCase();
+    // Solo-búsqueda: no se lista a nadie hasta que se escriba (≥2 caracteres).
+    if (!d || nq.length < 2) return [];
     return d.items.filter((t) =>
       (!soloAlto || ALTO.has(t.pico)) &&
-      (!nq || t.nombre.toLowerCase().includes(nq) || t.trace.some((p) => p.abrev.toLowerCase().includes(nq))),
+      (t.nombre.toLowerCase().includes(nq) || t.trace.some((p) => p.abrev.toLowerCase().includes(nq))),
     );
   }, [d, q, soloAlto]);
+
+  const buscando = q.trim().length >= 2;
 
   const { slice, page, pages, setPage, total } = usePaged(lista, 20, `${q}|${soloAlto}`);
 
@@ -45,8 +48,9 @@ export function Trayectorias() {
       <div className="chip mb-3">Trayectorias de poder · PTE 2015–2026</div>
       <h1 className="text-3xl font-bold tracking-tight text-ink">Quién pasó por dónde</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Personas que ocuparon <b>cargos de mando</b> (gerente, director, jefe, hasta ministro) en
-        <b> más de una institución</b> del Estado a lo largo del tiempo. Sigue su recorrido año a año.
+        <b>Busca un nombre o una institución</b> para ver el recorrido de quienes ocuparon
+        <b> cargos de mando</b> (gerente, director, jefe, hasta ministro) en <b>más de una institución</b>
+        del Estado a lo largo del tiempo. No se publica un listado: la información se consulta por búsqueda.
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -61,8 +65,10 @@ export function Trayectorias() {
         <button onClick={() => setSoloAlto((v) => !v)} className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${soloAlto ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>👑 Solo cúpula (ministro/viceministro)</button>
       </div>
 
-      {lista.length === 0 ? (
-        <Empty>Sin resultados.</Empty>
+      {!buscando ? (
+        <Empty>🔎 Escribe un nombre o una institución (ej. <b>MEF</b>, <b>MINSA</b>) para consultar.</Empty>
+      ) : lista.length === 0 ? (
+        <Empty>Sin resultados para “{q.trim()}”.</Empty>
       ) : (
         <div className="mt-5 space-y-3">
           {slice.map((t) => (
