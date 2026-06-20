@@ -29,6 +29,7 @@ export const staticData = {
   jerarquia: () => getJSON(`${STATIC_BASE}/jerarquia_estado.json`),
   ordenes: () => getJSON(`${STATIC_BASE}/ordenes_servicio.json`),
   autoridades: () => getJSON(`${STATIC_BASE}/autoridades.json`),
+  trayectorias: () => getJSON(`${STATIC_BASE}/trayectorias_poder.json`),
   botContext: () => getJSON<{ context: string }>(`${STATIC_BASE}/bot_context.json`),
 };
 

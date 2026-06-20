@@ -10,6 +10,7 @@ import { Autoridades } from "@/pages/Autoridades";
 import { Personas } from "@/pages/Personas";
 import { Salarios } from "@/pages/Salarios";
 import { Ordenes } from "@/pages/Ordenes";
+import { Trayectorias } from "@/pages/Trayectorias";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/ordenes" element={<Ordenes />} />
         <Route path="/salarios" element={<Salarios />} />
         <Route path="/personas" element={<Personas />} />
+        <Route path="/trayectorias" element={<Trayectorias />} />
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/regiones" element={<Regiones />} />
         <Route path="/metodologia" element={<Metodologia />} />

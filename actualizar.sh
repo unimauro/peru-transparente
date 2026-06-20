@@ -26,6 +26,7 @@ fi
 
 echo "▶ 3/4  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_ordenes.py
+"$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
 
 echo "▶ 4/4  Commit + push (dispara el redeploy de Pages)…"

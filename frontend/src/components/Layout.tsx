@@ -34,6 +34,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <NavItem to="/entidades">Entidades</NavItem>
             <NavItem to="/funcionarios">Funcionarios</NavItem>
             <NavItem to="/personas">Personas</NavItem>
+            <NavItem to="/trayectorias">Trayectorias</NavItem>
             <NavItem to="/ordenes">Locadores</NavItem>
             <NavItem to="/autoridades">Autoridades</NavItem>
             <NavItem to="/regiones">Regiones</NavItem>
