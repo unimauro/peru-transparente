@@ -60,9 +60,16 @@ export function Trayectorias() {
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-cyan">{fmt.format((d.summary.picos["Ministro"] || 0) + (d.summary.picos["Viceministro"] || 0))}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">ministros / viceministros</div></div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar persona o institución (ej. MEF, MINSA)…" className="input flex-1" />
-        <button onClick={() => setSoloAlto((v) => !v)} className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${soloAlto ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>👑 Solo cúpula (ministro/viceministro)</button>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          inputMode="search"
+          autoComplete="off"
+          placeholder="🔎 Buscar persona o institución (ej. MEF, MINSA)…"
+          className="input w-full text-base sm:flex-1"
+        />
+        <button onClick={() => setSoloAlto((v) => !v)} className={`w-full rounded-xl border px-4 py-3 text-sm font-medium transition sm:w-auto sm:py-2.5 ${soloAlto ? "border-peru-red/50 bg-peru-red/15 text-peru-redsoft" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>👑 Solo cúpula (ministro/viceministro)</button>
       </div>
 
       {!buscando ? (

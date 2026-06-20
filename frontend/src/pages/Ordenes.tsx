@@ -45,9 +45,9 @@ export function Ordenes() {
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-amber">{fmt.format(d.en_planilla)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">también en planilla ⚠️</div></div>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar nombre, DNI o RUC…" className="input flex-1" />
-        <button onClick={() => setSoloCruces((v) => !v)} className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition ${soloCruces ? "border-accent-amber/50 bg-accent-amber/15 text-accent-amber" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>⚠️ Solo cruces con planilla</button>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <input value={q} onChange={(e) => setQ(e.target.value)} inputMode="search" autoComplete="off" placeholder="🔎 Buscar nombre, DNI o RUC…" className="input w-full text-base sm:flex-1" />
+        <button onClick={() => setSoloCruces((v) => !v)} className={`w-full rounded-xl border px-4 py-3 text-sm font-medium transition sm:w-auto sm:py-2.5 ${soloCruces ? "border-accent-amber/50 bg-accent-amber/15 text-accent-amber" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>⚠️ Solo cruces con planilla</button>
       </div>
 
       {lista.length === 0 ? (
