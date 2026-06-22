@@ -4,11 +4,24 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { YapeModal } from "@/components/YapeModal";
 import { ChatBot } from "@/components/ChatBot";
 
-function NavItem({ to, children }: { to: string; children: ReactNode }) {
+const NAV: [string, string][] = [
+  ["/", "Inicio"],
+  ["/entidades", "Entidades"],
+  ["/funcionarios", "Funcionarios"],
+  ["/personas", "Personas"],
+  ["/trayectorias", "Trayectorias"],
+  ["/ordenes", "Locadores"],
+  ["/autoridades", "Autoridades"],
+  ["/regiones", "Regiones"],
+  ["/metodologia", "FAQ"],
+];
+
+function NavItem({ to, children, onClick }: { to: string; children: ReactNode; onClick?: () => void }) {
   return (
     <NavLink
       to={to}
       end={to === "/"}
+      onClick={onClick}
       className={({ isActive }) =>
         `rounded-lg px-3 py-1.5 text-sm transition-colors ${
           isActive ? "bg-surface/10 text-ink" : "text-ink-soft hover:text-ink"
@@ -21,35 +34,61 @@ function NavItem({ to, children }: { to: string; children: ReactNode }) {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
+  const [menu, setMenu] = useState(false);
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b border-surface/[0.06] bg-bg-base/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2" onClick={() => setMenu(false)}>
             <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-7 w-7" />
             <span className="font-semibold tracking-tight text-ink">Perú Transparente</span>
           </Link>
-          <nav className="flex items-center gap-1">
-            <NavItem to="/">Inicio</NavItem>
-            <NavItem to="/entidades">Entidades</NavItem>
-            <NavItem to="/funcionarios">Funcionarios</NavItem>
-            <NavItem to="/personas">Personas</NavItem>
-            <NavItem to="/trayectorias">Trayectorias</NavItem>
-            <NavItem to="/ordenes">Locadores</NavItem>
-            <NavItem to="/autoridades">Autoridades</NavItem>
-            <NavItem to="/regiones">Regiones</NavItem>
-            <NavItem to="/metodologia">FAQ</NavItem>
+
+          {/* Navegación de escritorio */}
+          <nav className="hidden items-center gap-1 md:flex">
+            {NAV.map(([to, label]) => <NavItem key={to} to={to}>{label}</NavItem>)}
             <a
               href="https://github.com/unimauro/peru-transparente"
               target="_blank"
               rel="noreferrer"
-              className="ml-1 hidden rounded-lg border border-surface/10 px-3 py-1.5 text-sm text-ink-soft hover:border-surface/20 hover:text-ink sm:block"
+              className="ml-1 rounded-lg border border-surface/10 px-3 py-1.5 text-sm text-ink-soft hover:border-surface/20 hover:text-ink"
             >
               GitHub
             </a>
             <ThemeToggle />
           </nav>
+
+          {/* Controles móviles: tema + hamburguesa */}
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle />
+            <button
+              onClick={() => setMenu((o) => !o)}
+              aria-label={menu ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={menu}
+              className="rounded-lg border border-surface/10 px-3 py-2 text-lg leading-none text-ink-soft hover:text-ink"
+            >
+              {menu ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
+
+        {/* Panel de navegación móvil */}
+        {menu && (
+          <nav className="flex flex-col gap-1 border-t border-surface/[0.06] px-3 py-3 md:hidden">
+            {NAV.map(([to, label]) => (
+              <NavItem key={to} to={to} onClick={() => setMenu(false)}>{label}</NavItem>
+            ))}
+            <a
+              href="https://github.com/unimauro/peru-transparente"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMenu(false)}
+              className="rounded-lg px-3 py-1.5 text-sm text-ink-soft hover:text-ink"
+            >
+              GitHub ↗
+            </a>
+          </nav>
+        )}
       </header>
 
       <main className="flex-1">{children}</main>
