@@ -11,10 +11,12 @@
 La meta original de "≥100k funcionarios indexados con historial" ya se superó.
 
 - **213 101 servidores nominales** (PTE 2026, deduplicados) de 646 entidades con datos / 2 308 del catálogo (99% barrido).
-- **653 359 filas históricas** (dic 2015/2018/2021/2024) → índice de **403 319 personas con trayectoria** año a año.
+- **653k filas históricas** (dic 2015/2018/2021/2024) → índice de **403 319 personas con trayectoria** año a año. 🔄 **En curso (jun-2026): densificación** a 2016/2017/2019/2022/2025 (años que el PTE sí publica) para trazas más completas.
 - **5 637 autoridades** de gob.pe · **panorama AIRHSP/MEF** de 2 722 207 servidores (dic-2025, incl. docentes y FF.AA./PNP que el PTE no publica).
-- **Dashboards live:** Inicio · Entidades (con/sin/compartida) · Funcionarios (por nivel + jerarquía Sector→Pliego) · Personas (buscador 403k + grafo persona↔entidad + red institucional + **trayectoria timeline**) · **Locadores** (órdenes de servicio OCDS por RUC/DNI) · Sueldos (ECharts) · Regiones (choropleth) · Autoridades · FAQ.
-- **Asistente IA** (chatbot) anclado a los datos del portal, vía gateway `ai.tunky.net` (key server-side, costo $0 con modelos free).
+- **Dashboards live:** Inicio · Entidades (con/sin/compartida) · Funcionarios (por nivel + jerarquía Sector→Pliego) · Personas (buscador 403k + grafo persona↔entidad + red institucional + **trayectoria timeline**) · **Trayectorias de poder** (solo-búsqueda: quién fue mando en varias instituciones 2015→2026) · **Locadores** (órdenes de servicio OCDS por RUC/DNI) · Sueldos (ECharts) · Regiones (choropleth) · Autoridades · FAQ.
+- **Asistente IA** (chatbot) anclado a los datos del portal, vía gateway `ai.tunky.net` (key server-side, costo $0; system-prompt forzado por el servidor anti-jailbreak) + **render markdown** reutilizable.
+- **Refresco diario automático** desde la laptop (launchd 22:00, `actualizar.sh`) — esquiva el geobloqueo del OECE a las IPs de GitHub Actions.
+- **Usabilidad móvil:** buscadores a todo el ancho (sin zoom iOS) + menú hamburguesa.
 - **Pipeline reproducible** documentado (`docs/FLUJO.md`) + dedup crítico (planillas padre/hijo) resuelto.
 
 ---
@@ -24,7 +26,7 @@ La meta original de "≥100k funcionarios indexados con historial" ya se superó
 Pulir y exponer valor que ya está casi listo en los datos.
 
 - [ ] **Página de Designaciones/Rotación.** `build_rotacion.py` ya genera `rotacion.json` (tasa 26.8%, altas/bajas, cambios de mando) pero **no tiene página**. Crear vista: ranking de entidades por rotación, nombramientos/ceses de cargos clave 2024→2026.
-- [ ] **Refresco automático (GitHub Action programada).** Cron mensual que corra el barrido PTE incremental + OCDS y regenere los JSON → datos siempre frescos sin intervención manual.
+- [x] ~~**Refresco automático.**~~ Hecho vía laptop (launchd 22:00 + `actualizar.sh`), porque el OECE bloquea las IPs de GitHub Actions (403). Genera OCDS + trayectorias + bot, commitea y despliega solo.
 - [ ] **Bot v1.1.** Panel de consumo (`/admin` del gateway), sugerencias contextuales por sección, y memoria de “no sé” honesto. Medir uso real antes de invertir más.
 - [ ] **Calidad/cobertura como dashboard.** Hacer visible qué entidades NO transparentan (hallazgo fuerte): FONAFE, FF.AA., PNP, INPE, 27/35 universidades solo CAS.
 - [ ] **OG/SEO por sección** (verificar que cada pestaña tenga su tarjeta social).
@@ -34,6 +36,7 @@ Pulir y exponer valor que ya está casi listo en los datos.
 Cerrar las brechas que convierten el portal en herramienta de **eficiencia del Estado**.
 
 - [ ] **Locadores a escala real.** El OCDS topa en ~página 500 (~10k recientes). Estrategia de barrido por ventanas de fecha / por entidad / enumeración de OCID para cubrir el universo, y **cruce masivo con planilla** (señal de doble percepción — el mayor valor analítico).
+- [ ] **Locadores: monto mensual vs total.** El feed `/releases` del OCDS **NO trae la duración del contrato** (`award.contractPeriod`=null), así que el monto total confunde (puede ser 6, 10, 12 meses). Pendiente: traer el período desde el endpoint de contrato/record por ocid (o parsear la descripción) → calcular meses + estimado mensual; mientras tanto, etiquetar claramente "monto total · duración no informada".
 - [ ] **Presupuesto MEF vinculado por entidad** (PIA/PIM/devengado vía META, no ejecutora). Permite el ratio **gasto vs. personal** = lectura de eficiencia.
 - [ ] **Búsqueda full-text real (Supabase).** El esquema y `load_supabase.py` ya existen; cargar los 403k para `buscar_persona()` con fuzzy, en vez de shards por letra.
 - [ ] **Declaraciones juradas (Contraloría):** bienes/rentas/intereses + evolución, como hipótesis con confianza (anti-overclaiming).
