@@ -27,6 +27,12 @@ def ab(e: str) -> str:
     return m.group(1) if m else e[:24]
 
 
+def rows(fn: str):
+    """csv.DictReader tolerante a bytes NUL (líneas corruptas del scraping)."""
+    fh = open(fn, encoding="utf-8", errors="ignore", newline="")
+    return csv.DictReader(line.replace("\x00", "") for line in fh)
+
+
 def main() -> None:
     pers: dict[str, list] = defaultdict(list)
     fuentes = ["data/funcionarios.csv"]
@@ -34,7 +40,9 @@ def main() -> None:
         fuentes.append("data/funcionarios_historico.csv")
     vistos: set = set()  # dedup por (nombre, entidad, cargo, año)
     for fn in fuentes:
-        for r in csv.DictReader(open(fn, encoding="utf-8")):
+        for r in rows(fn):
+            if not r.get("apellidos_nombres"):
+                continue
             try:
                 s = round(float(r["total_ingreso_mensual"]))
             except (TypeError, ValueError):

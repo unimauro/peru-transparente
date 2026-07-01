@@ -29,11 +29,17 @@ def na(s: str) -> str:
                   .encode("ascii", "ignore").decode().upper()).strip()
 
 
+def rows(fn: str):
+    """csv.DictReader tolerante a bytes NUL (líneas corruptas del scraping)."""
+    fh = open(fn, encoding="utf-8", errors="ignore", newline="")
+    return csv.DictReader(line.replace("\x00", "") for line in fh)
+
+
 def main() -> None:
     now: dict[str, set] = defaultdict(set)
     now_clave: dict[str, dict] = defaultdict(dict)   # eid -> {nombre: cargo}
     ent_nom: dict[str, str] = {}
-    for r in csv.DictReader(open("data/funcionarios.csv", encoding="utf-8")):
+    for r in rows("data/funcionarios.csv"):
         eid = r["id_entidad"]
         nm = na(r["apellidos_nombres"])
         now[eid].add(nm)
@@ -43,7 +49,7 @@ def main() -> None:
 
     prev: dict[str, set] = defaultdict(set)
     prev_clave: dict[str, dict] = defaultdict(dict)
-    for r in csv.DictReader(open("data/funcionarios_historico.csv", encoding="utf-8")):
+    for r in rows("data/funcionarios_historico.csv"):
         if r["anio"] != "2024":
             continue
         eid = r["id_entidad"]
