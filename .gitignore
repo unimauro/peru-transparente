@@ -40,3 +40,14 @@ data/salarios_pt_*.csv
 data/funcionarios_historico.csv
 data/_con_datos.csv
 data/historico.checkpoint.json
+
+# RNSSC crudo: contiene DNI completo (PII sensible), no versionar
+data/sanciones_rnssc.csv
+data/rnssc.checkpoint.json
+
+# Contratos OCDS crudo: el RUC de persona natural (10…) embebe el DNI (PII sensible).
+# Los JSON publicados ya enmascaran ese DNI; el CSV crudo se queda local, no se versiona.
+# (El checkpoint solo guarda SHAs de meses — ese sí es seguro de versionar.)
+data/contratos.csv
+data/_*.log
+data/dj_intereses.csv

@@ -10,6 +10,8 @@ import { Autoridades } from "@/pages/Autoridades";
 import { Personas } from "@/pages/Personas";
 import { Salarios } from "@/pages/Salarios";
 import { Ordenes } from "@/pages/Ordenes";
+import { Contratos } from "@/pages/Contratos";
+import { Sanciones } from "@/pages/Sanciones";
 import { Trayectorias } from "@/pages/Trayectorias";
 
 export default function App() {
@@ -21,6 +23,8 @@ export default function App() {
         <Route path="/entidad/:id" element={<EntidadDetalle />} />
         <Route path="/funcionarios" element={<Funcionarios />} />
         <Route path="/ordenes" element={<Ordenes />} />
+        <Route path="/contratos" element={<Contratos />} />
+        <Route path="/sanciones" element={<Sanciones />} />
         <Route path="/salarios" element={<Salarios />} />
         <Route path="/personas" element={<Personas />} />
         <Route path="/trayectorias" element={<Trayectorias />} />

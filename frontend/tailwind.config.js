@@ -13,7 +13,7 @@ export default {
         },
         surface: "rgb(var(--surface) / <alpha-value>)",
         peru: { red: "#e11d2a", redsoft: "rgb(var(--peru-soft) / <alpha-value>)" },
-        accent: { blue: "#4f8cff", violet: "#a78bfa", cyan: "#1aa3c0", amber: "#d97706" },
+        accent: { blue: "#4f8cff", violet: "#a78bfa", cyan: "#1aa3c0", amber: "#d97706", green: "#16a34a" },
         conf: { high: "#16a34a", mid: "#d97706", low: "#6b7280" },
       },
       fontFamily: { sans: ["Inter", "system-ui", "sans-serif"], display: ["Inter", "system-ui", "sans-serif"] },

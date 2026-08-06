@@ -24,13 +24,33 @@ if [ -f data/ordenes_servicio.csv ]; then
   rm -f /tmp/ord.head /tmp/ord.body
 fi
 
-echo "▶ 3/4  Reconstruyendo JSON + contexto del bot…"
+echo "▶ 3/6  Refrescando contratos/adjudicaciones (bulk OCDS mensual)…"
+# Bulk incremental: solo re-descarga meses cuyo SHA cambió (checkpoint). Ventana
+# corta = meses recientes; el histórico se carga una vez con --desde a mano.
+"$PY" scrapers/scrape_contratos.py --meses 3
+
+echo "▶ 4/6  Sanciones RNSSC (SERVIR) — barrido completo, solo los lunes…"
+# El RNSSC solo expone VIGENTES (foto del momento) y el barrido tarda 20-40 min:
+# lo corremos SEMANAL (lunes) para no alargar el refresco diario. Corre igual con
+# ./actualizar.sh N sanciones. La DJ de Intereses es un dump congelado 2022 → no se
+# refresca (se publicó una vez).
+if [ "$(date +%u)" = "1" ] || [ "${2:-}" = "sanciones" ]; then
+  "$PY" scrapers/scrape_rnssc.py && "$PY" scripts/build_sanciones.py
+else
+  echo "  (hoy no toca; corre 'lunes' o './actualizar.sh $MIN sanciones' para forzar)"
+fi
+
+echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_ordenes.py
+"$PY" scripts/build_contratos.py
 "$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
 
-echo "▶ 4/4  Commit + push (dispara el redeploy de Pages)…"
-git add frontend/public/data data/ordenes_servicio.csv
+echo "▶ 6/6  Commit + push (dispara el redeploy de Pages)…"
+# data/contratos.csv y data/sanciones_rnssc.csv NO se versionan (RUC/DNI = PII). El
+# checkpoint de contratos SÍ (guarda el SHA por mes = estado incremental); el de RNSSC no
+# (es efímero, se reinicia en cada barrido completo). Los JSON publicados van todos.
+git add frontend/public/data data/ordenes_servicio.csv data/contratos.checkpoint.json
 if git diff --staged --quiet; then
   echo "  (sin datos nuevos hoy — nada que publicar)"
 else

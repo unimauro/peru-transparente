@@ -18,6 +18,8 @@ SITE = "https://unimauro.github.io/peru-transparente"
 # Lee cifras reales del KPI para ponerlas en cada OG
 kpi = json.loads((PUB / "data/national_kpis.json").read_text())
 sal = json.loads((PUB / "data/salarios.json").read_text()) if (PUB / "data/salarios.json").exists() else {}
+san = json.loads((PUB / "data/sanciones.json").read_text()) if (PUB / "data/sanciones.json").exists() else {}
+con = json.loads((PUB / "data/contratos.json").read_text()) if (PUB / "data/contratos.json").exists() else {}
 fmt = lambda n: f"{int(n):,}".replace(",", " ")
 
 SECCIONES = {
@@ -33,6 +35,10 @@ SECCIONES = {
                  "mapa nacional", "#22c55e"),
     "autoridades": ("Autoridades del Estado", "Rectores, ministros, superintendentes y jefes con contacto",
                     "5 637 autoridades", "#f59e0b"),
+    "sanciones": ("Servidores sancionados", "Destituciones, inhabilitaciones y suspensiones vigentes del RNSSC (SERVIR)",
+                  f"{fmt(san.get('total_sanciones', 0))} sanciones vigentes", "#e4572e"),
+    "contratos": ("Contratos del Estado", "Quién compra y quién vende: adjudicaciones OCDS/SEACE por entidad y proveedor",
+                  f"S/ {fmt((con.get('_meta') or {}).get('monto_total', 0))} adjudicado", "#1aa3c0"),
 }
 
 SVG = """<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Inter, Arial, sans-serif">

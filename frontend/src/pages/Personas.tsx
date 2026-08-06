@@ -6,6 +6,11 @@ import { RedInstitucional } from "@/components/RedInstitucional";
 
 type Ap = [string, string, string, string, number, string]; // id, abrev, cargo, regimen, sueldo, año
 type Persona = [string, number, Ap[]];                       // nombre, n_entidades, apariciones
+interface Sancion {
+  tipo: string; entidad: string; causa: string; fecha_fin: string;
+  dni_masked: string; homonimo_posible: boolean;
+}
+interface Dj { entidad: string; cargo: string; fecha: string; codigo: string; }
 
 export function Personas() {
   const [red, setRed] = useState<Persona[]>([]);
@@ -14,11 +19,37 @@ export function Personas() {
   const [sel, setSel] = useState<Persona | null>(null);
   const [loadingShard, setLoadingShard] = useState(false);
   const [vista, setVista] = useState<"buscar" | "red">("buscar");
+  // Índices sanción/DJ shardeados por letra (clave = mismo nombre normalizado que este
+  // buscador). Cruce por nombre → homónimo posible, no hecho confirmado.
+  const [sanciones, setSanciones] = useState<Record<string, Sancion[]>>({});
+  const [dj, setDj] = useState<Record<string, Dj[]>>({});
   const cache = useRef<Record<string, Persona[]>>({});
+  const sanCache = useRef<Record<string, Record<string, Sancion[]>>>({});
+  const djCache = useRef<Record<string, Record<string, Dj[]>>>({});
 
   useEffect(() => {
     staticData.personasRed().then((d) => setRed((d as { items: Persona[] }).items)).catch(() => {});
   }, []);
+
+  // Carga los shards de señales (sanción/DJ) para la letra de la búsqueda, en paralelo
+  // al shard de personas. Todas las coincidencias comparten inicial (el buscador filtra
+  // dentro del shard de esa letra), así que un solo shard por letra basta para la lista.
+  useEffect(() => {
+    const nq = q.trim().toUpperCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
+    if (nq.length < 2) return;
+    const letra = /[A-Z]/.test(nq[0]) ? nq[0] : "_";
+    if (sanCache.current[letra]) { setSanciones(sanCache.current[letra]); }
+    else staticData.sancionesShard(letra)
+      .then((d) => { sanCache.current[letra] = (d as { index: Record<string, Sancion[]> }).index; setSanciones(sanCache.current[letra]); })
+      .catch(() => { sanCache.current[letra] = {}; });
+    if (djCache.current[letra]) { setDj(djCache.current[letra]); }
+    else staticData.djShard(letra)
+      .then((d) => { djCache.current[letra] = (d as { index: Record<string, Dj[]> }).index; setDj(djCache.current[letra]); })
+      .catch(() => { djCache.current[letra] = {}; });
+  }, [q]);
+
+  const sancionSel = (sel && sanciones[sel[0]]) || null;
+  const djSel = (sel && dj[sel[0]]) || null;
 
   useEffect(() => {
     const nq = q.trim().toUpperCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
@@ -79,7 +110,11 @@ export function Personas() {
                   className={`flex w-full items-center justify-between gap-3 px-4 py-2.5 text-left transition-colors hover:bg-surface/[0.04] ${sel === p ? "bg-surface/[0.05]" : ""}`}
                 >
                   <span className="min-w-0 truncate text-sm text-ink">{p[0]}</span>
-                  {p[1] >= 2 && <span className="shrink-0 rounded-md bg-peru-red/15 px-2 py-0.5 text-[11px] text-peru-redsoft">{p[1]} entidades</span>}
+                  <span className="flex shrink-0 items-center gap-1">
+                    {sanciones[p[0]] && <span className="rounded-md bg-accent-amber/20 px-1.5 py-0.5 text-[11px] text-accent-amber" title="Coincidencia por nombre en el RNSSC (homónimo posible)">⚠️ sanción</span>}
+                    {dj[p[0]] && <span className="rounded-md bg-accent-green/15 px-1.5 py-0.5 text-[11px] text-accent-green" title="Declaró DJ de Intereses (CGR 2022, homónimo posible)">📋 DJ</span>}
+                    {p[1] >= 2 && <span className="rounded-md bg-peru-red/15 px-2 py-0.5 text-[11px] text-peru-redsoft">{p[1]} entidades</span>}
+                  </span>
                 </button>
               ))}
             </div>
@@ -90,6 +125,41 @@ export function Personas() {
           {sel ? (
             <div className="glass p-4">
               <div className="mb-2 font-semibold text-ink">{sel[0]}</div>
+              {sancionSel && (
+                <div className="mb-3 rounded-lg border border-accent-amber/30 bg-accent-amber/[0.07] p-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-accent-amber">⚠️ Posible sanción (RNSSC)</div>
+                  <div className="mt-1.5 space-y-1">
+                    {sancionSel.map((s, i) => (
+                      <div key={i} className="text-[12px] text-ink-soft">
+                        <span className="font-medium text-ink">{s.tipo.length > 60 ? s.tipo.slice(0, 60) + "…" : s.tipo}</span>
+                        <span className="text-ink-mute"> · {s.entidad}</span>
+                        {s.fecha_fin && <span className="text-ink-faint"> · hasta {s.fecha_fin}</span>}
+                        <span className="text-ink-faint"> · DNI {s.dni_masked}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-1.5 text-[10px] text-ink-faint">
+                    Coincidencia por <b>nombre</b> con el <a className="underline" href="/sanciones">RNSSC</a> — homónimo posible, verifica identidad en la fuente oficial.
+                  </div>
+                </div>
+              )}
+              {djSel && (
+                <div className="mb-3 rounded-lg border border-accent-green/25 bg-accent-green/[0.06] p-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-accent-green">📋 Declaró DJ de Intereses (CGR)</div>
+                  <div className="mt-1.5 space-y-1">
+                    {djSel.map((s, i) => (
+                      <div key={i} className="text-[12px] text-ink-soft">
+                        <span className="font-medium text-ink">{s.cargo || "—"}</span>
+                        <span className="text-ink-mute"> · {s.entidad}</span>
+                        {s.fecha && <span className="text-ink-faint"> · {s.fecha}</span>}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-1.5 text-[10px] text-ink-faint">
+                    Declarar es una <b>obligación cumplida</b> (señal positiva). Dataset abierto CGR jul–dic 2022 · coincidencia por nombre.
+                  </div>
+                </div>
+              )}
               <PersonaGrafo nombre={sel[0]} apariciones={sel[2]} />
               <div className="mb-1 mt-3 text-[11px] font-semibold uppercase tracking-wide text-accent-cyan/80">Trayectoria (línea de tiempo)</div>
               <div className="space-y-1.5">
