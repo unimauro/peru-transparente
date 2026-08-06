@@ -8,6 +8,7 @@ interface Loc {
 }
 interface Data {
   total_locadores: number; total_ordenes: number; monto_total: number; en_planilla: number;
+  periodo?: [string, string] | null;
   top: Loc[]; cruces: Loc[];
 }
 
@@ -41,7 +42,7 @@ export function Ordenes() {
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-ink">{fmt.format(d.total_locadores)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">locadores</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-cyan">{fmt.format(d.total_ordenes)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">órdenes</div></div>
-        <div className="glass p-4"><div className="tabular text-2xl font-bold text-peru-redsoft">{money(d.monto_total)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">monto total</div></div>
+        <div className="glass p-4" title="Suma acumulada de todas las órdenes rastreadas en el periodo indicado, no de un solo año."><div className="tabular text-2xl font-bold text-peru-redsoft">{money(d.monto_total)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">monto acumulado{d.periodo ? ` · ${d.periodo[0]}–${d.periodo[1]}` : ""}</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-amber">{fmt.format(d.en_planilla)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">también en planilla ⚠️</div></div>
       </div>
 
@@ -83,7 +84,7 @@ export function Ordenes() {
       )}
       {lista.length > 0 && <Pagination page={page} pages={pages} setPage={setPage} total={total} />}
       <p className="mt-3 text-[11px] text-ink-faint">
-        Fuente: OCDS/OECE (contrataciones abiertas), ventana reciente. El monto es el <b>valor total del contrato</b> (puede abarcar varios meses), no mensual.
+        Fuente: OCDS/OECE (contrataciones abiertas){d.periodo ? `, órdenes de ${d.periodo[0]} a ${d.periodo[1]}` : ""}. El monto es el <b>valor total de cada orden acumulado</b> en ese periodo (no de un año ni mensual).
         "También en planilla" es una <b>señal por coincidencia de nombre</b> — no implica irregularidad (la locación puede ser en otra entidad/período).
       </p>
     </div>

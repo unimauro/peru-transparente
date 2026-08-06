@@ -72,11 +72,16 @@ def main() -> None:
         (OUT / "personas" / f"{letra}.json").write_text(
             json.dumps({"items": recs}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
+    # Vista por defecto liviana: solo el TOP por nº de entidades (el resto se encuentra
+    # buscando por apellido, que carga el shard de esa letra). Antes se publicaba la lista
+    # completa (48k personas ≈ 17 MB) y colgaba la página en móvil.
     red.sort(key=lambda x: -x[1])
     (OUT / "personas_red.json").write_text(
-        json.dumps({"items": red}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        json.dumps({"total": len(red), "items": red[:500]},
+                   ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
-    print(f"✔ {len(pers):,} personas en {len(shards)} shards · {len(red):,} en 2+ entidades")
+    print(f"✔ {len(pers):,} personas en {len(shards)} shards · {len(red):,} en 2+ entidades "
+          f"(personas_red.json recortado a top 500)")
 
 
 if __name__ == "__main__":

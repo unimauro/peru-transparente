@@ -14,6 +14,7 @@ interface Dj { entidad: string; cargo: string; fecha: string; codigo: string; }
 
 export function Personas() {
   const [red, setRed] = useState<Persona[]>([]);
+  const [redTotal, setRedTotal] = useState(0);
   const [q, setQ] = useState("");
   const [results, setResults] = useState<Persona[] | null>(null);
   const [sel, setSel] = useState<Persona | null>(null);
@@ -28,7 +29,11 @@ export function Personas() {
   const djCache = useRef<Record<string, Record<string, Dj[]>>>({});
 
   useEffect(() => {
-    staticData.personasRed().then((d) => setRed((d as { items: Persona[] }).items)).catch(() => {});
+    staticData.personasRed().then((d) => {
+      const r = d as { total?: number; items: Persona[] };
+      setRed(r.items);
+      setRedTotal(r.total ?? r.items.length);
+    }).catch(() => {});
   }, []);
 
   // Carga los shards de señales (sanción/DJ) para la letra de la búsqueda, en paralelo
@@ -65,7 +70,7 @@ export function Personas() {
   }, [q]);
 
   const lista = results ?? red;
-  const titulo = results ? `${fmt.format(lista.length)} resultados` : `${fmt.format(red.length)} personas en 2+ entidades (redes de poder)`;
+  const titulo = results ? `${fmt.format(lista.length)} resultados` : `${fmt.format(redTotal)} personas en 2+ entidades · mostrando las ${fmt.format(red.length)} más conectadas`;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">

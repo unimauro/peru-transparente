@@ -46,6 +46,7 @@ def main() -> None:
                     planilla[na(r["apellidos_nombres"])] = r.get("entidad", "")
 
     by_ruc = defaultdict(lambda: {"dni": "", "nombre": "", "n": 0, "monto": 0.0, "entidades": set(), "desc": set(), "_ocids": set()})
+    fechas: list[str] = []
     for r in rows(SRC):
         if not r.get("ruc"):
             continue
@@ -54,6 +55,9 @@ def main() -> None:
         if oc in g["_ocids"]:   # evitar contar 2 veces la misma orden (re-runs del sweep)
             continue
         g["_ocids"].add(oc)
+        f = (r.get("fecha") or "")[:7]
+        if f:
+            fechas.append(f)
         g["dni"] = r["dni"]
         g["nombre"] = r["proveedor"]
         g["n"] += 1
@@ -87,6 +91,7 @@ def main() -> None:
         "total_locadores": len(by_ruc),
         "total_ordenes": sum(g["n"] for g in by_ruc.values()),
         "monto_total": round(total_monto),
+        "periodo": [min(fechas), max(fechas)] if fechas else None,
         "en_planilla": len(cruces),
         "top": items[:300],
         "cruces": cruces[:200],

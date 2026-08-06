@@ -45,13 +45,14 @@ export function Regiones() {
       <div className="chip mb-3">Distribución territorial</div>
       <h1 className="text-3xl font-bold tracking-tight text-ink">Personal y planilla por región</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Cómo se distribuye el personal público y su planilla mensual por región del Perú.
+        Dónde trabajan los servidores públicos del Estado y cuánto suma su planilla mensual, región por región.
+        Basado en la planilla del Portal de Transparencia (foto 2026); una persona se cuenta en la región de su entidad.
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="glass p-4">
           <div className="tabular text-2xl font-bold text-accent-cyan">{fmt.format(totalPersonal)}</div>
-          <div className="text-[11px] uppercase tracking-wider text-ink-mute">personal indexado</div>
+          <div className="text-[11px] uppercase tracking-wider text-ink-mute">servidores en planilla</div>
         </div>
         <div className="glass p-4">
           <div className="tabular text-2xl font-bold text-peru-redsoft">{money(totalPlanilla)}</div>

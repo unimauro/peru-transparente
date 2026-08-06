@@ -26,6 +26,7 @@ export function Autoridades() {
   }, [items, q]);
 
   const { slice, page, pages, setPage, total } = usePaged(filtered, 50, q);
+  const nEntidades = useMemo(() => new Set(items.map((a) => a.id_entidad)).size, [items]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
@@ -35,7 +36,7 @@ export function Autoridades() {
         Rectores, ministros, viceministros, superintendentes, jefes y gerentes — con cargo, correo y
         teléfono oficial. Complementa la planilla del PTE con lo que muchas entidades no publican ahí.
       </p>
-      <div className="mt-3 chip">{fmt.format(items.length)} autoridades · 385 entidades</div>
+      <div className="mt-3 chip">{loading ? "Cargando directorio…" : `${fmt.format(items.length)} autoridades · ${fmt.format(nEntidades)} entidades`}</div>
 
       <input
         value={q}

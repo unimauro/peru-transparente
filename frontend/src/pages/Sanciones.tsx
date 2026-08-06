@@ -96,7 +96,7 @@ export function Sanciones() {
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <div className="glass p-4"><div className="tabular text-2xl font-bold text-peru-redsoft">{fmt.format(d.total_sanciones)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">sanciones vigentes</div></div>
+        <div className="glass p-4" title="Foto actual de sanciones activas — no es un acumulado histórico. Las cumplidas o caducadas no aparecen."><div className="tabular text-2xl font-bold text-peru-redsoft">{fmt.format(d.total_sanciones)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">vigentes hoy · no acumulado</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-ink">{fmt.format(d.total_personas)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">personas</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-cyan">{fmt.format(d.por_tipo.length)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">tipos de sanción</div></div>
       </div>

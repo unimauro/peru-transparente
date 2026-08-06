@@ -64,6 +64,9 @@ export function Contratos() {
         Adjudicaciones del Estado peruano: <b>quién compra</b> (entidad) y <b>quién vende</b> (proveedor),
         con montos y concentración. Los importes son el <b>valor adjudicado</b> —no necesariamente pagado.
       </p>
+      <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-surface/10 bg-surface/[0.03] px-2.5 py-1 text-[12px] text-ink-mute">
+        📅 Periodo: <b className="text-ink-soft">{d._meta.meses[0]} a {d._meta.meses[d._meta.meses.length - 1]}</b> · adjudicado (no pagado)
+      </div>
 
       {/* KPIs globales */}
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
