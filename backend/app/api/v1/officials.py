@@ -22,8 +22,8 @@ async def list_officials(
         JOIN core.appointment a ON a.person_id = p.id AND a.is_current
         JOIN core.position pos ON pos.id = a.position_id
         JOIN core.entity e ON e.id = a.entity_id
-        WHERE (:q IS NULL OR p.normalized_name ILIKE '%'||upper(:q)||'%')
-          AND (:entity_id IS NULL OR e.id = :entity_id)
+        WHERE (CAST(:q AS text) IS NULL OR p.normalized_name ILIKE '%'||upper(CAST(:q AS text))||'%')
+          AND (CAST(:entity_id AS uuid) IS NULL OR e.id = CAST(:entity_id AS uuid))
         ORDER BY p.full_name
         LIMIT :limit OFFSET :offset
     """

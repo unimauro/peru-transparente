@@ -24,9 +24,9 @@ async def list_entities(
         FROM core.entity e
         LEFT JOIN core.sector s ON s.id = e.sector_id
         WHERE e.is_current
-          AND (:q IS NULL OR e.name ILIKE '%'||:q||'%' OR e.acronym ILIKE '%'||:q||'%')
-          AND (:sector IS NULL OR s.name = :sector)
-          AND (:level IS NULL OR e.level = :level)
+          AND (CAST(:q AS text) IS NULL OR e.name ILIKE '%'||CAST(:q AS text)||'%' OR e.acronym ILIKE '%'||CAST(:q AS text)||'%')
+          AND (CAST(:sector AS text) IS NULL OR s.name = CAST(:sector AS text))
+          AND (CAST(:level AS text) IS NULL OR e.level = CAST(:level AS text))
         ORDER BY e.name
         LIMIT :limit OFFSET :offset
     """

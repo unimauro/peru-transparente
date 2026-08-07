@@ -22,8 +22,8 @@ async def list_contracts(
         FROM core.contract c
         LEFT JOIN core.entity e ON e.id = c.entity_id
         LEFT JOIN core.supplier sup ON sup.id = c.supplier_id
-        WHERE (:entity_id IS NULL OR c.entity_id = :entity_id)
-          AND (:supplier_id IS NULL OR c.supplier_id = :supplier_id)
+        WHERE (CAST(:entity_id AS uuid) IS NULL OR c.entity_id = CAST(:entity_id AS uuid))
+          AND (CAST(:supplier_id AS uuid) IS NULL OR c.supplier_id = CAST(:supplier_id AS uuid))
         ORDER BY c.sign_date DESC NULLS LAST
         LIMIT :limit OFFSET :offset
     """
