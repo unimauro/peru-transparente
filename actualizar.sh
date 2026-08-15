@@ -40,9 +40,16 @@ else
   echo "  (hoy no toca; corre 'lunes' o './actualizar.sh $MIN sanciones' para forzar)"
 fi
 
+echo "▶ 4.5/6  Designaciones/nombramientos recientes (El Peruano), ${MIN} min…"
+# Fuente con FECHA de designación. Best-effort (parseo por heurística del buscador);
+# 0 filas no rompe el pipeline. La sección "Nuevos" degrada a altas de planilla.
+"$PY" scripts/scrape_designaciones.py --desde 21-07-2026 --max-minutes "$MIN" || \
+  echo "  (designaciones: sin datos nuevos o buscador no accesible; se usa solo altas de planilla)"
+
 echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_ordenes.py
 "$PY" scripts/build_contratos.py
+"$PY" scripts/build_nuevos_funcionarios.py --corte 2026-07-21
 "$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
 
@@ -51,6 +58,8 @@ echo "▶ 6/6  Commit + push (dispara el redeploy de Pages)…"
 # checkpoint de contratos SÍ (guarda el SHA por mes = estado incremental); el de RNSSC no
 # (es efímero, se reinicia en cada barrido completo). Los JSON publicados van todos.
 git add frontend/public/data data/ordenes_servicio.csv data/contratos.checkpoint.json
+# Las designaciones de El Peruano son 100% públicas (norma + persona + cargo) → se versionan.
+[ -f data/designaciones.csv ] && git add data/designaciones.csv data/designaciones.checkpoint.json
 if git diff --staged --quiet; then
   echo "  (sin datos nuevos hoy — nada que publicar)"
 else

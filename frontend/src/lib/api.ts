@@ -28,6 +28,7 @@ export const staticData = {
   salarios: () => getJSON(`${STATIC_BASE}/salarios.json`),
   jerarquia: () => getJSON(`${STATIC_BASE}/jerarquia_estado.json`),
   ordenes: () => getJSON(`${STATIC_BASE}/ordenes_servicio.json`),
+  nuevosFuncionarios: () => getJSON(`${STATIC_BASE}/nuevos_funcionarios.json`),
   contratos: () => getJSON(`${STATIC_BASE}/contratos.json`),
   contratosPorEntidad: () => getJSON(`${STATIC_BASE}/contratos_por_entidad.json`),
   contratosPorProveedor: () => getJSON(`${STATIC_BASE}/contratos_por_proveedor.json`),
