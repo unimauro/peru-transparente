@@ -17,13 +17,19 @@ interface Airhsp {
   por_regimen: { regimen: string; n: number; prom: number; masa: number }[];
 }
 
+// Clave para cruzar con "Nuevos funcionarios": nombre + entidad, sin acentos ni mayúsculas.
+const nkey = (nombre: string, entidad: string) =>
+  `${nombre}|${entidad}`.normalize("NFKD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/\s+/g, " ").trim();
+
 export function Funcionarios() {
   const [items, setItems] = useState<FuncionarioItem[]>([]);
   const [kpis, setKpis] = useState<NationalKpis | null>(null);
   const [airhsp, setAirhsp] = useState<Airhsp | null>(null);
+  const [nuevos, setNuevos] = useState<Set<string>>(new Set());
   const [q, setQ] = useState("");
   const [soloClave, setSoloClave] = useState(false);
   const [soloLocadores, setSoloLocadores] = useState(false);
+  const [soloNuevos, setSoloNuevos] = useState(false);
   const [nivel, setNivel] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +40,12 @@ export function Funcionarios() {
       .finally(() => setLoading(false));
     staticData.nationalKpis().then((d) => setKpis(d as NationalKpis)).catch(() => {});
     staticData.airhsp().then((d) => setAirhsp(d as Airhsp)).catch(() => {});
+    staticData.nuevosFuncionarios()
+      .then((d) => setNuevos(new Set((d as { items: { nombre: string; entidad: string }[] }).items.map((x) => nkey(x.nombre, x.entidad)))))
+      .catch(() => {});
   }, []);
+
+  const esNuevo = (f: FuncionarioItem) => nuevos.has(nkey(f.nombre, f.entidad));
 
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
@@ -42,10 +53,11 @@ export function Funcionarios() {
       .filter((f) => (!nivel || f.nivel === nivel))
       .filter((f) => (!soloClave || f.nivel !== "Profesional/Apoyo"))
       .filter((f) => (!soloLocadores || ["FAG", "PAC", "PNUD"].includes(f.regimen)))
-      .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}`.toLowerCase().includes(nq));
-  }, [items, q, soloClave, soloLocadores, nivel]);
+      .filter((f) => (!soloNuevos || esNuevo(f)))
+      .filter((f) => !nq || `${f.nombre} ${f.cargo} ${f.entidad} ${f.dependencia}${esNuevo(f) ? " nuevo" : ""}`.toLowerCase().includes(nq));
+  }, [items, q, soloClave, soloLocadores, soloNuevos, nivel, nuevos]);
 
-  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}|${soloLocadores}|${nivel}`);
+  const { slice, page, pages, setPage, total } = usePaged(filtered, 50, `${q}|${soloClave}|${soloLocadores}|${soloNuevos}|${nivel}`);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -160,6 +172,16 @@ export function Funcionarios() {
         >
           📄 Locadores (FAG/PAC)
         </button>
+        <button
+          onClick={() => setSoloNuevos((v) => !v)}
+          disabled={nuevos.size === 0}
+          className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${
+            soloNuevos ? "border-accent-cyan/50 bg-accent-cyan/15 text-accent-cyan" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"
+          }`}
+          title="Funcionarios que entraron recientemente (ver sección Nuevos)"
+        >
+          🆕 Solo nuevos
+        </button>
       </div>
 
       {loading ? (
@@ -182,7 +204,14 @@ export function Funcionarios() {
             <tbody>
               {slice.map((f, i) => (
                 <tr key={i} className="border-b border-surface/[0.04] last:border-0 transition-colors hover:bg-surface/[0.03]">
-                  <td className="px-4 py-3 font-medium text-ink">{f.nombre}</td>
+                  <td className="px-4 py-3 font-medium text-ink">
+                    {f.nombre}
+                    {esNuevo(f) && (
+                      <span className="ml-2 inline-block rounded-md border border-accent-cyan/40 bg-accent-cyan/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-cyan" title="Incorporación reciente — ver sección Nuevos">
+                        nuevo
+                      </span>
+                    )}
+                  </td>
                   <td className="px-4 py-3">
                     <div className="text-ink-soft">{f.cargo}</div>
                     <div className="mt-1"><LevelBadge nivel={f.nivel} /></div>
