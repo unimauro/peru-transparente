@@ -181,7 +181,10 @@ def main() -> None:
     vistos: set = set()
     items = []
     for it in crudos:
-        k = (na(it["nombre"]), na(it["entidad"]), na(it["cargo"]))
+        # El Peruano: cada norma es única → dedup por su URL (el nombre suele ir en blanco).
+        # Planilla: dedup por persona+entidad+cargo.
+        k = it["fuente_url"] if it["fuente"] == "el_peruano" and it["fuente_url"] \
+            else (na(it["nombre"]), na(it["entidad"]), na(it["cargo"]))
         if k in vistos:
             continue
         vistos.add(k)
