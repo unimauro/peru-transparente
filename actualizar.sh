@@ -53,13 +53,14 @@ echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
 
-# Sincroniza el histórico al Postgres del VPS (incremental de designaciones). Solo si hay
-# DATABASE_URL: sin VPS configurado es no-op y no rompe el pipeline. La planilla completa
-# (589MB) se carga a mano una vez:  python scripts/load_historico.py --apply-schema --planilla
-if [ -n "${DATABASE_URL:-}" ]; then
-  echo "▶ 5.5/6  Sincronizando designaciones al Postgres del VPS…"
-  "$PY" scripts/load_historico.py --designaciones || \
-    echo "  (no se pudo cargar al VPS; el pipeline continúa)"
+# Sincroniza el histórico al Postgres del VPS (api.tunky.net) vía SSH+docker exec. Solo si
+# SYNC_VPS=1 (no-op por defecto, no rompe el pipeline). Sube designaciones (upsert diario);
+# la planilla completa se resube a mano cuando llega un volcado nuevo:
+#   SYNC_VPS=1 ./scripts/sync_historico_vps.sh --planilla
+if [ "${SYNC_VPS:-}" = "1" ]; then
+  echo "▶ 5.5/6  Sincronizando histórico (designaciones) al Postgres del VPS…"
+  bash scripts/sync_historico_vps.sh || \
+    echo "  (no se pudo sincronizar al VPS; el pipeline continúa)"
 fi
 
 echo "▶ 6/6  Commit + push (dispara el redeploy de Pages)…"
