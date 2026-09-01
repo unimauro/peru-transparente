@@ -63,6 +63,42 @@ export async function askGateway(messages: ChatMsg[]): Promise<string> {
   return data.reply;
 }
 
+// ── Histórico en vivo (VPS Postgres vía api.tunky.net) ──────────────────────
+// Serie temporal demasiado grande para pre-renderizar estáticamente (1.6M filas de
+// planilla 2015–2026 + designaciones de El Peruano). La sirve el backend FastAPI del
+// VPS; misma convención que el gateway ai.tunky.net (endpoint público, solo lectura).
+const HISTORICO_BASE = "https://api.tunky.net/peru/api/v1/historico";
+
+export interface HistPersona {
+  persona_norm: string; persona: string; id_entidad: string; entidad: string;
+  cargo: string; regimen: string; total: number | null; anio: number; mes: number;
+}
+export interface HistPeriodo {
+  anio: number; mes: number; id_entidad: string; entidad: string;
+  regimen: string; cargo: string; dependencia: string; total: number | null;
+}
+export interface HistCambio {
+  periodo: string; entidad_prev: string; entidad_actual: string;
+  cargo_prev: string; cargo_actual: string; total_prev: number | null;
+  total_actual: number | null; cambio_cargo: boolean; cambio_entidad: boolean;
+}
+export interface HistTrayectoria {
+  nombre: string; periodos: HistPeriodo[]; cambios_puesto: HistCambio[];
+}
+export interface HistEstado {
+  resumen: { planilla_filas: number; personas: number; anio_min: number; anio_max: number; designaciones: number };
+  ultimas_cargas: { fuente: string; archivo: string; filas_leidas: number; filas_carga: number; inicio: string; fin: string; estado: string }[];
+}
+
+export const historicoApi = {
+  base: HISTORICO_BASE,
+  estado: () => getJSON<HistEstado>(`${HISTORICO_BASE}/estado`),
+  personas: (q: string, limit = 30) =>
+    getJSON<{ items: HistPersona[] }>(`${HISTORICO_BASE}/personas?q=${encodeURIComponent(q)}&limit=${limit}`),
+  persona: (nombre: string) =>
+    getJSON<HistTrayectoria>(`${HISTORICO_BASE}/persona?nombre=${encodeURIComponent(nombre)}`),
+};
+
 /** Vistas dinámicas que requieren backend. */
 export const liveApi = {
   available: () => Boolean(API_URL),
