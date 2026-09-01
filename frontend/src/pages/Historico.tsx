@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { historicoApi, type HistEstado, type HistPersona, type HistTrayectoria } from "@/lib/api";
 import { fmt, money, Empty } from "@/components/ui";
 
 const MESES = ["", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "set", "oct", "nov", "dic"];
 const periodo = (anio: number, mes: number) => (mes >= 1 && mes <= 12 ? `${MESES[mes]} ${anio}` : `${anio}`);
+// mismo normalizador que historico.norm en el backend (para casar el resaltado de la lista)
+const na = (s: string) =>
+  s.normalize("NFKD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/\s+/g, " ").trim();
 
 export function Historico() {
   const [estado, setEstado] = useState<HistEstado | null>(null);
@@ -15,9 +19,28 @@ export function Historico() {
   const [selNombre, setSelNombre] = useState("");
   const [tray, setTray] = useState<HistTrayectoria | null>(null);
   const [cargandoTray, setCargandoTray] = useState(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     historicoApi.estado().then((x) => setEstado(x)).catch(() => setCaido(true));
+  }, []);
+
+  const abrirNombre = (nombre: string, norm: string) => {
+    setSel(norm);
+    setSelNombre(nombre);
+    setTray(null);
+    setCargandoTray(true);
+    historicoApi.persona(nombre)
+      .then((x) => setTray(x))
+      .catch(() => { setTray(null); setCaido(true); })
+      .finally(() => setCargandoTray(false));
+  };
+
+  // enlace profundo desde Funcionarios/Nuevos: /historico?n=NOMBRE abre la trayectoria
+  useEffect(() => {
+    const n = searchParams.get("n");
+    if (n) { setQ(n); abrirNombre(n, na(n)); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // búsqueda con debounce
@@ -34,16 +57,7 @@ export function Historico() {
     return () => clearTimeout(t);
   }, [q]);
 
-  const abrir = (p: HistPersona) => {
-    setSel(p.persona_norm);
-    setSelNombre(p.persona);
-    setTray(null);
-    setCargandoTray(true);
-    historicoApi.persona(p.persona)
-      .then((x) => setTray(x))
-      .catch(() => setTray(null))
-      .finally(() => setCargandoTray(false));
-  };
+  const abrir = (p: HistPersona) => abrirNombre(p.persona, p.persona_norm);
 
   const totales = useMemo(() => {
     if (!tray) return null;

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import { fmt, money, Empty, LevelBadge, usePaged, Pagination } from "@/components/ui";
 
@@ -112,6 +113,11 @@ export function NuevosFuncionarios() {
                       <LevelBadge nivel={it.nivel} />
                       <span className="text-[11px] text-ink-soft">{it.cargo}</span>
                     </div>
+                    {it.nombre && (
+                      <Link to={`/historico?n=${encodeURIComponent(it.nombre)}`} className="mt-1 inline-block text-[11px] text-accent-blue hover:underline" title="Ver sueldo histórico y cambios de puesto">
+                        trayectoria →
+                      </Link>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-ink-soft">
                     <div className="text-[13px]">{it.entidad || "—"}</div>

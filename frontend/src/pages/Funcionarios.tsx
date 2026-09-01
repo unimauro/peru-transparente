@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import type { FuncionarioItem, NationalKpis } from "@/types";
 import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/components/ui";
@@ -210,6 +211,13 @@ export function Funcionarios() {
                       <span className="ml-2 inline-block rounded-md border border-accent-cyan/40 bg-accent-cyan/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-cyan" title="Incorporación reciente — ver sección Nuevos">
                         nuevo
                       </span>
+                    )}
+                    {f.nombre && (
+                      <div className="mt-1">
+                        <Link to={`/historico?n=${encodeURIComponent(f.nombre)}`} className="text-[11px] text-accent-blue hover:underline" title="Ver sueldo histórico y cambios de puesto">
+                          trayectoria →
+                        </Link>
+                      </div>
                     )}
                   </td>
                   <td className="px-4 py-3">
