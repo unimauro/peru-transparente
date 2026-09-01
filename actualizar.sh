@@ -43,7 +43,7 @@ fi
 echo "▶ 4.5/6  Designaciones/nombramientos recientes (El Peruano), ${MIN} min…"
 # Fuente con FECHA de designación. Best-effort (parseo por heurística del buscador);
 # 0 filas no rompe el pipeline. La sección "Nuevos" degrada a altas de planilla.
-"$PY" scripts/scrape_designaciones.py --desde 21-07-2026 --max-minutes "$MIN" || \
+"$PY" scripts/scrape_designaciones.py --desde 2026-07-21 --max-minutes "$MIN" || \
   echo "  (designaciones: sin datos nuevos o buscador no accesible; se usa solo altas de planilla)"
 
 echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
@@ -52,6 +52,15 @@ echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_nuevos_funcionarios.py --corte 2026-07-21
 "$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
+
+# Sincroniza el histórico al Postgres del VPS (incremental de designaciones). Solo si hay
+# DATABASE_URL: sin VPS configurado es no-op y no rompe el pipeline. La planilla completa
+# (589MB) se carga a mano una vez:  python scripts/load_historico.py --apply-schema --planilla
+if [ -n "${DATABASE_URL:-}" ]; then
+  echo "▶ 5.5/6  Sincronizando designaciones al Postgres del VPS…"
+  "$PY" scripts/load_historico.py --designaciones || \
+    echo "  (no se pudo cargar al VPS; el pipeline continúa)"
+fi
 
 echo "▶ 6/6  Commit + push (dispara el redeploy de Pages)…"
 # data/contratos.csv y data/sanciones_rnssc.csv NO se versionan (RUC/DNI = PII). El

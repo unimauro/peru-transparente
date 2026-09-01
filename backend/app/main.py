@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1 import contracts, dashboards, entities, graph, officials
+from app.api.v1 import contracts, dashboards, entities, graph, historico, officials
 from app.core.config import get_settings
 from app.graph import neo4j_client
 
@@ -37,6 +37,7 @@ app.include_router(officials.router, prefix=API_PREFIX)
 app.include_router(contracts.router, prefix=API_PREFIX)
 app.include_router(dashboards.router, prefix=API_PREFIX)
 app.include_router(graph.router, prefix=API_PREFIX)
+app.include_router(historico.router, prefix=API_PREFIX)
 
 
 @app.get("/health", tags=["sistema"])
