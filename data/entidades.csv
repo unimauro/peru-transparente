@@ -21,7 +21,9 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10408,UNIVERSIDAD NACIONAL DE CAJAMARCA (UNC),Universidad,4,Organismos Constitucionales Autónomos
 115031,UNIVERSIDAD NACIONAL DE CARABAYA (UNCAR),Universidad,4,Organismos Constitucionales Autónomos
 15357,UNIVERSIDAD NACIONAL DE CAÑETE (UNDC),Universidad,4,Organismos Constitucionales Autónomos
+115045,UNIVERSIDAD NACIONAL DE DESAGUADERO (UNADE),Universidad,4,Organismos Constitucionales Autónomos
 10434,UNIVERSIDAD NACIONAL DE EDUCACIÓN ENRIQUE GUZMÁN Y VALLE (UNE),Universidad,4,Organismos Constitucionales Autónomos
+18712,UNIVERSIDAD NACIONAL DE FOLKLORE JOSÉ MARÍA ARGUEDAS (UNFJMA),Universidad,3,Organismos Públicos y OPD
 14254,UNIVERSIDAD NACIONAL DE FRONTERA (UNF),Universidad,4,Organismos Constitucionales Autónomos
 115047,UNIVERSIDAD NACIONAL DE HUANCABAMBA (UNHBBA),Universidad,3,Organismos Públicos y OPD
 10440,UNIVERSIDAD NACIONAL DE HUANCAVELICA (UNH),Universidad,4,Organismos Constitucionales Autónomos
@@ -44,6 +46,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10040,UNIVERSIDAD NACIONAL DEL SANTA (UNS),Universidad,4,Organismos Constitucionales Autónomos
 114027,UNIVERSIDAD NACIONAL DEL VRAEM (UNAVRAEM),Universidad,4,Organismos Constitucionales Autónomos
 10035,UNIVERSIDAD NACIONAL FEDERICO VILLARREAL (UNFV),Universidad,4,Organismos Constitucionales Autónomos
+115058,UNIVERSIDAD NACIONAL FRONTERIZA AUTONOMA DE YUNGUYO (UNFAY),Universidad,3,Organismos Públicos y OPD
 10411,UNIVERSIDAD NACIONAL HERMILIO VALDIZAN (UNHEVAL),Universidad,4,Organismos Constitucionales Autónomos
 13735,UNIVERSIDAD NACIONAL INTERCULTURAL DE LA AMAZONIA (UNIA),Universidad,4,Organismos Constitucionales Autónomos
 14218,UNIVERSIDAD NACIONAL INTERCULTURAL DE LA SELVA CENTRAL JUAN SANTOS ATAHUALPA (UNISCJSA),Universidad,4,Organismos Constitucionales Autónomos
@@ -58,12 +61,12 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10439,UNIVERSIDAD NACIONAL SAN CRISTÓBAL DE HUAMANGA (UNSCH),Universidad,4,Organismos Constitucionales Autónomos
 10405,UNIVERSIDAD NACIONAL SAN LUIS GONZAGA DE ICA (UNICA),Universidad,4,Organismos Constitucionales Autónomos
 10403,UNIVERSIDAD NACIONAL SANTIAGO ANTÚNEZ DE MAYOLO (UNASAM),Universidad,4,Organismos Constitucionales Autónomos
-18712,UNIVERSIDAD NACIONAL SUPERIOR DE FOLKLORE JOSÉ MARÍA ARGUEDAS (ENSFJMA),Universidad,3,Organismos Públicos y OPD
 79974,UNIVERSIDAD NACIONAL TECNOLOGICA DE FRONTERA SAN IGNACIO DE LOYOLA (UNATEFSIL),Universidad,4,Organismos Constitucionales Autónomos
 115048,UNIVERSIDAD NACIONAL TECNOLÓGICA DE CHINCHA (UNATECH),Universidad,3,Organismos Públicos y OPD
 13444,UNIVERSIDAD NACIONAL TECNOLÓGICA DE LIMA SUR (UNTELS),Universidad,4,Organismos Constitucionales Autónomos
 97999,UNIVERSIDAD NACIONAL TECNOLÓGICA DE SAN JUAN DE LURIGANCHO (UNTSJL),Universidad,3,Organismos Públicos y OPD
 14270,UNIVERSIDAD NACIONAL TORIBIO RODRIGUEZ DE MENDOZA DE AMAZONAS (UNTRM),Universidad,4,Organismos Constitucionales Autónomos
+114028,CENTRO DE ALTOS ESTUDIOS NACIONALES - ESCUELA DE POSGRADO (CAEN-EPG),Educación,3,Organismos Públicos y OPD
 18801,COLEGIO MILITAR ELIAS AGUIRRE (CMEA),Educación,3,Organismos Públicos y OPD
 92994,COLEGIO MILITAR LEONCIO PRADO (CMLP),Educación,7,Empresas del Estado y diversos
 13662,COLEGIO MILITAR PEDRO RUIZ GALLO (CMPRG),Educación,7,Empresas del Estado y diversos
@@ -310,6 +313,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 18749,UNIDAD EJECUTORA N° 312 - UNIDAD DE GESTION EDUCATIVA LOCAL DEL CUSCO (UGEL CUSCO),Educación,7,Empresas del Estado y diversos
 18659,UNIDAD EJECUTORA: UGEL CONDESUYOS (UCONDESUYOS),Educación,7,Empresas del Estado y diversos
 18840,UNIDAD GESTION EDUCATIVA LOCAL HUACAYBAMBA (UGEL HUACAYBAMBA),Educación,7,Empresas del Estado y diversos
+115062,UNIDAD GESTION EDUCATIVA LOCAL PICHARI KIMBIRI VILLA VIRGEN (UGEL PKVV),Educación,7,Empresas del Estado y diversos
 63959,ATENCION INTEGRAL SALUD UTES OXAPAMPA (AIS UTES OXAPAMPA),Salud,7,Empresas del Estado y diversos
 14303,AUTORIDAD NACIONAL DE SANIDAD E INOCUIDAD EN PESCA Y ACUICULTURA (SANIPES),Salud,3,Organismos Públicos y OPD
 14192,CENTRO NACIONAL DE ABASTECIMIENTO DE RECURSOS ESTRATÉGICOS EN SALUD (CENARES),Salud,3,Organismos Públicos y OPD
@@ -466,6 +470,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 14268,RED DE SALUD HUAYLAS NORTE (RSHN),Salud,3,Organismos Públicos y OPD
 14101,RED DE SALUD HUAYLAS SUR (RSHS),Salud,7,Empresas del Estado y diversos
 16395,RED DE SALUD ICA U.E 406 (RSICA),Salud,7,Empresas del Estado y diversos
+18793,RED DE SALUD JAUJA (RSJ),Salud,5,Gobiernos Regionales y Locales
 115038,RED DE SALUD JUNIN (RSJ),Salud,7,Empresas del Estado y diversos
 18620,RED DE SALUD LEONCIO PRADO (REDLP),Salud,3,Organismos Públicos y OPD
 14278,RED DE SALUD LIMA NORTE IV (R.S.L.N. IV),Salud,3,Organismos Públicos y OPD
@@ -611,6 +616,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 7,ORGANISMO SUPERVISOR DE INVERSIÓN PRIVADA EN TELECOMUNICACIONES (OSIPTEL),Regulador/Superintendencia,3,Organismos Públicos y OPD
 10024,ORGANISMO SUPERVISOR DE LA INVERSION EN INFRAESTRUCTURA DE TRANSPORTE DE USO PÚBLICO (OSITRAN),Regulador/Superintendencia,3,Organismos Públicos y OPD
 5,ORGANISMO SUPERVISOR DE LA INVERSIÓN EN ENERGÍA Y MINERÍA (OSINERGMIN),Regulador/Superintendencia,3,Organismos Públicos y OPD
+115032,SOCIEDAD DE BENEFICENCIA DE SULLANA (SBS),Regulador/Superintendencia,3,Organismos Públicos y OPD
 147,"SUPERINTENDENCIA DE BANCA, SEGUROS Y ADMINISTRADORAS PRIVADAS DE FONDOS DE PENSIONES (SBS)",Regulador/Superintendencia,4,Organismos Constitucionales Autónomos
 14069,"SUPERINTENDENCIA DE TRANSPORTE TERRESTRE DE PERSONAS, CARGA Y MERCANCIAS (SUTRAN)",Regulador/Superintendencia,3,Organismos Públicos y OPD
 80,SUPERINTENDENCIA DEL MERCADO DE VALORES (SMV),Regulador/Superintendencia,3,Organismos Públicos y OPD
@@ -649,6 +655,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 22864,EMPRESA DE SERVICIO DE LIMPIEZA MUNICIPAL PUBLICA DEL CALLAO (ESLIMP CALLAO S.A),Empresa pública,5,Gobiernos Regionales y Locales
 13041,EMPRESA DE SERVICIO PÚBLICO DE ELECTRICIDAD ELECTRO NORTE MEDIO S.A - HIDRANDINA (HIDRANDINA),Empresa pública,3,Organismos Públicos y OPD
 13715,EMPRESA DE SERVICIOS DE AGUA POTABLE Y ALCANTARILLADO MUNICIPAL DE HUANCAYO (SEDAM HUANCAYO S.A.),Empresa pública,5,Gobiernos Regionales y Locales
+115055,EMPRESA DE SERVICIOS MUNICIPALES DE HUANCAYO (EMSEMHUANCAYO),Empresa pública,5,Gobiernos Regionales y Locales
 18851,EMPRESA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO BAGUA SOCIEDAD ANONIMA (EMAPAB),Empresa pública,5,Gobiernos Regionales y Locales
 13173,EMPRESA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO CAÑETE S.A (EMAP),Empresa pública,5,Gobiernos Regionales y Locales
 93995,EMPRESA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO DE CHANCAY (EMAPA CHANCAY SAC.),Empresa pública,5,Gobiernos Regionales y Locales
@@ -778,6 +785,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11014,MUNICIPALIDAD DISTRITAL DE ALTO PICHIGUA (MD-AP),Municipalidad,5,Gobiernos Regionales y Locales
 11439,MUNICIPALIDAD DISTRITAL DE ALTO SAPOSOA (MDAS),Municipalidad,5,Gobiernos Regionales y Locales
 10479,MUNICIPALIDAD DISTRITAL DE ALTO SELVA ALEGRE (MDASA),Municipalidad,5,Gobiernos Regionales y Locales
+115056,MUNICIPALIDAD DISTRITAL DE ALTO TRUJILLO (MDAT),Municipalidad,5,Gobiernos Regionales y Locales
 11995,MUNICIPALIDAD DISTRITAL DE AMARILIS (MD-AMARILIS),Municipalidad,5,Gobiernos Regionales y Locales
 11585,MUNICIPALIDAD DISTRITAL DE AMOTAPE (MD.AMOTAPE),Municipalidad,5,Gobiernos Regionales y Locales
 11707,MUNICIPALIDAD DISTRITAL DE ANANEA (MDA),Municipalidad,5,Gobiernos Regionales y Locales
@@ -797,6 +805,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10627,MUNICIPALIDAD DISTRITAL DE ANTIOQUIA (MD-ANTIOQUIA),Municipalidad,5,Gobiernos Regionales y Locales
 10304,MUNICIPALIDAD DISTRITAL DE ANTONIO RAYMONDI (MDAR),Municipalidad,5,Gobiernos Regionales y Locales
 11238,MUNICIPALIDAD DISTRITAL DE APATA (MD-APATA),Municipalidad,5,Gobiernos Regionales y Locales
+10789,MUNICIPALIDAD DISTRITAL DE APONGO (MDAPONGO),Municipalidad,5,Gobiernos Regionales y Locales
 10308,MUNICIPALIDAD DISTRITAL DE AQUIA (MD-AQUIA),Municipalidad,5,Gobiernos Regionales y Locales
 10592,MUNICIPALIDAD DISTRITAL DE ARAHUAY (MD-ARAHUAY),Municipalidad,5,Gobiernos Regionales y Locales
 10105,MUNICIPALIDAD DISTRITAL DE ARAMANGO (MD-ARAMANGO),Municipalidad,5,Gobiernos Regionales y Locales
@@ -909,6 +918,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10928,MUNICIPALIDAD DISTRITAL DE CHANCAYBAÑOS (MD-CHANCAYBAÑOS),Municipalidad,5,Gobiernos Regionales y Locales
 12109,MUNICIPALIDAD DISTRITAL DE CHAO (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
 10482,MUNICIPALIDAD DISTRITAL DE CHARACATO (MD-CHARACATO),Municipalidad,5,Gobiernos Regionales y Locales
+11345,MUNICIPALIDAD DISTRITAL DE CHARAT,Municipalidad,5,Gobiernos Regionales y Locales
 11074,MUNICIPALIDAD DISTRITAL DE CHAVIN,Municipalidad,5,Gobiernos Regionales y Locales
 11199,MUNICIPALIDAD DISTRITAL DE CHAVIN DE HUANTAR (MD-CHHUANTAR),Municipalidad,5,Gobiernos Regionales y Locales
 10370,MUNICIPALIDAD DISTRITAL DE CHAZUTA (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
@@ -964,6 +974,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11037,MUNICIPALIDAD DISTRITAL DE COLQUEPATA (MDC),Municipalidad,5,Gobiernos Regionales y Locales
 10313,MUNICIPALIDAD DISTRITAL DE COLQUIOC (MDCOLQUIOC),Municipalidad,5,Gobiernos Regionales y Locales
 11187,MUNICIPALIDAD DISTRITAL DE COMANDANTE NOEL,Municipalidad,5,Gobiernos Regionales y Locales
+11114,MUNICIPALIDAD DISTRITAL DE COMAS,Municipalidad,5,Gobiernos Regionales y Locales
 10058,MUNICIPALIDAD DISTRITAL DE COMAS - LIMA (MD-COMAS),Municipalidad,5,Gobiernos Regionales y Locales
 10991,MUNICIPALIDAD DISTRITAL DE COMBAPATA (MD-COMB),Municipalidad,5,Gobiernos Regionales y Locales
 10802,MUNICIPALIDAD DISTRITAL DE CONCEPCION,Municipalidad,5,Gobiernos Regionales y Locales
@@ -1067,16 +1078,19 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10262,MUNICIPALIDAD DISTRITAL DE HUANDOVAL (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 10348,MUNICIPALIDAD DISTRITAL DE HUANIPACA,Municipalidad,5,Gobiernos Regionales y Locales
 11029,MUNICIPALIDAD DISTRITAL DE HUANOQUITE,Municipalidad,5,Gobiernos Regionales y Locales
+11746,MUNICIPALIDAD DISTRITAL DE HUANUARA (MDHUANUARA),Municipalidad,5,Gobiernos Regionales y Locales
 10524,MUNICIPALIDAD DISTRITAL DE HUANUHUANU (MUNI HUANUHUANU),Municipalidad,5,Gobiernos Regionales y Locales
 10633,MUNICIPALIDAD DISTRITAL DE HUANZA (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 10894,MUNICIPALIDAD DISTRITAL DE HUARANGO (MD-HUARANGO),Municipalidad,5,Gobiernos Regionales y Locales
 12143,MUNICIPALIDAD DISTRITAL DE HUARIACA (MD-HUARIACA),Municipalidad,5,Gobiernos Regionales y Locales
 11569,MUNICIPALIDAD DISTRITAL DE HUARMACA (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 11817,MUNICIPALIDAD DISTRITAL DE HUARO (MD-HUARO),Municipalidad,5,Gobiernos Regionales y Locales
+13340,MUNICIPALIDAD DISTRITAL DE HUAROCHIRI (MD-HUAROCHIRI),Municipalidad,5,Gobiernos Regionales y Locales
 10964,MUNICIPALIDAD DISTRITAL DE HUAROCONDO (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 10594,MUNICIPALIDAD DISTRITAL DE HUAROS (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 11284,MUNICIPALIDAD DISTRITAL DE HUASAHUASI (MUNIHUASA),Municipalidad,5,Gobiernos Regionales y Locales
 10826,MUNICIPALIDAD DISTRITAL DE HUASMIN (MDH),Municipalidad,5,Gobiernos Regionales y Locales
+11342,MUNICIPALIDAD DISTRITAL DE HUASO,Municipalidad,5,Gobiernos Regionales y Locales
 10317,MUNICIPALIDAD DISTRITAL DE HUASTA (MD-HUASTA),Municipalidad,5,Gobiernos Regionales y Locales
 10223,MUNICIPALIDAD DISTRITAL DE HUATA (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 11619,MUNICIPALIDAD DISTRITAL DE HUATA - PUNO,Municipalidad,5,Gobiernos Regionales y Locales
@@ -1088,6 +1102,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 12144,MUNICIPALIDAD DISTRITAL DE HUAYLLAY (MD-HUAYLLAY),Municipalidad,5,Gobiernos Regionales y Locales
 11017,MUNICIPALIDAD DISTRITAL DE HUAYOPATA (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 11095,MUNICIPALIDAD DISTRITAL DE HUAYUCACHI (MDHCHI.),Municipalidad,5,Gobiernos Regionales y Locales
+12135,MUNICIPALIDAD DISTRITAL DE HUEPETUHE (MD-HUEPETUHE),Municipalidad,5,Gobiernos Regionales y Locales
 10328,MUNICIPALIDAD DISTRITAL DE HUICUNGO (MDH),Municipalidad,5,Gobiernos Regionales y Locales
 10373,MUNICIPALIDAD DISTRITAL DE HUIMBAYOC,Municipalidad,5,Gobiernos Regionales y Locales
 63957,MUNICIPALIDAD DISTRITAL DE HUIPOCA (MDH),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1271,6 +1286,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11433,MUNICIPALIDAD DISTRITAL DE MORROPE (MDM),Municipalidad,5,Gobiernos Regionales y Locales
 11578,MUNICIPALIDAD DISTRITAL DE MORROPÓN (MD - MORROPON),Municipalidad,5,Gobiernos Regionales y Locales
 11434,MUNICIPALIDAD DISTRITAL DE MOTUPE (MD - MOTUPE),Municipalidad,5,Gobiernos Regionales y Locales
+11635,MUNICIPALIDAD DISTRITAL DE MUÑANI,Municipalidad,5,Gobiernos Regionales y Locales
 10896,MUNICIPALIDAD DISTRITAL DE NAMBALLE (MD - NAMBALLE),Municipalidad,5,Gobiernos Regionales y Locales
 10817,MUNICIPALIDAD DISTRITAL DE NAMORA,Municipalidad,5,Gobiernos Regionales y Locales
 11149,MUNICIPALIDAD DISTRITAL DE NEPEÑA (MDN),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1345,6 +1361,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11063,MUNICIPALIDAD DISTRITAL DE PARCONA (MD - PARCONA),Municipalidad,5,Gobiernos Regionales y Locales
 11365,MUNICIPALIDAD DISTRITAL DE PARCOY (MDP),Municipalidad,5,Gobiernos Regionales y Locales
 10360,MUNICIPALIDAD DISTRITAL DE PARDO MIGUEL (MDPM-N),Municipalidad,5,Gobiernos Regionales y Locales
+10285,MUNICIPALIDAD DISTRITAL DE PARIACOTO (MD-PARIACOTO),Municipalidad,5,Gobiernos Regionales y Locales
 11521,MUNICIPALIDAD DISTRITAL DE PARINARI (MDP),Municipalidad,5,Gobiernos Regionales y Locales
 11132,MUNICIPALIDAD DISTRITAL DE PAROBAMBA,Municipalidad,5,Gobiernos Regionales y Locales
 13348,MUNICIPALIDAD DISTRITAL DE PASTAZA (MD-PASTAZA),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1379,6 +1396,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11623,MUNICIPALIDAD DISTRITAL DE PLATERIA,Municipalidad,5,Gobiernos Regionales y Locales
 11740,MUNICIPALIDAD DISTRITAL DE POCOLLAY (MDP),Municipalidad,5,Gobiernos Regionales y Locales
 10490,MUNICIPALIDAD DISTRITAL DE POCSI (MD-POCSI),Municipalidad,5,Gobiernos Regionales y Locales
+10491,MUNICIPALIDAD DISTRITAL DE POLOBAYA (MD-POLOBAYA),Municipalidad,5,Gobiernos Regionales y Locales
 10392,MUNICIPALIDAD DISTRITAL DE POLVORA (MDP),Municipalidad,5,Gobiernos Regionales y Locales
 10956,MUNICIPALIDAD DISTRITAL DE POMACANCHI (MDP),Municipalidad,5,Gobiernos Regionales y Locales
 11919,MUNICIPALIDAD DISTRITAL DE POMACOCHA (MD-POMACOCHA),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1556,6 +1574,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10652,MUNICIPALIDAD DISTRITAL DE SANTA CRUZ DE COCACHACRA,Municipalidad,5,Gobiernos Regionales y Locales
 10612,MUNICIPALIDAD DISTRITAL DE SANTA CRUZ DE FLORES (MDSCF),Municipalidad,5,Gobiernos Regionales y Locales
 10653,MUNICIPALIDAD DISTRITAL DE SANTA EULALIA (MDSE),Municipalidad,5,Gobiernos Regionales y Locales
+12123,MUNICIPALIDAD DISTRITAL DE SANTA LEONOR (MD-SLEONOR),Municipalidad,5,Gobiernos Regionales y Locales
 10668,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA (MDSM),Municipalidad,5,Gobiernos Regionales y Locales
 10397,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA DE CHICMO,Municipalidad,5,Gobiernos Regionales y Locales
 10113,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA DEL MAR (MDSMM),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1678,6 +1697,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10501,MUNICIPALIDAD DISTRITAL DE UCHUMAYO (MDU),Municipalidad,5,Gobiernos Regionales y Locales
 11211,MUNICIPALIDAD DISTRITAL DE UCO,Municipalidad,5,Gobiernos Regionales y Locales
 12056,MUNICIPALIDAD DISTRITAL DE UMARI (MD-UMARI),Municipalidad,5,Gobiernos Regionales y Locales
+11732,MUNICIPALIDAD DISTRITAL DE UNICACHI,Municipalidad,5,Gobiernos Regionales y Locales
 59956,MUNICIPALIDAD DISTRITAL DE UNIÓN ASHÁNINKA (MDUA),Municipalidad,5,Gobiernos Regionales y Locales
 10542,MUNICIPALIDAD DISTRITAL DE URACA (MD-URACA),Municipalidad,5,Gobiernos Regionales y Locales
 11524,MUNICIPALIDAD DISTRITAL DE URARINAS (MDU),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1693,6 +1713,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 12152,MUNICIPALIDAD DISTRITAL DE VICCO (MD-VICCO),Municipalidad,5,Gobiernos Regionales y Locales
 11610,MUNICIPALIDAD DISTRITAL DE VICE (MD - VICE),Municipalidad,5,Gobiernos Regionales y Locales
 11590,MUNICIPALIDAD DISTRITAL DE VICHAYAL (MD - VICHAYAL),Municipalidad,5,Gobiernos Regionales y Locales
+11909,MUNICIPALIDAD DISTRITAL DE VILCA (MD-VILCA),Municipalidad,5,Gobiernos Regionales y Locales
 10475,MUNICIPALIDAD DISTRITAL DE VILCABAMBA,Municipalidad,5,Gobiernos Regionales y Locales
 11023,MUNICIPALIDAD DISTRITAL DE VILCABAMBA - CUSCO (MDV - VILCABAMBA),Municipalidad,5,Gobiernos Regionales y Locales
 10122,MUNICIPALIDAD DISTRITAL DE VILLA EL SALVADOR (MUNIVES),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1954,6 +1975,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13219,AUTORIDAD AUTÓNOMA DEL SISTEMA ELÉCTRICO DE TRANSPORTE MASIVO DE LIMA Y CALLAO (AATE),Organismo público,3,Organismos Públicos y OPD
 18830,AUTORIDAD DE TRANSPORTE URBANO PARA LIMA Y CALLAO (ATU),Organismo público,3,Organismos Públicos y OPD
 13995,AUTORIDAD DEL PROYECTO COSTA VERDE (APCV),Organismo público,5,Gobiernos Regionales y Locales
+115049,AUTORIDAD NACIONAL AUTÓNOMA PARA EL DESARROLLO ESTRATÉGICO E INTEGRAL DEL TERMINAL PORTUARIO CHANCAY (ANA CHANCAY),Organismo público,3,Organismos Públicos y OPD
 78976,AUTORIDAD NACIONAL DE INFRAESTRUCTURA (ANIN),Organismo público,3,Organismos Públicos y OPD
 13705,AUTORIDAD NACIONAL DEL AGUA (ANA),Organismo público,3,Organismos Públicos y OPD
 13687,AUTORIDAD NACIONAL DEL SERVICIO CIVIL (SERVIR),Organismo público,3,Organismos Públicos y OPD
@@ -1976,15 +1998,16 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13649,CONSEJO NACIONAL PARA LA INTEGRACIÓN DE LA PERSONA CON DISCAPACIDAD (CONADIS),Organismo público,3,Organismos Públicos y OPD
 10031,DESPACHO PRESIDENCIAL (DP),Organismo público,3,Organismos Públicos y OPD
 13656,DIRECCION REGIONAL AGRARIA AYACUCHO (DRAA),Organismo público,7,Empresas del Estado y diversos
-14288,DIRECCION REGIONAL AGRARIA PASCO (DRA - PASCO),Organismo público,7,Empresas del Estado y diversos
 18731,DIRECCION REGIONAL DE AGRICULTURA CAJAMARCA (DRAC),Organismo público,7,Empresas del Estado y diversos
 16368,DIRECCION REGIONAL DE AGRICULTURA CUSCO (DRAC),Organismo público,7,Empresas del Estado y diversos
 18665,DIRECCION REGIONAL DE AGRICULTURA LIMA (DRAL),Organismo público,7,Empresas del Estado y diversos
 18779,DIRECCION REGIONAL DE AGRICULTURA MOQUEGUA (DRAM),Organismo público,7,Empresas del Estado y diversos
+14288,DIRECCION REGIONAL DE AGRICULTURA PASCO (DRAP),Organismo público,7,Empresas del Estado y diversos
 13218,DIRECCION REGIONAL DE AGRICULTURA PIURA (DRA PIURA),Organismo público,7,Empresas del Estado y diversos
 14025,DIRECCION REGIONAL DE COMERCIO EXTERIOR Y TURISMO (DIRCETUR-LAMBAYEQUE),Organismo público,7,Empresas del Estado y diversos
 14214,DIRECCION REGIONAL DE COMERCIO EXTERIOR Y TURISMO - SAN MARTIN (DIRCETUR - SM),Organismo público,7,Empresas del Estado y diversos
 13285,DIRECCION REGIONAL DE COMERCIO EXTERIOR Y TURISMO DE UCAYALI (DIRCETUR),Organismo público,7,Empresas del Estado y diversos
+105013,DIRECCION REGIONAL DE DESARROLLO AGRARIO Y RIEGO DE LORETO (DIRDAGRI - LORETO),Organismo público,7,Empresas del Estado y diversos
 13843,DIRECCION REGIONAL DE ENERGIA Y MINAS JUNÍN (DREM JUNIN),Organismo público,7,Empresas del Estado y diversos
 13289,"DIRECCION REGIONAL DE ENERGIA, MINAS E HIDROCARBUROS DE MADRE DE DIOS (DREMEH MADRE DIOS)",Organismo público,7,Empresas del Estado y diversos
 14060,DIRECCION REGIONAL DE LA PRODUCCION - PIURA (DIREPRO-PIURA),Organismo público,7,Empresas del Estado y diversos
@@ -1995,6 +2018,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13939,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES - ANCASH (DRTC - ANCASH),Organismo público,7,Empresas del Estado y diversos
 13611,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES - AYACUCHO (DRTCA),Organismo público,7,Empresas del Estado y diversos
 109019,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES DE APURIMAC (DRTC APURIMAC),Organismo público,7,Empresas del Estado y diversos
+18822,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES DE LORETO (DRTC),Organismo público,7,Empresas del Estado y diversos
 113024,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES DE MADRE DE DIOS (DRTC - MDD),Organismo público,7,Empresas del Estado y diversos
 13203,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES DE TACNA (DRTC-TACNA),Organismo público,7,Empresas del Estado y diversos
 14044,DIRECCION REGIONAL DE TRANSPORTES Y COMUNICACIONES HUANUCO (GR-HUANUCO/DRTC),Organismo público,7,Empresas del Estado y diversos
@@ -2009,7 +2033,6 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13135,DIRECCIÓN REGIONAL AGRARIA DE AMAZONAS (DRA-AMAZONAS),Organismo público,7,Empresas del Estado y diversos
 13165,DIRECCIÓN REGIONAL AGRARIA DE LORETO (DRAL),Organismo público,7,Empresas del Estado y diversos
 14034,DIRECCIÓN REGIONAL AGRARIA ICA (DRA - ICA),Organismo público,7,Empresas del Estado y diversos
-14264,DIRECCIÓN REGIONAL AGRARIA PUNO (DRA PUNO),Organismo público,7,Empresas del Estado y diversos
 13166,DIRECCIÓN REGIONAL DE AGRICULTURA - HUÁNUCO (DRA - HUÁNUCO),Organismo público,7,Empresas del Estado y diversos
 15327,DIRECCIÓN REGIONAL DE AGRICULTURA DE HUANCAVELICA (DRA-HVCA),Organismo público,7,Empresas del Estado y diversos
 13639,DIRECCIÓN REGIONAL DE AGRICULTURA JUNÍN (DRAJ),Organismo público,7,Empresas del Estado y diversos
@@ -2049,10 +2072,11 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13685,FONDO DE RECONSTRUCCIÓN INTEGRAL DE LAS ZONAS AFECTADAS POR LOS SISMOS DEL 15 DE AGOSTO DE 2007 (FORSUR),Organismo público,3,Organismos Públicos y OPD
 13241,FONDO METROPOLITANO DE INVERSIONES (INVERMET),Organismo público,5,Gobiernos Regionales y Locales
 102,FONDO NACIONAL DE DESARROLLO PESQUERO (FONDEPES),Organismo público,3,Organismos Públicos y OPD
+14264,GERENCI REGIONAL AGRARIA PUNO (GRA PUNO),Organismo público,7,Empresas del Estado y diversos
 87983,GERENCIA EJECUTIVA DE ENERGÍA Y MINAS (GEEM),Organismo público,7,Empresas del Estado y diversos
 87986,"GERENCIA EJECUTIVA DE VIVIENDA, CONSTRUCCIÓN Y SANEAMIENTO (GEVCS)",Organismo público,7,Empresas del Estado y diversos
 13164,GERENCIA REGIONAL DE AGRICULTURA AREQUIPA (GRAG),Organismo público,7,Empresas del Estado y diversos
-105013,GERENCIA REGIONAL DE DESARROLLO AGARIO Y RIEGO DE LORETO (GERDAGRI - LORETO),Organismo público,7,Empresas del Estado y diversos
+115054,GERENCIA REGIONAL DE DESARROLLO AGRARIO (GRDA),Organismo público,7,Empresas del Estado y diversos
 87984,GERENCIA REGIONAL DE DESARROLLO PRODUCTIVO (GRDP),Organismo público,7,Empresas del Estado y diversos
 13167,GERENCIA REGIONAL DE EDUCACIÓN AREQUIPA (GREAREQUIPA),Organismo público,7,Empresas del Estado y diversos
 12835,GERENCIA REGIONAL DE EDUCACIÓN LA LIBERTAD (GRELL),Organismo público,7,Empresas del Estado y diversos
@@ -2066,12 +2090,12 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 14078,GERENCIA REGIONAL DE TRANSPORTES Y COMUNICACIONES - AREQUIPA (GRTC-AQP),Organismo público,7,Empresas del Estado y diversos
 13952,GERENCIA REGIONAL DE TRANSPORTES Y COMUNICACIONES CUSCO (GRTC-CUSCO),Organismo público,7,Empresas del Estado y diversos
 12822,GERENCIA REGIONAL DE TRANSPORTES Y COMUNICACIONES DE LA LIBERTAD (GRTCLL),Organismo público,7,Empresas del Estado y diversos
-18822,GERENCIA REGIONAL DE TRANSPORTES Y COMUNICACIONES DE LORETO (GRTC),Organismo público,7,Empresas del Estado y diversos
 18790,GERENCIA SUB REGIONAL ANGARAES (GSRANG),Organismo público,7,Empresas del Estado y diversos
 13202,GERENCIA SUB REGIONAL BAGUA - GRAMAZONAS (GSRB),Organismo público,7,Empresas del Estado y diversos
 77972,GERENCIA SUB REGIONAL CHANKA - ANDAHUAYLAS (GSRCH),Organismo público,7,Empresas del Estado y diversos
 13972,GERENCIA SUB REGIONAL CHOTA (GSRCH),Organismo público,7,Empresas del Estado y diversos
 88987,GERENCIA SUB REGIONAL CHURCAMPA (GSRCH),Organismo público,7,Empresas del Estado y diversos
+115059,GERENCIA SUB REGIONAL CONDORCANQUI (GSRC),Organismo público,7,Empresas del Estado y diversos
 13987,GERENCIA SUB REGIONAL CUTERVO (GSRCUTERVO),Organismo público,7,Empresas del Estado y diversos
 26885,GERENCIA SUB REGIONAL DE ACOBAMBA (GSRACO),Organismo público,7,Empresas del Estado y diversos
 14130,GERENCIA SUB REGIONAL DE ALTO AMAZONAS (GSRAA),Organismo público,7,Empresas del Estado y diversos
@@ -2090,6 +2114,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 34906,IESP ALFONSO BARRANTES LINGAN (IESP ABL),Organismo público,7,Empresas del Estado y diversos
 28896,IESP BAMBAMARCA (IESP B),Organismo público,7,Empresas del Estado y diversos
 38929,IESP CACHICADAN (IESP CACH),Organismo público,7,Empresas del Estado y diversos
+46947,IESP CESAR ABRAHAM VALLEJO MENDOZA - BAGUA (IESP CAVM),Organismo público,7,Empresas del Estado y diversos
 28898,IESP EDISLAO MERA DAVILA (IESP EMD),Organismo público,7,Empresas del Estado y diversos
 41943,IESP FRAY FLORENCIO PASCUAL ALEGRE GONZALES (IESP FFPAG),Organismo público,7,Empresas del Estado y diversos
 33899,IESP GRAN PAJATEN (IESP GP),Organismo público,7,Empresas del Estado y diversos
@@ -2161,6 +2186,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 18784,PROGRAMA AGUA SEGURA PARA LIMA Y CALLAO (PASLC),Organismo público,3,Organismos Públicos y OPD
 114029,PROGRAMA DE ALIMENTACIÓN ESCOLAR (PAE),Organismo público,4,Organismos Constitucionales Autónomos
 111024,PROGRAMA DE APOYO AL DESARROLLO RURAL ANDINO (PRADERA),Organismo público,7,Empresas del Estado y diversos
+115061,PROGRAMA DE APOYO AL DESARROLLO RURAL ANDINO - PRADERA (PRADERA),Organismo público,7,Empresas del Estado y diversos
 13970,PROGRAMA DE COMPENSACIONES PARA LA COMPETITIVIDAD (AGROIDEAS),Organismo público,3,Organismos Públicos y OPD
 13860,PROGRAMA DE DESARROLLO PRODUCTIVO AGRARIO RURAL (AGRO RURAL),Organismo público,3,Organismos Públicos y OPD
 13106,PROGRAMA DE EMPLEO TEMPORAL LLAMKASUN PERÚ (LLAMKASUN PERÚ),Organismo público,3,Organismos Públicos y OPD
@@ -2285,6 +2311,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 14112,UNIDAD EJECUTORA 007 MARCAHUAMACHUCO (U.E. 007),Organismo público,3,Organismos Públicos y OPD
 14281,UNIDAD EJECUTORA 008 PROYECTOS ESPECIALES DEL PLIEGO 003 (UE 008 - PE),Organismo público,3,Organismos Públicos y OPD
 16367,UNIDAD EJECUTORA 009 - LA LIBERTAD (UE 009 - LA LIBERTAD),Organismo público,3,Organismos Públicos y OPD
+115044,UNIDAD EJECUTORA 012: CHAVÍN DE HUÁNTAR (UE012:CH),Organismo público,3,Organismos Públicos y OPD
 64959,UNIDAD EJECUTORA 037: PERU SEGURO 2025 (UE-PS),Organismo público,3,Organismos Públicos y OPD
 26881,UNIDAD EJECUTORA 118 MEJORAMIENTO DE LA CALIDAD DE LA EDUCACIÓN BÁSICA Y SUPERIOR,Organismo público,3,Organismos Públicos y OPD
 13647,UNIDAD EJECUTORA 303 - EDUCACION ALTOPIURA (UE303),Organismo público,7,Empresas del Estado y diversos
