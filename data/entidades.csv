@@ -400,6 +400,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 13145,HOSPITAL HUARAL Y SERVICIOS BASICOS DE SALUD (HH-SBS),Salud,3,Organismos Públicos y OPD
 18839,HOSPITAL II SANTA ROSA DE PUERTO MALDONADO (HOSPITALII),Salud,7,Empresas del Estado y diversos
 13834,HOSPITAL III REGIONAL HONORIO DELGADO (HRHD),Salud,7,Empresas del Estado y diversos
+13751,HOSPITAL IQUITOS CÉSAR GARAYAR GARCÍA (H.A.I.),Salud,7,Empresas del Estado y diversos
 18693,HOSPITAL JOSE HERNAN SOTO CADENILLAS (HJSC),Salud,3,Organismos Públicos y OPD
 13902,HOSPITAL JOSÉ AGURTO TELLO DE CHOSICA (HJATCH),Salud,3,Organismos Públicos y OPD
 14189,HOSPITAL LA CALETA - HLC (HLC),Salud,7,Empresas del Estado y diversos
@@ -492,6 +493,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 16371,RED DE SERVICIOS DE SALUD CUSCO SUR (RSSCS),Salud,7,Empresas del Estado y diversos
 105014,RED DE SERVICIOS DE SALUD LA CONVENCION (RSSLC),Salud,7,Empresas del Estado y diversos
 14174,RED INTEGRADA DE SALUD BAGUA (DRSB),Salud,7,Empresas del Estado y diversos
+14275,RED INTEGRADA DE SALUD PACASMAYO (RIS),Salud,7,Empresas del Estado y diversos
 111022,RED INTEGRADA DE SALUD PATAZ (RISPT),Salud,7,Empresas del Estado y diversos
 103008,RED INTEGRADA DE SALUD TARMA (RISTARMA),Salud,7,Empresas del Estado y diversos
 38940,RED SALUD PUERTO INCA (RSPI),Salud,7,Empresas del Estado y diversos
@@ -921,6 +923,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11345,MUNICIPALIDAD DISTRITAL DE CHARAT,Municipalidad,5,Gobiernos Regionales y Locales
 11074,MUNICIPALIDAD DISTRITAL DE CHAVIN,Municipalidad,5,Gobiernos Regionales y Locales
 11199,MUNICIPALIDAD DISTRITAL DE CHAVIN DE HUANTAR (MD-CHHUANTAR),Municipalidad,5,Gobiernos Regionales y Locales
+12032,MUNICIPALIDAD DISTRITAL DE CHAVIN DE PARIARCA (MD-CHAVINDEPARIARCA),Municipalidad,5,Gobiernos Regionales y Locales
 10370,MUNICIPALIDAD DISTRITAL DE CHAZUTA (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
 10990,MUNICIPALIDAD DISTRITAL DE CHECACUPE,Municipalidad,5,Gobiernos Regionales y Locales
 10982,MUNICIPALIDAD DISTRITAL DE CHECCA (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
@@ -946,6 +949,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11398,MUNICIPALIDAD DISTRITAL DE CHONGOYAPE (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
 12165,MUNICIPALIDAD DISTRITAL DE CHONTABAMBA (MD-CHONTABAMBA),Municipalidad,5,Gobiernos Regionales y Locales
 10882,MUNICIPALIDAD DISTRITAL DE CHONTALI (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
+13213,MUNICIPALIDAD DISTRITAL DE CHORAS (MD-CHORAS),Municipalidad,5,Gobiernos Regionales y Locales
 10863,MUNICIPALIDAD DISTRITAL DE CHOROS (MDCH),Municipalidad,5,Gobiernos Regionales y Locales
 10056,MUNICIPALIDAD DISTRITAL DE CHORRILLOS (MDCHORRILLOS),Municipalidad,5,Gobiernos Regionales y Locales
 11617,MUNICIPALIDAD DISTRITAL DE CHUCUITO (MD - CHUCUITO),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1340,6 +1344,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11562,MUNICIPALIDAD DISTRITAL DE PAIMAS (MD-PAIMAS),Municipalidad,5,Gobiernos Regionales y Locales
 11441,MUNICIPALIDAD DISTRITAL DE PAJARILLO,Municipalidad,5,Gobiernos Regionales y Locales
 12093,MUNICIPALIDAD DISTRITAL DE PALCA (MD-PALCA),Municipalidad,5,Gobiernos Regionales y Locales
+11907,MUNICIPALIDAD DISTRITAL DE PALCA - HUANCAVELICA (MD-PALCA),Municipalidad,5,Gobiernos Regionales y Locales
 11739,MUNICIPALIDAD DISTRITAL DE PALCA - TACNA (MD-PALCA),Municipalidad,5,Gobiernos Regionales y Locales
 11286,MUNICIPALIDAD DISTRITAL DE PALCAMAYO (MD-PALCAMAYO),Municipalidad,5,Gobiernos Regionales y Locales
 12167,MUNICIPALIDAD DISTRITAL DE PALCAZU (MD-PALCAZU),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1575,6 +1580,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10612,MUNICIPALIDAD DISTRITAL DE SANTA CRUZ DE FLORES (MDSCF),Municipalidad,5,Gobiernos Regionales y Locales
 10653,MUNICIPALIDAD DISTRITAL DE SANTA EULALIA (MDSE),Municipalidad,5,Gobiernos Regionales y Locales
 12123,MUNICIPALIDAD DISTRITAL DE SANTA LEONOR (MD-SLEONOR),Municipalidad,5,Gobiernos Regionales y Locales
+11685,MUNICIPALIDAD DISTRITAL DE SANTA LUCÍA - PUNO (MD-SLUCIA),Municipalidad,5,Gobiernos Regionales y Locales
 10668,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA (MDSM),Municipalidad,5,Gobiernos Regionales y Locales
 10397,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA DE CHICMO,Municipalidad,5,Gobiernos Regionales y Locales
 10113,MUNICIPALIDAD DISTRITAL DE SANTA MARÍA DEL MAR (MDSMM),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1683,6 +1689,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11483,MUNICIPALIDAD DISTRITAL DE TORATA (MDT - TORATA),Municipalidad,5,Gobiernos Regionales y Locales
 11855,MUNICIPALIDAD DISTRITAL DE TORAYA (MD-TORAYA),Municipalidad,5,Gobiernos Regionales y Locales
 10876,MUNICIPALIDAD DISTRITAL DE TORIBIO CASANOVA,Municipalidad,5,Gobiernos Regionales y Locales
+11507,MUNICIPALIDAD DISTRITAL DE TORRES CAUSANA,Municipalidad,5,Gobiernos Regionales y Locales
 10729,MUNICIPALIDAD DISTRITAL DE TOTOS (MDTOTOS),Municipalidad,5,Gobiernos Regionales y Locales
 12061,MUNICIPALIDAD DISTRITAL DE TOURNAVISTA (MD-TOURNAVISTA),Municipalidad,5,Gobiernos Regionales y Locales
 11438,MUNICIPALIDAD DISTRITAL DE TUCUME (MDT),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1738,6 +1745,7 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 12153,MUNICIPALIDAD DISTRITAL DE YANACANCHA - PASCO (MDY),Municipalidad,5,Gobiernos Regionales y Locales
 10503,MUNICIPALIDAD DISTRITAL DE YANAHUARA (MD-YANAHUARA),Municipalidad,5,Gobiernos Regionales y Locales
 10979,MUNICIPALIDAD DISTRITAL DE YANATILE (MDY),Municipalidad,5,Gobiernos Regionales y Locales
+12199,MUNICIPALIDAD DISTRITAL DE YANTALO (MD-YANTALO),Municipalidad,5,Gobiernos Regionales y Locales
 11508,MUNICIPALIDAD DISTRITAL DE YAQUERANA (MD-YAQUERANA),Municipalidad,5,Gobiernos Regionales y Locales
 11779,MUNICIPALIDAD DISTRITAL DE YARINACOCHA (MDY),Municipalidad,5,Gobiernos Regionales y Locales
 12003,MUNICIPALIDAD DISTRITAL DE YARUMAYO (MDYARUMAYO),Municipalidad,5,Gobiernos Regionales y Locales
@@ -1969,7 +1977,6 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 11126,AGENCIA DE PROMOCIÓN DE LA INVERSIÓN PRIVADA (PROINVERSION),Organismo público,3,Organismos Públicos y OPD
 10004,AGENCIA PERUANA DE COOPERACIÓN INTERNACIONAL (APCI),Organismo público,3,Organismos Públicos y OPD
 13217,AGROMERCADO (SSE),Organismo público,3,Organismos Públicos y OPD
-14275,AIS UTES PACASMAYO (HTL),Organismo público,7,Empresas del Estado y diversos
 181,ARCHIVO GENERAL DE LA NACIÓN (AGN),Organismo público,3,Organismos Públicos y OPD
 13644,ARCHIVO REGIONAL DE PIURA (ARP),Organismo público,7,Empresas del Estado y diversos
 13219,AUTORIDAD AUTÓNOMA DEL SISTEMA ELÉCTRICO DE TRANSPORTE MASIVO DE LIMA Y CALLAO (AATE),Organismo público,3,Organismos Públicos y OPD
@@ -2101,10 +2108,10 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 14130,GERENCIA SUB REGIONAL DE ALTO AMAZONAS (GSRAA),Organismo público,7,Empresas del Estado y diversos
 18789,GERENCIA SUB REGIONAL DE CASTROVIRREYNA (GSRC),Organismo público,7,Empresas del Estado y diversos
 18805,GERENCIA SUB REGIONAL DE TAYACAJA (GSRT),Organismo público,7,Empresas del Estado y diversos
+108018,GERENCIA SUB REGIONAL GENERAL SANCHEZ CERRO (GSRGSC),Organismo público,7,Empresas del Estado y diversos
 13977,GERENCIA SUB REGIONAL JAEN (GSRJAEN),Organismo público,7,Empresas del Estado y diversos
 12812,GERENCIA SUB REGIONAL LUCIANO CASTILLO COLONNA (GSRLCC - GRPIURA),Organismo público,7,Empresas del Estado y diversos
 13417,GERENCIA SUB REGIONAL MORROPÓN HUANCABAMBA (GSRMH),Organismo público,7,Empresas del Estado y diversos
-108018,GERENCIA SUB REGIONAL SANCHEZ CERRO (GSRGSC),Organismo público,7,Empresas del Estado y diversos
 18634,GERENCIA SUB REGIONAL UTCUBAMBA (GSRU),Organismo público,7,Empresas del Estado y diversos
 25879,GERENCIA TERRITORIAL ALTO HUALLAGA - TOCACHE (GTAH - T),Organismo público,7,Empresas del Estado y diversos
 14202,GERENCIA TERRITORIAL BAJO MAYO - TARAPOTO (GTBM-T),Organismo público,7,Empresas del Estado y diversos
@@ -2163,12 +2170,14 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 10038,INSTITUTO PERUANO DEL DEPORTE (IPD),Organismo público,3,Organismos Públicos y OPD
 14261,"INSTITUTO REGIONAL DE OFTALMOLOGÍA ""JAVIER SERVAT UNIVASO"" (IRO-JSU)",Organismo público,7,Empresas del Estado y diversos
 115043,INSTITUTO VIAL PROVINCIAL DE AMBO (IVP-AMBO),Organismo público,5,Gobiernos Regionales y Locales
+115067,INSTITUTO VIAL PROVINCIAL DE ANGARAES (IVPA),Organismo público,7,Empresas del Estado y diversos
 110019,INSTITUTO VIAL PROVINCIAL DE CHOTA (IVP),Organismo público,4,Organismos Constitucionales Autónomos
 71968,INSTITUTO VIAL PROVINCIAL DE HUÁNUCO (IVP-HCO),Organismo público,5,Gobiernos Regionales y Locales
 115036,INSTITUTO VIAL PROVINCIAL DE JAÉN (IVP - JAÉN),Organismo público,5,Gobiernos Regionales y Locales
 14103,INSTITUTO VIAL PROVINCIAL DE LEONCIO PRADO (IVP-LEONCIO PRADO),Organismo público,5,Gobiernos Regionales y Locales
 98000,INSTITUTO VIAL PROVINCIAL DE POMABAMBA (IVP-P),Organismo público,5,Gobiernos Regionales y Locales
 93997,INSTITUTO VIAL PROVINCIAL DE TACNA (IVPT),Organismo público,5,Gobiernos Regionales y Locales
+115030,INSTITUTO VIAL PROVINCIAL DE TAYACAJA (IVP-TAYACAJA),Organismo público,4,Organismos Constitucionales Autónomos
 2,INTENDENCIA NACIONAL DE BOMBEROS DEL PERÚ (INBP),Organismo público,3,Organismos Públicos y OPD
 85979,MANCOMUNIDAD REGIONAL DE LOS ANDES (MRDLA),Organismo público,7,Empresas del Estado y diversos
 66961,MEJORAMIENTO DE SERVICIOS A CIUDADANOS Y EMPRESAS (PROMSACE),Organismo público,3,Organismos Públicos y OPD
@@ -2201,11 +2210,11 @@ id_entidad,nombre,categoria,tipo_pod,tipo_label
 49951,PROGRAMA NACIONAL DE BIENES INCAUTADOS (PRONABI),Organismo público,3,Organismos Públicos y OPD
 18835,PROGRAMA NACIONAL DE CENTROS JUVENILES (PRONACEJ),Organismo público,3,Organismos Públicos y OPD
 14051,PROGRAMA NACIONAL DE CONSERVACIÓN DE BOSQUES (PNCBMCC),Organismo público,3,Organismos Públicos y OPD
-13353,PROGRAMA NACIONAL DE DESARROLLO TECNOLÓGICO E INNOVACIÓN (PROINNOVATE),Organismo público,3,Organismos Públicos y OPD
 13216,PROGRAMA NACIONAL DE EMPLEO JOVENES PRODUCTIVOS (PNEJP),Organismo público,3,Organismos Públicos y OPD
 20858,PROGRAMA NACIONAL DE ENTREGA DE LA PENSIÓN NO CONTRIBUTIVA A LA PERSONA CON DISCAPACIDAD SEVERA (CONTIGO),Organismo público,3,Organismos Públicos y OPD
 18728,PROGRAMA NACIONAL DE INNOVACIÓN AGRARIA (PNIA),Organismo público,3,Organismos Públicos y OPD
 18834,PROGRAMA NACIONAL DE INNOVACIÓN EN PESCA Y ACUICULTURA (PNIPA),Organismo público,3,Organismos Públicos y OPD
+13353,PROGRAMA NACIONAL DE INNOVACIÓN Y DESARROLLO PRODUCTIVO (PROINNOVATE),Organismo público,3,Organismos Públicos y OPD
 14258,PROGRAMA NACIONAL DE INVESTIGACIÓN CIENTÍFICA Y ESTUDIOS AVANZADOS (PROCIENCIA),Organismo público,3,Organismos Públicos y OPD
 13944,PROGRAMA NACIONAL DE SANEAMIENTO RURAL (PNSR),Organismo público,3,Organismos Públicos y OPD
 191,PROGRAMA NACIONAL DE SANEAMIENTO URBANO (PNSU),Organismo público,3,Organismos Públicos y OPD
