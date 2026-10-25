@@ -25,7 +25,8 @@ La meta original de "≥100k funcionarios indexados con historial" ya se superó
 
 Pulir y exponer valor que ya está casi listo en los datos.
 
-- [ ] **Página de Designaciones/Rotación.** `build_rotacion.py` ya genera `rotacion.json` (tasa 26.8%, altas/bajas, cambios de mando) pero **no tiene página**. Crear vista: ranking de entidades por rotación, nombramientos/ceses de cargos clave 2024→2026.
+- [x] **Página de Designaciones/Rotación.** Live en `/nuevos` (El Peruano + altas de planilla). Pendiente: `designaciones_total` oscila entre corridas (3617→2955→3654) por el recorte de `build_nuevos_funcionarios.py`; estabilizar el conteo.
+- [x] **Serie histórica diaria + sección "Evolución"** (25-oct-2026): `scripts/snapshot_historico.py`, `data/historico/`, `historico_serie.json`, gráfico en Home. Pendiente: planilla PTE (`funcionarios`) es constante desde jun-2026 porque se refresca a mano → programar re-barrido periódico desde la laptop (no CI: el PTE devuelve 500 al runner y el 21-oct commiteó datos en cero; ver guard en `build_site_data.py`).
 - [x] ~~**Refresco automático.**~~ Hecho vía laptop (launchd 22:00 + `actualizar.sh`), porque el OECE bloquea las IPs de GitHub Actions (403). Genera OCDS + trayectorias + bot, commitea y despliega solo.
 - [ ] **Bot v1.1.** Panel de consumo (`/admin` del gateway), sugerencias contextuales por sección, y memoria de “no sé” honesto. Medir uso real antes de invertir más.
 - [ ] **Calidad/cobertura como dashboard.** Hacer visible qué entidades NO transparentan (hallazgo fuerte): FONAFE, FF.AA., PNP, INPE, 27/35 universidades solo CAS.
