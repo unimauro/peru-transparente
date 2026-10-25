@@ -41,3 +41,17 @@ export interface FuncionarioItem {
   url: string;
   nivel: string;
 }
+
+/** Serie histórica de las cifras del portal (public/data/historico_serie.json). */
+export interface HistoricoPunto {
+  fecha: string;
+  [metrica: string]: number | string | null;
+}
+
+export interface HistoricoSerie {
+  generated_at: string;
+  /** clave de métrica → etiqueta en español */
+  campos: Record<string, string>;
+  /** ascendente por fecha; solo fechas de refresco publicadas */
+  serie: HistoricoPunto[];
+}

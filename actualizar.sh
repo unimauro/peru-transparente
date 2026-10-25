@@ -52,6 +52,9 @@ echo "▶ 5/6  Reconstruyendo JSON + contexto del bot…"
 "$PY" scripts/build_nuevos_funcionarios.py --corte 2026-07-21
 "$PY" scripts/build_trayectorias.py
 "$PY" scripts/build_bot_context.py
+# Serie histórica diaria (cómo se mueven las cifras): upsert por fecha en
+# data/historico/serie_diaria.csv + snapshots + frontend/public/data/historico_serie.json
+"$PY" scripts/snapshot_historico.py || echo "  (snapshot histórico falló; el pipeline continúa)"
 
 # Sincroniza el histórico al Postgres del VPS (api.tunky.net) vía SSH+docker exec. Solo si
 # SYNC_VPS=1 (no-op por defecto, no rompe el pipeline). Sube designaciones (upsert diario);
@@ -64,12 +67,26 @@ if [ "${SYNC_VPS:-}" = "1" ]; then
 fi
 
 echo "▶ 6/6  Commit + push (dispara el redeploy de Pages)…"
+# Integrar primero lo que haya en origin/main (p. ej. un workflow_dispatch manual). Sin esto,
+# el push quedó rechazado 35 días (19-sep → 24-oct-2026) por commits del bot de CI.
+# --autostash: los checkpoints no versionados-modificados no bloquean el rebase.
+git fetch -q origin
+if ! git merge-base --is-ancestor origin/main HEAD; then
+  echo "  origin/main tiene commits nuevos → rebase…"
+  if ! git rebase -q --autostash origin/main; then
+    git rebase --abort || true
+    echo "  ✖ CONFLICTO al rebasar sobre origin/main. Resolver a mano: git rebase origin/main"
+    exit 1
+  fi
+fi
 # data/contratos.csv y data/sanciones_rnssc.csv NO se versionan (RUC/DNI = PII). El
 # checkpoint de contratos SÍ (guarda el SHA por mes = estado incremental); el de RNSSC no
 # (es efímero, se reinicia en cada barrido completo). Los JSON publicados van todos.
 git add frontend/public/data data/ordenes_servicio.csv data/contratos.checkpoint.json
 # Las designaciones de El Peruano son 100% públicas (norma + persona + cargo) → se versionan.
 [ -f data/designaciones.csv ] && git add data/designaciones.csv data/designaciones.checkpoint.json
+# Serie histórica (CSV + snapshots pequeños): sin PII, se versiona para poder graficar evolución.
+[ -d data/historico ] && git add data/historico
 if git diff --staged --quiet; then
   echo "  (sin datos nuevos hoy — nada que publicar)"
 else

@@ -8,6 +8,12 @@ Genera en frontend/public/data/:
   - meta.json             cobertura/avance del scraping
 
 Estático-primero: el sitio en GitHub Pages lee estos JSON sin backend.
+
+GUARD anti-regresión: antes de escribir nada se compara con el national_kpis.json
+ya publicado. Si el nuevo total_funcionarios o entities_with_data cae por debajo
+del 50 % del anterior (p. ej. el PTE devolvió 500 y el CSV quedó vacío), aborta
+con exit 2 SIN tocar ningún archivo. Para forzar la escritura (p. ej. una
+reconstrucción deliberada del catálogo) usar PT_FORCE=1.
 """
 from __future__ import annotations
 
@@ -76,6 +82,42 @@ def write(name: str, data: object) -> None:
     (OUT / name).write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
+GUARD_UMBRAL = 0.5  # fracción mínima respecto al JSON publicado
+
+
+def guard_regresion(total_funcionarios: int, entities_with_data: int,
+                    kpis_path: Path = OUT / "national_kpis.json") -> None:
+    """Aborta (exit 2) si los nuevos totales caen por debajo del umbral del JSON publicado.
+
+    Compara contra el national_kpis.json existente; si no existe, no hay con qué
+    comparar y se deja pasar. PT_FORCE=1 salta la verificación.
+    """
+    if os.environ.get("PT_FORCE") == "1":
+        print("GUARD: saltado por PT_FORCE=1", file=sys.stderr)
+        return
+    if not kpis_path.exists():
+        return
+    try:
+        prev = json.loads(kpis_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        print(f"GUARD: no se pudo leer {kpis_path} ({exc}); se continúa sin comparar", file=sys.stderr)
+        return
+    checks = [
+        ("total_funcionarios", int(prev.get("total_funcionarios") or 0), total_funcionarios),
+        ("entities_with_data", int(prev.get("entities_with_data") or 0), entities_with_data),
+    ]
+    fallas = [(k, antes, ahora) for k, antes, ahora in checks
+              if antes > 0 and ahora < antes * GUARD_UMBRAL]
+    if not fallas:
+        return
+    for k, antes, ahora in fallas:
+        print(f"GUARD: {k} cayó de {antes} a {ahora} (< {int(GUARD_UMBRAL * 100)} % del publicado).",
+              file=sys.stderr)
+    print("GUARD: abortado SIN escribir JSON. ¿El PTE devolvió 500 / CSV vacío? "
+          "Revisa data/funcionarios.csv; para forzar: PT_FORCE=1.", file=sys.stderr)
+    sys.exit(2)
+
+
 def main() -> None:
     entidades = read_csv(ENT)
     funcionarios = read_csv(FUN)
@@ -92,6 +134,13 @@ def main() -> None:
     clave_total = sum(niv_count[k] for k in CLAVE)
     ent_cat = {e["id_entidad"]: e.get("categoria") or categoria(e["nombre"]) for e in entidades}
     tipo_count = Counter(ent_cat[e["id_entidad"]] for e in entidades)
+
+    # GUARD anti-regresión: se evalúa ANTES del primer write() (ver docstring).
+    # entities_with_data = mismo cálculo que en national_kpis.json (entidades del catálogo con funcionarios).
+    guard_regresion(
+        total_funcionarios=len(funcionarios),
+        entities_with_data=sum(1 for e in entidades if fun_por_entidad.get(e["id_entidad"])),
+    )
 
     # Autoridades de gob.pe (cargadas temprano para el conteo + página global)
     autoridades_por_ent = defaultdict(list)

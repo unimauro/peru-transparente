@@ -6,6 +6,13 @@ name: Scrape Funcionarios (progresivo)
 # 3) Regenera el JSON del sitio y commitea el avance → se ve crecer en GitHub Pages.
 
 on:
+  # Cron DESACTIVADO: el 19-sep y el 21-oct-2026 el runner de GitHub (IP de
+  # datacenter) recibió 500 del PTE (www.transparencia.gob.pe) y commiteó a main
+  # JSON con total_funcionarios=0 y entities_with_data=0, divergiendo del laptop y
+  # bloqueando el refresco diario 35 días. El barrido se corre desde una IP de
+  # Perú (laptop) o a mano con workflow_dispatch.
+  # schedule:
+  #   - cron: "0 7 * * *" # 02:00 Perú, continúa el barrido a diario
   workflow_dispatch:
     inputs:
       year:
@@ -14,8 +21,6 @@ on:
       max_minutes:
         description: "Minutos máximos por corrida"
         default: "300"
-  schedule:
-    - cron: "0 7 * * *" # 02:00 Perú, continúa el barrido a diario
 
 permissions:
   contents: write
