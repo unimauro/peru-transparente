@@ -1,0 +1,265 @@
+{
+ "periodo": "Dic 2025",
+ "anio": 2025,
+ "mes": 12,
+ "fuente": "AIRHSP — MEF (datos abiertos)",
+ "fuente_url": "https://www.datosabiertos.gob.pe/dataset/personal-activo-y-pensionista-del-sector-p%C3%BAblico-registrado-en-el-airhsp",
+ "cobertura": "Gobierno Nacional y Regional; sin municipalidades, EsSalud, FONAFE, BCRP, SBS, SUNAT",
+ "archivo": "PERSONALSP_2025.csv",
+ "capturado_en": "2026-10-26T21:16:25+00:00",
+ "total_registros": 2722207,
+ "masa_mensual_total": 7449266163,
+ "costo_anual_total": 98087766238,
+ "activos": {
+  "registros": 1334972,
+  "masa_mensual": 5844313564,
+  "costo_anual": 77215910915,
+  "prom": 4378,
+  "por_regimen": [
+   {
+    "regimen": "Carreras Especiales",
+    "n": 618314,
+    "masa": 3026189294,
+    "prom": 4894,
+    "costo_anual": 39036165798
+   },
+   {
+    "regimen": "D. Leg. 1057 CAS",
+    "n": 256692,
+    "masa": 981496943,
+    "prom": 3824,
+    "costo_anual": 12571160949
+   },
+   {
+    "regimen": "Fuerzas Armadas y Policiales",
+    "n": 189686,
+    "masa": 843016585,
+    "prom": 4444,
+    "costo_anual": 11291286300
+   },
+   {
+    "regimen": "D. Leg. Nº 728",
+    "n": 61010,
+    "masa": 397565821,
+    "prom": 6516,
+    "costo_anual": 6570477497
+   },
+   {
+    "regimen": "D. Leg. Nº 276",
+    "n": 107291,
+    "masa": 329548421,
+    "prom": 3072,
+    "costo_anual": 4215984748
+   },
+   {
+    "regimen": "Asistenciales",
+    "n": 62441,
+    "masa": 198851888,
+    "prom": 3185,
+    "costo_anual": 2583765393
+   },
+   {
+    "regimen": "Sin Regimen Laboral",
+    "n": 36313,
+    "masa": 34472605,
+    "prom": 949,
+    "costo_anual": 413671264
+   },
+   {
+    "regimen": "Ley Nº 30057 SERVIR",
+    "n": 3225,
+    "masa": 33172006,
+    "prom": 10286,
+    "costo_anual": 533398967
+   }
+  ],
+  "por_nivel": [
+   {
+    "nivel": "GOBIERNO NACIONAL",
+    "n": 663636,
+    "masa": 3124033965,
+    "prom": 4707,
+    "costo_anual": 42057094768
+   },
+   {
+    "nivel": "GOBIERNO REGIONAL",
+    "n": 671336,
+    "masa": 2720279599,
+    "prom": 4052,
+    "costo_anual": 35158816147
+   }
+  ],
+  "por_sector": [
+   {
+    "sector": "EDUCACION",
+    "n": 597631,
+    "masa": 2406162552,
+    "prom": 4026,
+    "costo_anual": 31114031484
+   },
+   {
+    "sector": "SALUD",
+    "n": 270668,
+    "masa": 1202264624,
+    "prom": 4442,
+    "costo_anual": 15529334800
+   },
+   {
+    "sector": "INTERIOR",
+    "n": 148391,
+    "masa": 627079912,
+    "prom": 4226,
+    "costo_anual": 8378195482
+   },
+   {
+    "sector": "DEFENSA",
+    "n": 103695,
+    "masa": 341640626,
+    "prom": 3295,
+    "costo_anual": 4517355425
+   },
+   {
+    "sector": "PODER JUDICIAL",
+    "n": 34616,
+    "masa": 216323811,
+    "prom": 6249,
+    "costo_anual": 3033634808
+   },
+   {
+    "sector": "MINISTERIO PUBLICO",
+    "n": 27967,
+    "masa": 196249358,
+    "prom": 7017,
+    "costo_anual": 2600819310
+   },
+   {
+    "sector": "ECONOMIA Y FINANZAS",
+    "n": 20122,
+    "masa": 154576950,
+    "prom": 7682,
+    "costo_anual": 2304022594
+   },
+   {
+    "sector": "JUSTICIA",
+    "n": 21550,
+    "masa": 92870601,
+    "prom": 4310,
+    "costo_anual": 1292818248
+   },
+   {
+    "sector": "GOBIERNOS REGIONALES",
+    "n": 17225,
+    "masa": 68979546,
+    "prom": 4005,
+    "costo_anual": 927380848
+   },
+   {
+    "sector": "PRESIDENCIA CONSEJO MINISTROS",
+    "n": 9118,
+    "masa": 63976360,
+    "prom": 7016,
+    "costo_anual": 887776733
+   },
+   {
+    "sector": "AGRARIO Y DE RIEGO",
+    "n": 12007,
+    "masa": 53481453,
+    "prom": 4454,
+    "costo_anual": 725764302
+   },
+   {
+    "sector": "MUJER Y POBLACIONES VULNERABLES",
+    "n": 10894,
+    "masa": 44503811,
+    "prom": 4085,
+    "costo_anual": 574509868
+   }
+  ],
+  "por_tipo_registro": [
+   {
+    "tipo": "Activos",
+    "n": 1076768,
+    "masa": 4845245461,
+    "prom": 4500,
+    "costo_anual": 64433896046
+   },
+   {
+    "tipo": "Contrato Administrativo de Servicios",
+    "n": 256692,
+    "masa": 981496943,
+    "prom": 3824,
+    "costo_anual": 12571160949
+   },
+   {
+    "tipo": "Convenio de Administración",
+    "n": 1512,
+    "masa": 17571160,
+    "prom": 11621,
+    "costo_anual": 210853920
+   }
+  ]
+ },
+ "pensiones": {
+  "registros": 1285318,
+  "masa_mensual": 1381948055,
+  "costo_anual": 17904541297,
+  "prom": 1075,
+  "detalle": [
+   {
+    "tipo": "Pensionistas",
+    "n": 687688,
+    "masa": 678921281,
+    "prom": 987,
+    "costo_anual": 8819101458
+   },
+   {
+    "tipo": "Sobrevivientes",
+    "n": 384571,
+    "masa": 285115496,
+    "prom": 741,
+    "costo_anual": 3691243895
+   },
+   {
+    "tipo": "CPMP",
+    "n": 212392,
+    "masa": 416877438,
+    "prom": 1963,
+    "costo_anual": 5381789864
+   },
+   {
+    "tipo": "Palmas Magisteriales",
+    "n": 483,
+    "masa": 564640,
+    "prom": 1169,
+    "costo_anual": 6775680
+   },
+   {
+    "tipo": "Reconocimientos Estatales",
+    "n": 184,
+    "masa": 469200,
+    "prom": 2550,
+    "costo_anual": 5630400
+   }
+  ]
+ },
+ "formativa": {
+  "registros": 45753,
+  "masa_mensual": 29146341,
+  "costo_anual": 358433202
+ },
+ "vacantes": {
+  "plazas": 56164,
+  "masa_mensual": 193858202,
+  "costo_anual": 2608880824,
+  "por_grupo": {
+   "activos": 54279,
+   "formativa": 1176,
+   "pensiones": 709
+  }
+ },
+ "otros_tipos_no_clasificados": [],
+ "niveles": [
+  "GOBIERNO NACIONAL",
+  "GOBIERNO REGIONAL"
+ ]
+}

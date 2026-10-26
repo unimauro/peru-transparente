@@ -12,6 +12,7 @@ const NAV: [string, string][] = [
   ["/personas", "Personas"],
   ["/trayectorias", "Trayectorias"],
   ["/historico", "Histórico"],
+  ["/costo", "Costo"],
   ["/ordenes", "Locadores"],
   ["/contratos", "Contratos"],
   ["/sanciones", "Sanciones"],

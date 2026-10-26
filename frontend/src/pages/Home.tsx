@@ -5,6 +5,7 @@ import type { NationalKpis, Meta, EntidadCat } from "@/types";
 import { Stat, Bar, SectionTitle, fmt } from "@/components/ui";
 import { NetworkHero } from "@/components/NetworkHero";
 import { Evolucion } from "@/components/Evolucion";
+import { CostoResumen } from "@/components/CostoResumen";
 
 export function Home() {
   const [k, setK] = useState<NationalKpis | null>(null);
@@ -50,13 +51,16 @@ export function Home() {
           <>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="universo fijo del PTE" />
-              <Stat value={fmt.format(k.total_funcionarios)} label="Servidores públicos" hint={`${fmt.format(k.entities_with_data)} entidades con datos`} accent="text-accent-cyan" />
+              <Stat value={fmt.format(k.total_funcionarios)} label="Con nombre y sueldo publicado (PTE)" hint={`${fmt.format(k.entities_with_data)} entidades con datos`} accent="text-accent-cyan" />
               <Stat value={fmt.format(k.total_cargos_clave)} label="Cargos clave" hint="dirección + jefaturas" accent="text-peru-redsoft" />
               <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura del barrido" hint={`${fmt.format(k.entities_processed ?? 0)} de ${fmt.format(k.total_entities)} entidades`} accent="text-accent-blue" />
             </div>
 
             {/* Evolución temporal de las cifras: trae su propio SectionTitle y no renderiza nada si falta historico_serie.json */}
             <Evolucion />
+
+            {/* Costo del Estado en personal: contador vivo + link a /costo; null si falta costo_estado.json */}
+            <CostoResumen />
 
             {/* Progreso del barrido (3 estados) + qué es el PTE */}
             <div className="glass mt-6 p-6">

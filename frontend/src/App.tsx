@@ -15,6 +15,7 @@ import { Contratos } from "@/pages/Contratos";
 import { Sanciones } from "@/pages/Sanciones";
 import { Trayectorias } from "@/pages/Trayectorias";
 import { Historico } from "@/pages/Historico";
+import { Costo } from "@/pages/Costo";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/personas" element={<Personas />} />
         <Route path="/trayectorias" element={<Trayectorias />} />
         <Route path="/historico" element={<Historico />} />
+        <Route path="/costo" element={<Costo />} />
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/regiones" element={<Regiones />} />
         <Route path="/metodologia" element={<Metodologia />} />

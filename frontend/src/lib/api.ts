@@ -40,6 +40,7 @@ export const staticData = {
   trayectorias: () => getJSON(`${STATIC_BASE}/trayectorias_poder.json`),
   botContext: () => getJSON<{ context: string }>(`${STATIC_BASE}/bot_context.json`),
   historicoSerie: () => getJSON(`${STATIC_BASE}/historico_serie.json`),
+  costoEstado: () => getJSON(`${STATIC_BASE}/costo_estado.json`),
 };
 
 // ── Asistente (gateway IA ai.tunky.net → OpenRouter) ──────────────────────

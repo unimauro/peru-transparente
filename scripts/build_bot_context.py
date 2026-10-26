@@ -33,15 +33,40 @@ def main() -> None:
     L.append("DATOS DE CAPITAL HUMANO DEL ESTADO PERUANO (Perú Transparente). Cifras reales, usa SOLO estas.")
     L.append("")
     L.append("== TAMAÑO ==")
-    L.append(f"- Total servidores públicos del Estado (AIRHSP/MEF, dic 2025, agregado sin nombres): {fmt(air.get('total',0))}.")
-    L.append(f"- Masa salarial mensual: S/{fmt(air.get('masa_mensual',0))} (~S/{fmt(air.get('masa_mensual',0)*12)}/año).")
+    act, pen, form, vac = air.get("activos") or {}, air.get("pensiones") or {}, air.get("formativa") or {}, air.get("vacantes") or {}
+    per = air.get("periodo", "dic 2025")
+    if act.get("registros"):
+        L.append(f"- Total registros AIRHSP/MEF ({per}): {fmt(air.get('total_registros') or air.get('total',0))} = "
+                 f"{fmt(act.get('registros',0))} ACTIVOS (plaza, CAS, convenio) + {fmt(pen.get('registros',0))} PENSIONISTAS y sobrevivientes "
+                 f"+ {fmt(form.get('registros',0))} modalidad formativa/promotoras + {fmt(vac.get('plazas',0))} plazas vacantes. "
+                 "NO decir que hay 2,7 millones de 'servidores': los activos son ~1,3 millones.")
+        L.append(f"- Servidores públicos ACTIVOS (AIRHSP, {per}): {fmt(act.get('registros',0))}; masa mensual permanente S/{fmt(act.get('masa_mensual',0))} "
+                 f"(sueldo promedio S/{fmt(act.get('prom',0))}); costo anual total S/{fmt(act.get('costo_anual',0))} (incluye aguinaldos, escolaridad y aportes).")
+        L.append(f"- Pensiones a cargo del Tesoro (AIRHSP, {per}): {fmt(pen.get('registros',0))} pensionistas y sobrevivientes, S/{fmt(pen.get('masa_mensual',0))}/mes "
+                 f"(pensión promedio S/{fmt(pen.get('prom',0))}), S/{fmt(pen.get('costo_anual',0))}/año.")
+        L.append(f"- Cobertura AIRHSP: {air.get('cobertura','Gobierno Nacional y Regional')}. Las municipalidades no están.")
+    else:
+        L.append(f"- Total registros AIRHSP/MEF ({per}, agregado sin nombres): {fmt(air.get('total',0))} (incluye pensionistas; no es headcount de activos).")
+        L.append(f"- Masa mensual de todos los registros: S/{fmt(air.get('masa_mensual',0))}.")
     L.append(f"- Personal NOMINAL con nombre y cargo (PTE, foto 2026): {fmt(k.get('total_funcionarios',0))}, de {k.get('entities_with_data',0)} entidades.")
     L.append("- Histórico nominal 2015-2024: 653 359 registros → 403 319 personas con trayectoria rastreable.")
     L.append("")
-    L.append("== TIPOS DE EMPLEO (régimen, AIRHSP, todo el Estado) ==")
-    for r in air.get("por_regimen", []):
-        L.append(f"- {r['regimen']}: {fmt(r['n'])} personas, sueldo promedio S/{fmt(r['prom'])}.")
+    L.append("== TIPOS DE EMPLEO (régimen laboral de los ACTIVOS, AIRHSP GN+GR) ==")
+    regs = (act.get("por_regimen") if act else None) or []
+    if regs:
+        for r in regs:
+            L.append(f"- {r['regimen']}: {fmt(r['n'])} activos, sueldo promedio S/{fmt(r['prom'])}.")
+    else:
+        for r in air.get("por_regimen", []):
+            if r.get("regimen", "").lower().startswith("sin regimen"):
+                L.append(f"- {r['regimen']}: {fmt(r['n'])} registros a S/{fmt(r['prom'])} promedio: NO son trabajadores; son sobre todo pensionistas ONP, sobrevivientes, tropa y practicantes.")
+            else:
+                L.append(f"- {r['regimen']}: {fmt(r['n'])} registros, promedio S/{fmt(r['prom'])}.")
     L.append("  (Carreras Especiales = docentes y salud; el PTE NO publica docentes ni FF.AA., el AIRHSP sí los cuenta.)")
+    if act.get("por_nivel"):
+        L.append("- Activos por nivel: " + "; ".join(f"{n['nivel']} {fmt(n['n'])} (S/{fmt(n['masa'])}/mes)" for n in act["por_nivel"]) + ".")
+    if act.get("por_sector"):
+        L.append("- Sectores con más masa salarial de activos: " + "; ".join(f"{x['sector']} {fmt(x['n'])} (S/{fmt(x['masa'])}/mes)" for x in act["por_sector"][:6]) + ".")
     L.append("")
     L.append("== ESTRUCTURA / CARGOS DE MANDO ==")
     L.append(f"- Cargos clave (de jefe hacia arriba): {fmt(k.get('total_cargos_clave',0))} (~4% del total nominal).")
@@ -57,7 +82,7 @@ def main() -> None:
     L.append("== SECTORES MÁS GRANDES (Sector → personal) ==")
     for s in jer[:8]:
         L.append(f"- {s['sector']}: {fmt(s['n'])} servidores, S/{fmt(s['masa'])}/mes.")
-    L.append("  (Economía y Finanzas incluye pensiones del Estado; Educación es la mayor cartera de personal activo.)")
+    L.append("  (OJO: esos conteos por sector incluyen pensionistas: Economía y Finanzas incluye ~777 mil pensionistas de la ONP, que NO son trabajadores del MEF. Educación es la mayor cartera de personal activo.)")
     L.append("")
     if rot:
         L.append("== ROTACIÓN / DESIGNACIONES (2024 → 2026) ==")
@@ -75,7 +100,7 @@ def main() -> None:
     L.append("- 27 de 35 universidades publican solo su planilla CAS administrativa, sin docentes ni rector.")
     L.append("")
     L.append("== FUENTES ==")
-    L.append("PTE (transparencia.gob.pe, planilla nominal), gob.pe (autoridades), AIRHSP/MEF (agregado total), OCDS/OECE (contrataciones). Sitio: unimauro.github.io/peru-transparente")
+    L.append("PTE (transparencia.gob.pe, planilla nominal), gob.pe (autoridades), AIRHSP/MEF (datos abiertos: datosabiertos.gob.pe, dataset 'Personal activo y pensionista del sector público registrado en el AIRHSP'), OCDS/OECE (contrataciones). Sitio: unimauro.github.io/peru-transparente")
     L.append("")
     L.append("== PRINCIPIO ==")
     L.append("Anti-overclaiming: estos datos describen y vinculan información pública; NO afirman irregularidades. 'Personal compartido' entre entidades es casi siempre rotación en el tiempo (mismo nombre en distintos años) u homónimos, NO doble empleo. La ley prohíbe doble percepción salvo docencia.")

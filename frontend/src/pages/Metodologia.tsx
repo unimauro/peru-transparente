@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { staticData } from "@/lib/api";
 import type { NationalKpis } from "@/types";
@@ -45,7 +46,7 @@ export function Metodologia() {
         </QA>
 
         <QA q="Servidor público vs. funcionario: ¿no es lo mismo?">
-          <p>No. El total ({k ? fmt.format(k.total_funcionarios) : "…"}) son <b>servidores públicos</b> (todos los que trabajan para el Estado). Dentro de ellos, los <b>cargos clave</b> ({k ? fmt.format(k.total_cargos_clave) : "…"}) son <b>funcionarios y directivos</b> — de jefe para arriba (ministros, viceministros, directores, gerentes, jefes). Es la estratificación de la Ley del Servicio Civil (Ley 30057).</p>
+          <p>No. El total ({k ? fmt.format(k.total_funcionarios) : "…"}) son <b>servidores públicos con sueldo publicado nominalmente</b> en el PTE; el universo AIRHSP de plazas activas ocupadas es 1.33 M (Gobierno Nacional + Regional), ver <Link to="/costo" className="text-accent-cyan hover:underline">Costo</Link>. Dentro de ellos, los <b>cargos clave</b> ({k ? fmt.format(k.total_cargos_clave) : "…"}) son <b>funcionarios y directivos</b> — de jefe para arriba (ministros, viceministros, directores, gerentes, jefes). Es la estratificación de la Ley del Servicio Civil (Ley 30057).</p>
         </QA>
 
         <QA q="¿Qué regímenes laborales aparecen?">
