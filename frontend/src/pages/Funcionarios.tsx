@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import type { FuncionarioItem, NationalKpis } from "@/types";
-import { fmt, money, LevelBadge, Empty, usePaged, Pagination } from "@/components/ui";
+import { fmt, money, LevelBadge, Empty, usePaged, Pagination, FuenteLink } from "@/components/ui";
 import { JerarquiaEstado } from "@/components/JerarquiaEstado";
 
 const MESES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"];
@@ -230,7 +230,7 @@ export function Funcionarios() {
                   </td>
                   <td className="px-4 py-3 text-ink-mute">{MESES[+f.mes] || f.mes} {f.anio}</td>
                   <td className="tabular px-4 py-3 text-right text-ink">{money(f.total)}</td>
-                  <td className="px-4 py-3 text-right"><a href={f.url} target="_blank" rel="noreferrer" className="text-accent-blue">↗</a></td>
+                  <td className="px-4 py-3 text-right"><FuenteLink url={f.url} className="text-accent-blue" /></td>
                 </tr>
               ))}
             </tbody>

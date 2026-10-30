@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.busqueda import patron_like
 from app.db.session import get_db
 
 router = APIRouter(prefix="/officials", tags=["funcionarios"])
@@ -22,13 +23,14 @@ async def list_officials(
         JOIN core.appointment a ON a.person_id = p.id AND a.is_current
         JOIN core.position pos ON pos.id = a.position_id
         JOIN core.entity e ON e.id = a.entity_id
-        WHERE (CAST(:q AS text) IS NULL OR p.normalized_name ILIKE '%'||upper(CAST(:q AS text))||'%')
+        WHERE (CAST(:q AS text) IS NULL
+               OR p.normalized_name ILIKE upper(CAST(:q AS text)) ESCAPE '\\')
           AND (CAST(:entity_id AS uuid) IS NULL OR e.id = CAST(:entity_id AS uuid))
         ORDER BY p.full_name
         LIMIT :limit OFFSET :offset
     """
     rows = (await db.execute(text(sql), {
-        "q": q, "entity_id": entity_id, "limit": limit, "offset": offset
+        "q": patron_like(q), "entity_id": entity_id, "limit": limit, "offset": offset
     })).mappings().all()
     return {"items": [dict(r) for r in rows]}
 

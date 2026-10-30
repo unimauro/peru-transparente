@@ -19,6 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, "scripts")
 from build_site_data import CLAVE, nivel  # noqa: E402
+from pii import enmascarar_pii, nombre_publicable  # noqa: E402
 
 OUT = Path("frontend/public/data/rotacion.json")
 MIN_BASE = 30  # solo entidades con ≥30 personas en 2024 para tasas estables
@@ -41,7 +42,7 @@ def main() -> None:
     ent_nom: dict[str, str] = {}
     for r in rows("data/funcionarios.csv"):
         eid = r["id_entidad"]
-        nm = na(r["apellidos_nombres"])
+        nm = na(nombre_publicable(r["apellidos_nombres"]))
         now[eid].add(nm)
         ent_nom[eid] = r["entidad"]
         if nivel(r.get("cargo", "")) in CLAVE:
@@ -53,7 +54,7 @@ def main() -> None:
         if r["anio"] != "2024":
             continue
         eid = r["id_entidad"]
-        nm = na(r["apellidos_nombres"])
+        nm = na(nombre_publicable(r["apellidos_nombres"]))
         prev[eid].add(nm)
         if nivel(r.get("cargo", "")) in CLAVE:
             prev_clave[eid][nm] = r["cargo"][:40]
@@ -78,8 +79,8 @@ def main() -> None:
                 "tasa": round(len(bajas) / base * 100, 1),
             })
         # cambios de mando: clave que entró / salió
-        ck_in = [{"nombre": n.title(), "cargo": c} for n, c in now_clave[e].items() if n not in prev[e]][:6]
-        ck_out = [{"nombre": n.title(), "cargo": c} for n, c in prev_clave[e].items() if n not in now[e]][:6]
+        ck_in = [{"nombre": n.title(), "cargo": enmascarar_pii(c)} for n, c in now_clave[e].items() if n not in prev[e]][:6]
+        ck_out = [{"nombre": n.title(), "cargo": enmascarar_pii(c)} for n, c in prev_clave[e].items() if n not in now[e]][:6]
         if ck_in or ck_out:
             cambios_clave.append({"id": e, "entidad": ent_nom[e][:44],
                                   "nombrados": ck_in, "cesados": ck_out,

@@ -1,0 +1,24 @@
+# Actualizaciones automáticas de dependencias (PRs). Las acciones están pineadas
+# a SHA de commit; Dependabot actualiza SHA y comentario de versión a la vez.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: pip
+    directory: /backend
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directory: /scrapers
+    schedule:
+      interval: monthly

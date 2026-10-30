@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { staticData } from "@/lib/api";
+import { safeUrl } from "@/lib/safeUrl";
 import type { CostoEstado } from "@/types";
-import { Stat, SectionTitle, Empty } from "@/components/ui";
+import { Stat, SectionTitle, Empty, FuenteLink } from "@/components/ui";
 import { useContadorVivo, solesVivo, solesM, solesEntero, enteroMiles, solesPorSegundo } from "@/lib/useContadorVivo";
 import { esNum } from "@/components/costo/util";
 import { Variantes } from "@/components/costo/Variantes";
@@ -192,18 +193,16 @@ export function Costo() {
           {fuentes.length > 0 && (
             <>
               <div className="mt-5 text-[11px] font-medium uppercase tracking-wider text-ink-mute">Fuentes</div>
-              <ul className="mt-2 space-y-1.5 text-sm">
+              <ul className="mt-2 space-y-1.5 break-words text-sm">
                 {fuentes.map((f, i) => (
                   <li key={`${f.nombre}-${i}`} className="text-ink-soft">
-                    {f.url ? (
-                      <a href={f.url} target="_blank" rel="noreferrer" className="font-medium text-accent-cyan hover:underline">{f.nombre} ↗</a>
-                    ) : (
-                      <span className="font-medium text-ink">{f.nombre}</span>
-                    )}
+                    <FuenteLink url={f.url} className="font-medium text-accent-cyan hover:underline" fallbackClassName="font-medium text-ink" fallback={f.nombre}>
+                      {f.nombre} ↗
+                    </FuenteLink>
                     {f.nota ? <span className="text-ink-mute"> — {f.nota}</span> : null}
                   </li>
                 ))}
-                {d.pbi?.url && <li className="text-ink-soft"><a href={d.pbi.url} target="_blank" rel="noreferrer" className="font-medium text-accent-cyan hover:underline">{d.pbi.fuente ?? "BCRP, remuneraciones % PBI"} ↗</a></li>}
+                {safeUrl(d.pbi?.url) && <li className="text-ink-soft"><FuenteLink url={d.pbi?.url} className="font-medium text-accent-cyan hover:underline">{d.pbi?.fuente ?? "BCRP, remuneraciones % PBI"} ↗</FuenteLink></li>}
               </ul>
             </>
           )}

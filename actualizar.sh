@@ -79,10 +79,16 @@ if ! git merge-base --is-ancestor origin/main HEAD; then
     exit 1
   fi
 fi
-# data/contratos.csv y data/sanciones_rnssc.csv NO se versionan (RUC/DNI = PII). El
-# checkpoint de contratos SÍ (guarda el SHA por mes = estado incremental); el de RNSSC no
-# (es efímero, se reinicia en cada barrido completo). Los JSON publicados van todos.
-git add frontend/public/data data/ordenes_servicio.csv data/contratos.checkpoint.json
+# data/contratos.csv, data/ordenes_servicio.csv y data/sanciones_rnssc.csv NO se versionan
+# (RUC natural/DNI = PII). El checkpoint de contratos SÍ (guarda el SHA por mes = estado
+# incremental); el de RNSSC no (es efímero, se reinicia en cada barrido completo). Los JSON
+# publicados van todos, PERO solo si pasan el validador (integridad + PII).
+if ! "$PY" scripts/validar_publicacion.py; then
+  echo "  ✖ validar_publicacion.py FALLÓ: NO se commitea ni publica nada. Revisa los errores"
+  echo "    de arriba (JSON vacío/degradado o PII). Para forzar deliberadamente: PT_FORCE=1."
+  exit 1
+fi
+git add frontend/public/data data/contratos.checkpoint.json
 # Las designaciones de El Peruano son 100% públicas (norma + persona + cargo) → se versionan.
 [ -f data/designaciones.csv ] && git add data/designaciones.csv data/designaciones.checkpoint.json
 # Serie histórica (CSV + snapshots pequeños): sin PII, se versiona para poder graficar evolución.

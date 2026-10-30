@@ -138,8 +138,9 @@ export function Home() {
 
             {m && (
               <p className="mt-6 text-xs text-ink-faint">
-                Actualizado {new Date(m.actualizado).toLocaleString("es-PE")} · el barrido avanza por
-                corridas: las cifras crecen automáticamente.
+                Planilla descargada del PTE el {new Date(m.planilla_capturada ?? m.actualizado).toLocaleDateString("es-PE")} ·
+                JSON regenerado el {new Date(m.actualizado).toLocaleDateString("es-PE")}. Las cifras cambian solo cuando
+                hay un nuevo refresco, no de forma continua.
               </p>
             )}
           </>

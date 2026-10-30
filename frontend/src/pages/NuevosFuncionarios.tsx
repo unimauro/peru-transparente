@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
-import { fmt, money, Empty, LevelBadge, usePaged, Pagination } from "@/components/ui";
+import { fmt, money, Empty, LevelBadge, usePaged, Pagination, FuenteLink } from "@/components/ui";
 
 interface Nuevo {
   nombre: string;
@@ -126,9 +126,9 @@ export function NuevosFuncionarios() {
                   <td className="px-4 py-3">
                     <div className="tabular text-ink">{fechaLarga(it.fecha)}</div>
                     {it.fuente === "el_peruano" ? (
-                      <a href={it.fuente_url} target="_blank" rel="noreferrer" className="text-[11px] text-accent-cyan hover:underline">
+                      <FuenteLink url={it.fuente_url} className="text-[11px] text-accent-cyan hover:underline" fallbackClassName="text-[11px] text-ink-faint" fallback={it.norma || "El Peruano"}>
                         {it.norma || "El Peruano ↗"}
-                      </a>
+                      </FuenteLink>
                     ) : (
                       <span className="text-[11px] text-ink-faint" title="Alta detectada por comparación de padrones; sin fecha exacta.">
                         alta de planilla · señal

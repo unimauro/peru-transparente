@@ -34,8 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - run: pip install httpx tenacity
@@ -59,6 +59,8 @@ jobs:
               --max-minutes "$CYCLE_MIN" --resume --out data/funcionarios.csv
             python scripts/analizar_funcionarios.py --in data/funcionarios.csv || true
             python scripts/build_site_data.py
+            # Nunca publicar JSON vacíos/degradados o con PII (el 19-sep y 21-oct-2026 el bot subió total=0)
+            python scripts/validar_publicacion.py || { echo '::error::publicación inválida; no se commitea'; echo '::endgroup::'; exit 1; }
             git add data/ frontend/public/data/
             n=$(($(wc -l < data/funcionarios.csv) - 1))
             done_n=$(python3 -c "import json;print(len(json.load(open('data/funcionarios.checkpoint.json'))['done']))" 2>/dev/null || echo 0)

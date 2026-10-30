@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { staticData } from "@/lib/api";
-import { fmt, money, LevelBadge, Empty } from "@/components/ui";
+import { fmt, money, LevelBadge, Empty, FuenteLink } from "@/components/ui";
+import { setTitulo } from "@/lib/pageTitle";
 
 interface Persona { nombre: string; cargo: string; nivel: string; regimen: string; total: string; url: string }
 interface Dep { dependencia: string; n: number; clave: number; personas: Persona[] }
@@ -23,8 +24,11 @@ export function EntidadDetalle() {
 
   useEffect(() => {
     if (!id) return;
+    setD(null); setErr(false);
     staticData.entidad(id).then((x) => { setD(x as Detalle); setOpen((x as Detalle).dependencias[0]?.dependencia ?? null); }).catch(() => setErr(true));
   }, [id]);
+
+  useEffect(() => { if (d?.nombre) setTitulo(d.nombre); }, [d]);
 
   if (err) return <div className="mx-auto max-w-4xl px-4 py-16"><Empty>Esta entidad aún no ha sido barrida. <Link to="/entidades" className="text-accent-blue underline">Ver entidades</Link></Empty></div>;
   if (!d) return <div className="mx-auto max-w-4xl px-4 py-10 space-y-3">{[...Array(6)].map((_, i) => <div key={i} className="skeleton h-12" />)}</div>;
@@ -53,7 +57,7 @@ export function EntidadDetalle() {
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-accent-cyan/80">
             Autoridades · directorio gob.pe
           </h2>
-          <div className="grid gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {d.autoridades.map((a, i) => (
               <div key={i} className="glass flex items-center justify-between gap-3 p-3">
                 <div className="min-w-0">
@@ -61,7 +65,7 @@ export function EntidadDetalle() {
                   <div className="truncate text-xs text-accent-cyan">{a.cargo}</div>
                   {a.email && <div className="truncate text-[11px] text-ink-mute">{a.email}{a.telefono ? ` · ${a.telefono}` : ""}</div>}
                 </div>
-                <a href={a.url} target="_blank" rel="noreferrer" className="shrink-0 text-accent-blue">↗</a>
+                <FuenteLink url={a.url} className="shrink-0 text-accent-blue" />
               </div>
             ))}
           </div>
@@ -111,7 +115,7 @@ export function EntidadDetalle() {
                             <div className="mt-0.5"><LevelBadge nivel={p.nivel} /> <span className="text-[10px] text-ink-faint">{p.regimen}</span></div>
                           </td>
                           <td className="tabular px-4 py-2 text-right text-ink-soft">{money(p.total)}</td>
-                          <td className="px-4 py-2 text-right"><a href={p.url} target="_blank" rel="noreferrer" className="text-accent-blue">↗</a></td>
+                          <td className="px-4 py-2 text-right"><FuenteLink url={p.url} className="text-accent-blue" /></td>
                         </tr>
                       ))}
                     </tbody>

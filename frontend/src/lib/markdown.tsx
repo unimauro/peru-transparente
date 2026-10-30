@@ -4,10 +4,16 @@
 // *cursiva*, `código`, [texto](url), ![alt](img), rutas internas #/x, URLs
 // sueltas, listas (- / *), encabezados (#) y tablas GFM (| a | b |).
 //
+// Seguridad: el texto viene de un modelo (y de lo que el usuario escribió);
+// toda URL pasa por safeUrl (solo http(s)/mailto/tel o "#/" interno). Las
+// imágenes NUNCA se renderizan como <img> (un ![x](https://atacante/beacon.png)
+// deanonimiza al lector); se muestran como enlace de texto "[imagen]".
+//
 // Patrón REUTILIZABLE: copiar este archivo a cualquier dashboard React y usar
 // renderMarkdown(texto). El gateway ai.tunky.net es content-agnostic — el
 // render vive en el frontend. Para apps de HTML plano, usar `marked`+DOMPurify.
 import type { ReactNode } from "react";
+import { safeUrl } from "@/lib/safeUrl";
 
 const BASE = import.meta.env.BASE_URL;
 const LINK = "text-accent-cyan underline underline-offset-2";
@@ -27,21 +33,23 @@ function inline(text: string, kp: string): ReactNode[] {
     const t = m[0];
     const key = `${kp}-${i++}`;
     let mm: RegExpMatchArray | null;
-    if ((mm = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)))
-      out.push(<img key={key} src={mm[2]} alt={mm[1]} loading="lazy" className="my-1 max-w-full rounded-lg" />);
-    else if ((mm = t.match(/^\[([^\]]+)\]\(([^)]+)\)$/))) {
-      const url = mm[2];
-      const internal = url.startsWith("#/");
-      out.push(
-        <a key={key} href={internal ? `${BASE}${url}` : url} {...(internal ? {} : { target: "_blank", rel: "noreferrer" })} className={LINK}>
-          {mm[1]}
-        </a>,
-      );
+    if ((mm = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/))) {
+      const src = safeUrl(mm[2], { httpsOnly: true });
+      const label = mm[1].trim() ? `[imagen: ${mm[1].trim()}]` : "[imagen]";
+      out.push(src ? <a key={key} href={src} target="_blank" rel="noreferrer" className={LINK}>{label}</a> : label);
+    } else if ((mm = t.match(/^\[([^\]]+)\]\(([^)]+)\)$/))) {
+      const url = safeUrl(mm[2], { allowHash: true });
+      if (!url) out.push(mm[1]);
+      else if (url.startsWith("#/")) out.push(<a key={key} href={`${BASE}${url}`} className={LINK}>{mm[1]}</a>);
+      else out.push(<a key={key} href={url} target="_blank" rel="noreferrer" className={LINK}>{mm[1]}</a>);
     } else if (t.startsWith("**")) out.push(<strong key={key} className="font-semibold text-ink">{t.slice(2, -2)}</strong>);
     else if (t.startsWith("*")) out.push(<em key={key}>{t.slice(1, -1)}</em>);
     else if (t.startsWith("`")) out.push(<code key={key} className="rounded bg-surface/10 px-1 text-[0.85em]">{t.slice(1, -1)}</code>);
     else if (t.startsWith("#/")) out.push(<a key={key} href={`${BASE}${t}`} className={LINK}>{t.replace("#/", "")}</a>);
-    else out.push(<a key={key} href={t} target="_blank" rel="noreferrer" className={LINK}>enlace</a>);
+    else {
+      const url = safeUrl(t);
+      out.push(url ? <a key={key} href={url} target="_blank" rel="noreferrer" className={LINK}>enlace</a> : t);
+    }
     last = INLINE_RE.lastIndex;
   }
   if (last < text.length) out.push(text.slice(last));

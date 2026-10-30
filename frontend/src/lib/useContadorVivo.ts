@@ -37,23 +37,22 @@ export function useContadorVivo(masaMensual: number | null | undefined, interval
 }
 
 // ── Formateadores de soles ───────────────────────────────────────────────────
-const NBSP = " "; // espacio fino no separable: "7 449"
-const conMiles = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
+// Mismo formato que money() en components/ui (Intl es-PE): "S/ 2,224", "1,330,000".
+const miles = new Intl.NumberFormat("es-PE", { maximumFractionDigits: 0 });
+const conMiles = (n: number) => miles.format(Math.round(n));
+const dos = new Intl.NumberFormat("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-/** S/ con separadores de miles y 2 decimales fijos (para el contador). */
-export const solesVivo = (v: number) => {
-  const [ent, dec] = Math.abs(v).toFixed(2).split(".");
-  return `${v < 0 ? "-" : ""}S/ ${ent.replace(/\B(?=(\d{3})+(?!\d))/g, NBSP)},${dec}`;
-};
+/** S/ con separadores de miles y 2 decimales fijos (para el contador): "S/ 33,580.34". */
+export const solesVivo = (v: number) => `${v < 0 ? "-" : ""}S/ ${dos.format(Math.abs(v))}`;
 
-/** Soles enteros con miles: "S/ 2 224". */
+/** Soles enteros con miles: "S/ 2,224". */
 export const solesEntero = (v: number) => `${v < 0 ? "-" : ""}S/ ${conMiles(Math.abs(v))}`;
 
-/** Millones con miles: "S/ 7 449 M", "S/ 89 391 M". Por debajo de un millón, soles enteros. */
+/** Millones con miles: "S/ 7,449 M", "S/ 89,391 M". Por debajo de un millón, soles enteros. */
 export const solesM = (v: number) => (Math.abs(v) < 1e6 ? solesEntero(v) : `${v < 0 ? "-" : ""}S/ ${conMiles(Math.abs(v) / 1e6)} M`);
 
-/** Entero con miles sin moneda: "1 330 000". */
+/** Entero con miles sin moneda: "1,330,000". */
 export const enteroMiles = (v: number) => `${v < 0 ? "-" : ""}${conMiles(Math.abs(v))}`;
 
-/** Compacto para ejes: "7 449 M" / "2 224". */
+/** Compacto para ejes: "7,449 M" / "2,224". */
 export const ejeSoles = (v: number) => (Math.abs(v) < 1e6 ? conMiles(v) : `${conMiles(v / 1e6)} M`);

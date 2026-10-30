@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
 from clasificacion import categoria  # noqa: E402
+from pii import MASCARA_DNI, nombre_publicable, email_publicable, enmascarar_pii, telefono_publicable  # noqa: E402
 
 OUT = Path("frontend/public/data")
 ENT = Path("data/entidades.csv")
@@ -73,6 +74,12 @@ def organo(dep: str) -> str:
     return "Otros órganos / oficinas"
 
 
+def dep_pub(dependencia: str) -> str:
+    """Dependencia publicable: texto libre enmascarado (PII); si era SOLO un DNI → sin dependencia."""
+    d = enmascarar_pii(dependencia or "").strip()
+    return "(Sin dependencia)" if d in ("", MASCARA_DNI) else d
+
+
 def read_csv(p: Path) -> list[dict]:
     return list(csv.DictReader(p.open(encoding="utf-8"))) if p.exists() else []
 
@@ -83,6 +90,67 @@ def write(name: str, data: object) -> None:
 
 
 GUARD_UMBRAL = 0.5  # fracción mínima respecto al JSON publicado
+# Guard de VALORES (no solo conteos): el conector PTE corregido (commit db470b7, 2026-10-30)
+# entrega montos normalizados y regímenes 276/728. Un CSV capturado desde esa fecha debe
+# traer ≥ 1 % de filas 276/728; uno anterior solo se reporta.
+CONECTOR_CORREGIDO_DESDE = "2026-10-30"
+GUARD_MIN_NUMERICOS = 0.95      # fracción de filas con total_ingreso_mensual numérico
+GUARD_MIN_276_728 = 0.01        # fracción de filas con régimen 276/728 (CSV del conector corregido)
+RE_276_728 = re.compile(r"\b(276|728)\b")
+SUNAT_BOILERPLATE = "Para ver la informaci"
+
+
+def guard_valores(funcionarios: list[dict]) -> None:
+    """Aborta (exit 2) si los VALORES del CSV están degradados, no solo los conteos.
+
+    - ≥ 95 % de filas con total_ingreso_mensual numérico (acepta '2664.19' y 'S/ 2,664.19').
+    - 0 nombres publicables con el texto incrustado de SUNAT (se limpia con nombre_publicable;
+      el conteo crudo se reporta).
+    - ≥ 1 % de filas con régimen 276/728 cuando el CSV proviene del conector corregido
+      (max captured_at ≥ CONECTOR_CORREGIDO_DESDE); antes solo se informa.
+    PT_FORCE=1 salta la verificación.
+    """
+    if not funcionarios:
+        return
+    n = len(funcionarios)
+    numericos = sum(1 for f in funcionarios if monto_num(f.get("total_ingreso_mensual")) is not None)
+    sunat_crudos = sum(1 for f in funcionarios if SUNAT_BOILERPLATE in (f.get("apellidos_nombres") or ""))
+    sunat_pub = sum(1 for f in funcionarios
+                    if SUNAT_BOILERPLATE.lower() in nombre_publicable(f.get("apellidos_nombres")).lower())
+    r276 = sum(1 for f in funcionarios if RE_276_728.search(f.get("regimen") or ""))
+    captura = max((f.get("captured_at") or "" for f in funcionarios), default="")
+    corregido = captura[:10] >= CONECTOR_CORREGIDO_DESDE
+    print(f"GUARD valores: numéricos {numericos}/{n} ({100 * numericos / n:.1f} %) · "
+          f"nombres con boilerplate SUNAT: {sunat_crudos} crudos → {sunat_pub} publicados · "
+          f"régimen 276/728: {r276} ({100 * r276 / n:.2f} %) · captura {captura[:10] or '?'}"
+          f"{' (conector corregido)' if corregido else ' (conector anterior: 276/728 solo informativo)'}",
+          file=sys.stderr)
+    if os.environ.get("PT_FORCE") == "1":
+        return
+    fallas = []
+    if numericos < n * GUARD_MIN_NUMERICOS:
+        fallas.append(f"solo {100 * numericos / n:.1f} % de filas con total numérico (< {int(GUARD_MIN_NUMERICOS * 100)} %)")
+    if sunat_pub:
+        fallas.append(f"{sunat_pub} nombres publicables con texto incrustado de SUNAT")
+    if corregido and r276 < n * GUARD_MIN_276_728:
+        fallas.append(f"solo {100 * r276 / n:.2f} % de filas con régimen 276/728 (< {GUARD_MIN_276_728 * 100} %): "
+                      "el conector volvió a descartar nombrados")
+    if fallas:
+        for f in fallas:
+            print(f"GUARD: {f}", file=sys.stderr)
+        print("GUARD: abortado SIN escribir JSON (valores degradados). Para forzar: PT_FORCE=1.", file=sys.stderr)
+        sys.exit(2)
+
+
+def monto_num(v) -> float | None:
+    """'2664.19' | 'S/ 2,664.19' | '' → float o None (acepta el formato nuevo y el antiguo)."""
+    s = re.sub(r"[^0-9.\-]", "", str(v or ""))
+    if s in ("", "-", ".", "-."):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
 
 
 def guard_regresion(total_funcionarios: int, entities_with_data: int,
@@ -141,15 +209,19 @@ def main() -> None:
         total_funcionarios=len(funcionarios),
         entities_with_data=sum(1 for e in entidades if fun_por_entidad.get(e["id_entidad"])),
     )
+    guard_valores(funcionarios)
 
     # Autoridades de gob.pe (cargadas temprano para el conteo + página global)
     autoridades_por_ent = defaultdict(list)
     aut_path = Path("data/autoridades.csv")
     if aut_path.exists():
         for a in csv.DictReader(aut_path.open(encoding="utf-8")):
+            # Contacto: solo institucional (correo de dominio gob.pe/edu.pe/.pe de la entidad y
+            # teléfono fijo). Celulares y correos personales no se publican (scripts/pii.py).
             autoridades_por_ent[a["id_entidad"]].append({
-                "nombre": a["nombre"], "cargo": a["cargo"], "email": a["email"],
-                "telefono": a["telefono"], "url": a["detalle_url"],
+                "nombre": a["nombre"], "cargo": enmascarar_pii(a["cargo"]),
+                "email": email_publicable(a["email"]),
+                "telefono": telefono_publicable(a["telefono"]), "url": a["detalle_url"],
                 "entidad": ent_cat.get(a["id_entidad"]) and a.get("institucion_pte"),
                 "institucion": a.get("institucion_pte"),
             })
@@ -203,8 +275,8 @@ def main() -> None:
     # muestra para tabla: TODOS los cargos clave (para que los botones de nivel cuadren)
     # + una muestra de Profesional/Apoyo para el navegado general.
     def to_item(f: dict) -> dict:
-        return {"entidad": f["entidad"], "nombre": f["apellidos_nombres"], "cargo": f["cargo"],
-                "dependencia": f["dependencia"], "regimen": f["regimen"],
+        return {"entidad": f["entidad"], "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": enmascarar_pii(f["cargo"]),
+                "dependencia": dep_pub(f["dependencia"]), "regimen": f["regimen"],
                 "anio": f["anio"], "mes": f["mes"], "total": f["total_ingreso_mensual"],
                 "url": f["fuente_url"], "nivel": nivel(f.get("cargo", ""))}
 
@@ -230,8 +302,8 @@ def main() -> None:
         fs = by_ent.get(eid, [])
         deps = defaultdict(list)
         for f in fs:
-            deps[f["dependencia"] or "(Sin dependencia)"].append({
-                "nombre": f["apellidos_nombres"], "cargo": f["cargo"],
+            deps[dep_pub(f["dependencia"])].append({
+                "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": enmascarar_pii(f["cargo"]),
                 "nivel": nivel(f.get("cargo", "")), "regimen": f["regimen"],
                 "total": f["total_ingreso_mensual"], "url": f["fuente_url"],
             })
@@ -296,10 +368,7 @@ def main() -> None:
 
     pay_por_ent: dict[str, float] = defaultdict(float)
     for f in funcionarios:
-        try:
-            pay_por_ent[f["id_entidad"]] += float(f.get("total_ingreso_mensual") or 0)
-        except ValueError:
-            pass
+        pay_por_ent[f["id_entidad"]] += monto_num(f.get("total_ingreso_mensual")) or 0.0
     reg_stats: dict[str, dict] = defaultdict(lambda: {"entidades": 0, "con_datos": 0, "personal": 0, "planilla_mensual": 0.0})
     for e in entidades:
         s = reg_stats[region(e["nombre"])]
@@ -317,7 +386,11 @@ def main() -> None:
         "_nota": "Planilla = suma de ingresos mensuales reportados (aproximado, no es el presupuesto total). Región inferida del nombre de la entidad.",
     })
 
+    # Fecha real de captura de la planilla (máximo captured_at del CSV), para no decir
+    # "las cifras crecen automáticamente": el JSON puede regenerarse sin datos nuevos.
+    capturas = [f.get("captured_at", "") for f in funcionarios if f.get("captured_at")]
     write("meta.json", {
+        "planilla_capturada": max(capturas) if capturas else None,
         "entidades_catalogo": len(entidades),
         "entidades_procesadas": processed,
         "entidades_con_datos": sum(1 for c in cat if c["funcionarios"]),

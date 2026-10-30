@@ -11,6 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
 from clasificacion import categoria  # noqa: E402
+from pii import enmascarar_pii, nombre_publicable  # noqa: E402
 
 OUT = Path("frontend/public/data/salarios.json")
 
@@ -36,7 +37,7 @@ def main() -> None:
         sueldos.append(s)
         por_cat[categoria(r["entidad"])].append(s)
         por_reg[r["regimen"]].append(s)
-        top.append((s, r["apellidos_nombres"], r["cargo"][:40], r["entidad"][:40]))
+        top.append((s, nombre_publicable(r["apellidos_nombres"]), enmascarar_pii(r["cargo"])[:40], r["entidad"][:40]))
 
     # distribución (histograma)
     bins = [0, 1000, 2000, 3000, 4000, 5000, 7000, 10000, 15000, 20000, 30000, 1e12]

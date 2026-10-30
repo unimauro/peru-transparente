@@ -3,6 +3,7 @@ import ReactECharts from "echarts-for-react";
 import { staticData } from "@/lib/api";
 import type { HistoricoSerie } from "@/types";
 import { fmt, money, SectionTitle } from "@/components/ui";
+import { esc } from "@/components/costo/util";
 
 // Mismos tonos que los gráficos de Salarios para mantener coherencia visual.
 const ink = "#aab6c6", grid = "rgba(255,255,255,0.06)";
@@ -84,7 +85,7 @@ export function Evolucion() {
         const p = Array.isArray(params) ? params[0] : params;
         if (!p || !p.value) return "";
         const [f, v] = p.value;
-        return `<b>${fecha(f)}</b><br/>${label}: ${v === null ? "sin dato" : formatea(v)}`;
+        return `<b>${esc(fecha(f))}</b><br/>${esc(label)}: ${v === null ? "sin dato" : formatea(v)}`;
       },
     },
     xAxis: {

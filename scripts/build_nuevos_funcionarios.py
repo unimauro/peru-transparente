@@ -32,9 +32,16 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, "scripts")
-from build_site_data import CLAVE, nivel  # noqa: E402
+from build_site_data import CLAVE, NIVELES, nivel  # noqa: E402
+from pii import enmascarar_pii, nombre_publicable  # noqa: E402
 
 CORTE_DEFAULT = "2026-07-21"
+# Recorte POR FUENTE de lo publicado (antes: items[:1000] dejaba fuera TODAS las altas de
+# planilla con nombre y sueldo, y los KPI contaban lo no publicado). Los KPI de abajo se
+# calculan sobre lo PUBLICADO; el universo completo va en meta.universo.
+MAX_DESIGNACIONES = 500
+MAX_ALTAS_PLANILLA = 500
+_RANGO_NIVEL = {n: i for i, (n, _) in enumerate(NIVELES)}
 OUT = Path("frontend/public/data/nuevos_funcionarios.json")
 FUN = Path("data/funcionarios.csv")
 HIST = Path("data/funcionarios_historico.csv")
@@ -133,9 +140,9 @@ def altas_planilla(por_n) -> list[dict]:
         if not nm or eid not in prev or nm in prev[eid]:
             continue
         items.append({
-            "nombre": r.get("apellidos_nombres", "").title(),
-            "cargo": cargo, "entidad": r.get("entidad", ""),
-            "dependencia": r.get("dependencia", ""), "id_entidad": eid,
+            "nombre": nombre_publicable(r.get("apellidos_nombres", "")).title(),
+            "cargo": enmascarar_pii(cargo), "entidad": r.get("entidad", ""),
+            "dependencia": enmascarar_pii(r.get("dependencia", "")), "id_entidad": eid,
             "regimen": r.get("regimen", ""), "fecha": "",
             "nivel": nivel(cargo), "fuente": "planilla",
             "confianza": "POSSIBLE_ALTA",
@@ -150,14 +157,16 @@ def designaciones(corte: str) -> list[dict]:
         return []
     items = []
     for r in rows(DESIG):
-        f = r.get("fecha", "")
+        # fecha de la NORMA (extraída del dispositivo) si existe; si no, la de publicación
+        f = r.get("fecha_norma") or r.get("fecha", "")
         if not f or f < corte:
             continue
         items.append({
-            "nombre": (r.get("nombre") or "").title(),
-            "cargo": r.get("cargo", ""), "entidad": r.get("entidad", ""),
+            "nombre": nombre_publicable(r.get("nombre")).title(),
+            "cargo": enmascarar_pii(r.get("cargo", "")), "entidad": r.get("entidad", ""),
             "dependencia": "", "id_entidad": "", "regimen": "",
-            "fecha": f, "nivel": nivel(r.get("cargo", "")),
+            "fecha": f, "fecha_publicacion": r.get("fecha", ""), "rol": r.get("rol", ""),
+            "nivel": nivel(r.get("cargo", "")),
             "fuente": "el_peruano", "confianza": "ALTA",
             "fuente_url": r.get("fuente_url", ""), "norma": r.get("norma", ""),
         })
@@ -181,9 +190,9 @@ def main() -> None:
     vistos: set = set()
     items = []
     for it in crudos:
-        # El Peruano: cada norma es única → dedup por su URL (el nombre suele ir en blanco).
-        # Planilla: dedup por persona+entidad+cargo.
-        k = it["fuente_url"] if it["fuente"] == "el_peruano" and it["fuente_url"] \
+        # El Peruano: cada norma es única → dedup por URL + persona (una norma puede designar
+        # titular y suplente). Planilla: dedup por persona+entidad+cargo.
+        k = (it["fuente_url"], na(it["nombre"])) if it["fuente"] == "el_peruano" and it["fuente_url"] \
             else (na(it["nombre"]), na(it["entidad"]), na(it["cargo"]))
         if k in vistos:
             continue
@@ -196,8 +205,22 @@ def main() -> None:
     items.sort(key=lambda x: (x["fuente"] != "el_peruano", x.get("fecha", "") == "",
                               -_fecha_key(x.get("fecha", "")), x["entidad"]))
 
-    con_salario = sum(1 for x in items if x.get("salario"))
-    oficiales = sum(1 for x in items if x["fuente"] == "el_peruano")
+    # Recorte por fuente: designaciones más recientes + altas de planilla CON nombre
+    # (mando más alto primero, luego entidad). Los KPI se calculan sobre lo publicado.
+    desig_pub = [x for x in items if x["fuente"] == "el_peruano"][:MAX_DESIGNACIONES]
+    altas = [x for x in items if x["fuente"] == "planilla" and x["nombre"].strip()]
+    altas.sort(key=lambda x: (_RANGO_NIVEL.get(x["nivel"], 99), x["entidad"], x["nombre"]))
+    altas_pub = altas[:MAX_ALTAS_PLANILLA]
+    publicados = desig_pub + altas_pub
+    universo = {
+        "total": len(items),
+        "oficiales": sum(1 for x in items if x["fuente"] == "el_peruano"),
+        "altas_planilla": sum(1 for x in items if x["fuente"] == "planilla"),
+        "con_salario": sum(1 for x in items if x.get("salario")),
+        "designaciones_sin_nombre": sum(1 for x in items if x["fuente"] == "el_peruano" and not x["nombre"].strip()),
+    }
+    con_salario = sum(1 for x in publicados if x.get("salario"))
+    oficiales = len(desig_pub)
     data = {
         "meta": {
             "corte": corte,
@@ -210,17 +233,22 @@ def main() -> None:
             "nota": ("Los ‘nuevos’ por planilla son altas inferidas por comparación de snapshots "
                      "(sin fecha exacta, confianza POSSIBLE_ALTA); las designaciones de El Peruano "
                      "llevan fecha y norma. No se imputa irregularidad alguna."),
+            "recorte": (f"Se publican hasta {MAX_DESIGNACIONES} designaciones (más recientes) y hasta "
+                        f"{MAX_ALTAS_PLANILLA} altas de planilla con nombre (cargos de mando primero). "
+                        "Los contadores de arriba describen lo publicado; `universo` el total detectado."),
+            "universo": universo,
         },
-        "total": len(items),
+        "total": len(publicados),
         "oficiales": oficiales,
-        "altas_planilla": len(items) - oficiales,
+        "altas_planilla": len(altas_pub),
         "con_salario": con_salario,
-        "items": items[:1000],
+        "items": publicados,
     }
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"✔ nuevos_funcionarios.json · {len(items)} nuevos "
-          f"({oficiales} designaciones El Peruano · {len(items) - oficiales} altas planilla) · "
-          f"{con_salario} con salario · corte {corte}")
+    print(f"✔ nuevos_funcionarios.json · publicados {len(publicados)} "
+          f"({oficiales} designaciones El Peruano · {len(altas_pub)} altas planilla · {con_salario} con salario) "
+          f"de un universo de {universo['total']} ({universo['oficiales']} + {universo['altas_planilla']}, "
+          f"{universo['con_salario']} con salario) · corte {corte}"),
 
 
 def _fecha_key(f: str) -> int:

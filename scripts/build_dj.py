@@ -17,10 +17,15 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import re
+import sys
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
+from pii import enmascarar_pii  # noqa: E402
 
 SRC = Path("data/dj_intereses.csv")
 OUT = Path("frontend/public/data")
@@ -64,7 +69,7 @@ def main() -> None:
         if nombre:
             por_nombre[nombre].append({
                 "entidad": ent,
-                "cargo": r.get("cargo", ""),
+                "cargo": enmascarar_pii(r.get("cargo", "")),
                 "fecha": f,
                 "codigo": cod,
             })

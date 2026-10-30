@@ -18,6 +18,7 @@ from pathlib import Path
 
 sys.path.insert(0, "scripts")
 from build_site_data import CLAVE, nivel  # noqa: E402
+from pii import enmascarar_pii  # noqa: E402
 
 SRC = Path("frontend/public/data/personas_red.json")
 OUT = Path("frontend/public/data/trayectorias_poder.json")
@@ -42,7 +43,7 @@ def main() -> None:
         for eid, abrev, cargo, reg, sueldo, anio in aps:
             niv = nivel(cargo or "")
             if niv in CLAVE:
-                mando.append({"anio": anio, "abrev": abrev, "cargo": cargo[:60], "nivel": niv})
+                mando.append({"anio": anio, "abrev": abrev, "cargo": enmascarar_pii(cargo)[:60], "nivel": niv})
                 ent.add(abrev)
         if len(ent) < 2:           # nos interesa el cruce entre instituciones
             continue

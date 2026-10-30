@@ -12,8 +12,13 @@ de releases. Este scraper:
      se re-publican con más datos.
 
 Salida: data/contratos.csv (una fila por award×supplier).
-Columnas: ocid, anio, mes, fecha, monto, moneda, comprador, comprador_ruc,
-          comprador_sector, proveedor, proveedor_ruc, tipo_proveedor, objeto.
+Columnas: ocid, award_id, anio, mes, fecha, monto, moneda, comprador, comprador_ruc,
+          comprador_sector, proveedor, proveedor_ruc, tipo_proveedor, objeto, src.
+
+DEDUPLICACIÓN: clave (ocid, award_id, proveedor_ruc). Un mismo ocid puede venir en dos
+volcados mensuales (src) → se conserva el src más reciente. El monto es el del AWARD: una
+adjudicación con 2+ proveedores se replica por proveedor, y build_contratos la cuenta UNA
+vez (reparte el monto entre proveedores) y suma solo moneda PEN.
 
 Uso:
   python scrapers/scrape_contratos.py                 # últimos 6 meses (prueba)
@@ -30,8 +35,6 @@ import csv
 import io
 import json
 import re
-import sys
-import tempfile
 import time
 import zipfile
 from collections import defaultdict
@@ -47,7 +50,7 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
 
 OUT = Path("data/contratos.csv")
 CKPT = Path("data/contratos.checkpoint.json")
-FIELDS = ["ocid", "anio", "mes", "fecha", "monto", "moneda", "comprador",
+FIELDS = ["ocid", "award_id", "anio", "mes", "fecha", "monto", "moneda", "comprador",
           "comprador_ruc", "comprador_sector", "proveedor", "proveedor_ruc",
           "tipo_proveedor", "objeto",
           # 'src' = mes-archivo (AAAA-MM del volcado del que salió la fila). Interno:
@@ -129,6 +132,7 @@ def parse_month(zbytes: bytes) -> list[dict]:
 
     # 4) proveedores por award (maneja índices dinámicos award/i · supplier/j)
     out: list[dict] = []
+    vistos: set[tuple[str, str, str]] = set()   # (ocid, award_id, ruc) dentro del mes
     for r in csv_rows(read_zip_member(zf, "com_awa_suppliers.csv")):
         oc = r.get("ocid")
         buyer = buyers.get(oc, ("", "", ""))
@@ -144,10 +148,14 @@ def parse_month(zbytes: bytes) -> list[dict]:
             aid = r.get(f"{CR}awards/{i}/id") or ""
             monto, moneda, fecha = awards.get((oc, aid), ("", "", ""))
             ruc = sid.replace("PE-RUC-", "").strip()
+            if (oc, aid, ruc) in vistos:
+                continue
+            vistos.add((oc, aid, ruc))
             anio = fecha[:4] if len(fecha) >= 4 else ""
             mes = fecha[5:7] if len(fecha) >= 7 else ""
             out.append({
                 "ocid": oc,
+                "award_id": aid,
                 "anio": anio,
                 "mes": mes,
                 "fecha": fecha,
@@ -189,6 +197,12 @@ def fetch_index(cl: httpx.Client) -> list[dict]:
     return uniq
 
 
+def clave_fila(row: dict) -> tuple[str, str, str]:
+    """(ocid, award_id, proveedor_ruc). CSV viejos sin award_id: usa fecha+monto como sustituto."""
+    aid = row.get("award_id") or f"{row.get('fecha', '')}|{row.get('monto', '')}"
+    return (row.get("ocid", ""), aid, row.get("proveedor_ruc", ""))
+
+
 def load_existing() -> dict[str, list[dict]]:
     """Filas ya guardadas, agrupadas por 'AAAA-MM' (para reemplazar meses re-procesados)."""
     by_month: dict[str, list[dict]] = defaultdict(list)
@@ -208,6 +222,8 @@ def main() -> None:
     ap.add_argument("--meses", type=int, default=6, help="últimos N meses (default 6)")
     ap.add_argument("--desde", help="AAAA-MM inclusive (ignora --meses)")
     ap.add_argument("--hasta", help="AAAA-MM inclusive")
+    ap.add_argument("--forzar", action="store_true",
+                    help="re-descarga aunque el SHA del checkpoint no haya cambiado")
     args = ap.parse_args()
 
     ckpt = json.loads(CKPT.read_text()) if CKPT.exists() else {}
@@ -242,7 +258,7 @@ def main() -> None:
         except Exception as e:
             print(f"  ! {mkey}: no pude leer sha ({e}); lo salto", flush=True)
             continue
-        if ckpt.get(mkey) == sha and mkey in all_months:
+        if not args.forzar and ckpt.get(mkey) == sha and mkey in all_months:
             print(f"  = {mkey}: sin cambios (sha en checkpoint), salto", flush=True)
             continue
 
@@ -273,18 +289,28 @@ def main() -> None:
 
     cl.close()
 
-    # reescribe data/contratos.csv completo, ordenado por mes y ocid
+    # reescribe data/contratos.csv completo, ordenado por mes y ocid, deduplicado por
+    # (ocid, award_id, proveedor_ruc): si un ocid vino en dos volcados, gana el src más reciente.
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    n_total = 0
+    n_total = n_dup = 0
+    ganador: dict[tuple[str, str, str], str] = {}
+    for mkey in sorted(all_months):            # cronológico → el último src sobreescribe
+        for row in all_months[mkey]:
+            ganador[clave_fila(row)] = mkey
     tmp = OUT.with_suffix(".csv.tmp")
     with tmp.open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=FIELDS, extrasaction="ignore")
         w.writeheader()
         for mkey in sorted(all_months):
             for row in all_months[mkey]:
+                if ganador.get(clave_fila(row)) != mkey:
+                    n_dup += 1
+                    continue
                 w.writerow(row)
                 n_total += 1
     tmp.replace(OUT)
+    if n_dup:
+        print(f"  (descartadas {n_dup:,} filas duplicadas entre volcados: misma adjudicación y proveedor)")
     CKPT.write_text(json.dumps(ckpt, ensure_ascii=False, indent=0))
 
     print(f"\n✔ meses procesados: {', '.join(procesados) or '(ninguno nuevo)'}", flush=True)

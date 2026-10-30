@@ -3,6 +3,22 @@
   <head>
     <meta charset="UTF-8" />
 
+    <!--
+      Content Security Policy (defensa en profundidad contra XSS/beacons).
+      GitHub Pages no permite cabeceras HTTP, así que va en <meta>; por eso NO se
+      incluye frame-ancestors (se ignora en meta). script-src usa hashes sha256 de
+      los dos scripts inline de abajo (gtag y tema): si cambias uno, el build falla
+      hasta que actualices el hash (ver cspPlugin en vite.config.ts; en `vite dev`
+      se relaja automáticamente para HMR/React Refresh).
+      Orígenes: www.googletagmanager.com / *.google-analytics.com / *.analytics.google.com (GA4),
+      rsms.me (fuente Inter), ai.tunky.net (chatbot), api.tunky.net (histórico),
+      unimauro.github.io (QR Yape).
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'sha256-yZNd4/N+f5Gvg42pyUM0PI8RJuFNdTPo8sEBRICYgZQ=' 'sha256-foGg/Gg0aUDd2RBkz75AdyUFhHGvqa5xBTUNJcZZZFU=' https://www.googletagmanager.com; connect-src 'self' https://ai.tunky.net https://api.tunky.net https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; img-src 'self' data: https://unimauro.github.io https://*.google-analytics.com https://*.googletagmanager.com; style-src 'self' 'unsafe-inline' https://rsms.me; font-src 'self' https://rsms.me data:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'; worker-src 'self' blob:; manifest-src 'self'"
+    />
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6EH5WX1J0M"></script>
     <script>
@@ -38,8 +54,17 @@
     <meta name="twitter:description" content="Mapa nacional de funcionarios, entidades, empresas estatales y redes de poder." />
     <meta name="twitter:image" content="https://unimauro.github.io/peru-transparente/og-image.png" />
 
-    <link rel="preconnect" href="https://rsms.me/" />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="preconnect" href="https://rsms.me/" crossorigin="anonymous" />
+    <!-- SRI: sha384 de https://rsms.me/inter/inter.css (Inter 4.1, 2026-10-30). Si rsms.me
+         publica una versión nueva, el navegador rechaza la hoja y el sitio cae a la
+         fuente sans-serif del sistema (degrada, no rompe): recalcular con
+         `curl -s https://rsms.me/inter/inter.css | openssl dgst -sha384 -binary | base64`. -->
+    <link
+      rel="stylesheet"
+      href="https://rsms.me/inter/inter.css"
+      integrity="sha384-STiTZ2kjdnc/em4jSELZZ6VypRToc92cA0m6Nppx3J8C4mt0fjMNUm1xnm1yoP96"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <div id="root"></div>

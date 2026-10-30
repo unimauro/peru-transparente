@@ -16,7 +16,6 @@ dependencies = [
     "redis>=5.1",
     "strawberry-graphql[fastapi]>=0.246",
     "httpx>=0.27",
-    "python-jose[cryptography]>=3.3",
     "rapidfuzz>=3.10",
     "pgvector>=0.3",
 ]

@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.busqueda import patron_like
 from app.db.session import get_db
 
 router = APIRouter(prefix="/entities", tags=["entidades"])
@@ -24,14 +25,15 @@ async def list_entities(
         FROM core.entity e
         LEFT JOIN core.sector s ON s.id = e.sector_id
         WHERE e.is_current
-          AND (CAST(:q AS text) IS NULL OR e.name ILIKE '%'||CAST(:q AS text)||'%' OR e.acronym ILIKE '%'||CAST(:q AS text)||'%')
+          AND (CAST(:q AS text) IS NULL OR e.name ILIKE CAST(:q AS text) ESCAPE '\\'
+               OR e.acronym ILIKE CAST(:q AS text) ESCAPE '\\')
           AND (CAST(:sector AS text) IS NULL OR s.name = CAST(:sector AS text))
           AND (CAST(:level AS text) IS NULL OR e.level = CAST(:level AS text))
         ORDER BY e.name
         LIMIT :limit OFFSET :offset
     """
     rows = (await db.execute(text(sql), {
-        "q": q, "sector": sector, "level": level, "limit": limit, "offset": offset
+        "q": patron_like(q), "sector": sector, "level": level, "limit": limit, "offset": offset
     })).mappings().all()
     return {"items": [dict(r) for r in rows], "limit": limit, "offset": offset}
 

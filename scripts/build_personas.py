@@ -9,10 +9,15 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import re
+import sys
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
+from pii import enmascarar_pii, nombre_publicable  # noqa: E402
 
 OUT = Path("frontend/public/data")
 
@@ -47,14 +52,15 @@ def main() -> None:
                 s = round(float(r["total_ingreso_mensual"]))
             except (TypeError, ValueError):
                 s = 0
-            nm = na(r["apellidos_nombres"])
+            nm = na(nombre_publicable(r["apellidos_nombres"]))
             anio = r.get("anio", "")
-            k = (nm, r["id_entidad"], r["cargo"][:38], anio)
+            cargo = enmascarar_pii(r["cargo"])[:38]
+            k = (nm, r["id_entidad"], cargo, anio)
             if k in vistos:
                 continue
             vistos.add(k)
             # aparición: [id_entidad, abrev, cargo, regimen, sueldo, año]
-            pers[nm].append([r["id_entidad"], ab(r["entidad"]), r["cargo"][:38], r["regimen"], s, anio])
+            pers[nm].append([r["id_entidad"], ab(r["entidad"]), cargo, r["regimen"], s, anio])
 
     shards: dict[str, list] = defaultdict(list)
     red: list = []

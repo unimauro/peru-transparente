@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { safeUrl } from "@/lib/safeUrl";
 
 export const fmt = new Intl.NumberFormat("es-PE");
 
@@ -79,4 +80,31 @@ export function SectionTitle({ children, kicker }: { children: ReactNode; kicker
 
 export function Empty({ children }: { children: ReactNode }) {
   return <div className="py-16 text-center text-sm text-ink-mute">{children}</div>;
+}
+
+/**
+ * Texto de vigencia de una sanción. El RNSSC usa fechas de fin ficticias
+ * (p. ej. 27/03/2133) para inhabilitaciones permanentes: si el año supera 2100
+ * se muestra "permanente" en vez de la fecha literal.
+ */
+export function vigenciaSancion(fechaFin: string | null | undefined): string | null {
+  const f = (fechaFin ?? "").trim();
+  if (!f) return null;
+  const anio = Number((f.match(/(\d{4})/) ?? [])[1]);
+  if (Number.isFinite(anio) && anio > 2100) return "permanente (sin fecha de fin válida)";
+  return `hasta ${f}`;
+}
+
+/**
+ * Enlace a una fuente externa cuya URL viene de JSON de datos (no del código).
+ * Solo renderiza <a> si safeUrl la acepta (http(s)/mailto/tel); si no, muestra
+ * `fallback` como texto plano (o nada cuando el enlace era solo un "↗").
+ */
+export function FuenteLink({ url, className, fallbackClassName, fallback, children }: {
+  url: unknown; className?: string; fallbackClassName?: string; fallback?: ReactNode; children?: ReactNode;
+}) {
+  const u = safeUrl(url);
+  if (u) return <a href={u} target="_blank" rel="noreferrer" className={className}>{children ?? "↗"}</a>;
+  const fb = fallback !== undefined ? fallback : children;
+  return fb === undefined || fb === null ? null : <span className={fallbackClassName ?? className}>{fb}</span>;
 }

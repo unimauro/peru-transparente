@@ -1,4 +1,6 @@
 # Stack local de desarrollo: Postgres(+pgvector), Neo4j, Redis y la API.
+# Los puertos se publican SOLO en 127.0.0.1: las credenciales por defecto (pt/pt, neo4j,
+# Redis sin password) no deben quedar expuestas si esto se levanta en un host público.
 services:
   postgres:
     image: pgvector/pgvector:pg16
@@ -6,7 +8,7 @@ services:
       POSTGRES_USER: pt
       POSTGRES_PASSWORD: pt
       POSTGRES_DB: peru_transparente
-    ports: ["5432:5432"]
+    ports: ["127.0.0.1:5432:5432"]
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/postgres:/docker-entrypoint-initdb.d:ro
@@ -21,13 +23,13 @@ services:
     environment:
       NEO4J_AUTH: neo4j/peru_transparente
       NEO4J_PLUGINS: '["apoc"]'
-    ports: ["7474:7474", "7687:7687"]
+    ports: ["127.0.0.1:7474:7474", "127.0.0.1:7687:7687"]
     volumes:
       - neo4jdata:/data
 
   redis:
     image: redis:7-alpine
-    ports: ["6379:6379"]
+    ports: ["127.0.0.1:6379:6379"]
 
   api:
     build: ./backend
@@ -42,7 +44,7 @@ services:
       PT_DATABASE_URL: postgresql+asyncpg://pt:pt@postgres:5432/peru_transparente
       PT_NEO4J_URI: bolt://neo4j:7687
       PT_REDIS_URL: redis://redis:6379/0
-    ports: ["8000:8000"]
+    ports: ["127.0.0.1:8000:8000"]
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 volumes:

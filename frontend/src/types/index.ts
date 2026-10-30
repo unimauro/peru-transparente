@@ -17,6 +17,8 @@ export interface Meta {
   funcionarios_descargados: number;
   cobertura_pct: number;
   actualizado: string;
+  /** máximo captured_at de la planilla PTE (cuándo se descargó de verdad) */
+  planilla_capturada?: string | null;
 }
 
 export interface EntidadCat {

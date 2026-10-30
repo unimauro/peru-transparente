@@ -16,6 +16,7 @@ import { Sanciones } from "@/pages/Sanciones";
 import { Trayectorias } from "@/pages/Trayectorias";
 import { Historico } from "@/pages/Historico";
 import { Costo } from "@/pages/Costo";
+import { NotFound } from "@/pages/NotFound";
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/regiones" element={<Regiones />} />
         <Route path="/metodologia" element={<Metodologia />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
   );

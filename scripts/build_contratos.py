@@ -35,7 +35,14 @@ TOP_PROV_POR_ENTIDAD = 15
 TOP_ENT_POR_PROVEEDOR = 15
 
 NOTA = ("Montos = ADJUDICADO (valor de la adjudicación en el SEACE), "
-        "no necesariamente pagado ni devengado. Fuente: OECE/SEACE v3 (bulk OCDS).")
+        "no necesariamente pagado ni devengado. Fuente: OECE/SEACE v3 (bulk OCDS). "
+        "Solo se suman adjudicaciones en SOLES (PEN); USD/EUR/GBP se cuentan aparte en por_moneda. "
+        "Una adjudicación con varios proveedores se cuenta una vez y su monto se reparte entre ellos.")
+
+
+def clave_award(r: dict) -> tuple[str, str]:
+    """Identidad de la adjudicación: (ocid, award_id); CSV viejo sin award_id → fecha+monto."""
+    return (r.get("ocid", ""), r.get("award_id") or f"{r.get('fecha', '')}|{r.get('monto', '')}")
 
 
 def na(s: str) -> str:
@@ -79,49 +86,52 @@ def main() -> None:
         lambda: {"nombre": "", "ruc": "", "tipo": "", "monto": 0.0, "n": 0,
                  "ent": defaultdict(lambda: {"nombre": "", "monto": 0.0, "n": 0})})
 
-    n_filas = 0
-    meses: set[str] = set()
+    # 1) Deduplicar: (ocid, award, proveedor_ruc) → fila del src más reciente. Agrupar por award
+    #    para contar cada adjudicación UNA vez aunque tenga varios proveedores.
+    filas: dict[tuple, dict] = {}
     for r in rows(SRC):
+        k = (*clave_award(r), (r.get("proveedor_ruc") or "").strip() or na(r.get("proveedor", "")))
+        prev = filas.get(k)
+        if prev is None or (r.get("src", "") >= prev.get("src", "")):
+            filas[k] = r
+    n_filas_crudas = sum(1 for _ in rows(SRC))
+    por_award: dict[tuple, list[dict]] = defaultdict(list)
+    for r in filas.values():
+        por_award[clave_award(r)].append(r)
+
+    n_filas = 0            # adjudicaciones (awards) en PEN
+    por_moneda: dict[str, dict] = defaultdict(lambda: {"n": 0, "monto": 0.0})
+    meses: set[str] = set()
+    for award, provs in por_award.items():
+        r0 = provs[0]
+        moneda = (r0.get("moneda") or "").strip().upper() or "?"
+        m_award = monto(r0.get("monto", ""))
+        por_moneda[moneda]["n"] += 1
+        por_moneda[moneda]["monto"] += m_award
+        if moneda != "PEN":
+            continue       # otras monedas: solo se cuentan aparte, no se suman como soles
         n_filas += 1
-        m = monto(r.get("monto", ""))
-        anio = r.get("anio", "") or "?"
-        tipo = r.get("tipo_proveedor", "") or "?"
-        meses.add(f"{anio}-{r.get('mes','')}")
-
-        por_anio[anio]["monto"] += m
+        anio = r0.get("anio", "") or "?"
+        meses.add(f"{anio}-{r0.get('mes','')}")
+        por_anio[anio]["monto"] += m_award
         por_anio[anio]["n"] += 1
-        por_tipo[tipo]["monto"] += m
-        por_tipo[tipo]["n"] += 1
+        # tipo de proveedor: el del primero (una adjudicación con consorcio+empresa es rara)
+        tipo0 = r0.get("tipo_proveedor", "") or "?"
+        por_tipo[tipo0]["monto"] += m_award
+        por_tipo[tipo0]["n"] += 1
 
-        ek = na(r.get("comprador", ""))
+        ek = na(r0.get("comprador", ""))
         if ek:
             e = ent[ek]
-            e["nombre"] = e["nombre"] or r.get("comprador", "")
-            e["ruc"] = e["ruc"] or r.get("comprador_ruc", "")
-            e["sector"] = e["sector"] or r.get("comprador_sector", "")
-            e["monto"] += m
+            e["nombre"] = e["nombre"] or r0.get("comprador", "")
+            e["ruc"] = e["ruc"] or r0.get("comprador_ruc", "")
+            e["sector"] = e["sector"] or r0.get("comprador_sector", "")
+            e["monto"] += m_award
             e["n"] += 1
-
-        ruc = (r.get("proveedor_ruc", "") or "").strip()
-        pk = ruc if len(ruc) == 11 else "N:" + na(r.get("proveedor", ""))
-        if pk and pk != "N:":
-            p = prov[pk]
-            p["nombre"] = p["nombre"] or r.get("proveedor", "")
-            p["ruc"] = p["ruc"] or ruc
-            p["tipo"] = p["tipo"] or tipo
-            p["monto"] += m
-            p["n"] += 1
-            if ek:
-                pe = p["ent"][ek]
-                pe["nombre"] = pe["nombre"] or r.get("comprador", "")
-                pe["monto"] += m
-                pe["n"] += 1
-                ep = ent[ek]["prov"][pk]
-                ep["nombre"] = ep["nombre"] or r.get("proveedor", "")
-                ep["ruc"] = ep["ruc"] or ruc
-                ep["tipo"] = ep["tipo"] or tipo
-                ep["monto"] += m
-                ep["n"] += 1
+        m = m_award / len(provs)   # reparto entre proveedores de la misma adjudicación
+        for r in provs:
+            tipo = r.get("tipo_proveedor", "") or "?"
+            _acumular_proveedor(prov, ent, r, ek, m, tipo)
 
     monto_total = sum(v["monto"] for v in por_anio.values())
     meta = {
@@ -130,14 +140,48 @@ def main() -> None:
         "generado": dt.date.today().isoformat(),
         "meses": sorted(m for m in meses if m and not m.startswith("?")),
         "n_adjudicaciones": n_filas,
+        "n_filas_crudas": n_filas_crudas,
         "monto_total": round(monto_total),
+        "moneda": "PEN",
+        "por_moneda": {k: {"n": v["n"], "monto": round(v["monto"])}
+                       for k, v in sorted(por_moneda.items(), key=lambda x: -x[1]["n"])},
     }
+    _escribir(meta, por_anio, por_tipo, ent, prov, n_filas, monto_total)
 
+
+def _acumular_proveedor(prov, ent, r, ek, m, tipo) -> None:
+    """Suma al proveedor (y al par entidad↔proveedor) su parte `m` de la adjudicación."""
+    ruc = (r.get("proveedor_ruc", "") or "").strip()
+    pk = ruc if len(ruc) == 11 else "N:" + na(r.get("proveedor", ""))
+    if not pk or pk == "N:":
+        return
+    p = prov[pk]
+    p["nombre"] = p["nombre"] or r.get("proveedor", "")
+    p["ruc"] = p["ruc"] or ruc
+    p["tipo"] = p["tipo"] or tipo
+    p["monto"] += m
+    p["n"] += 1
+    if ek:
+        pe = p["ent"][ek]
+        pe["nombre"] = pe["nombre"] or r.get("comprador", "")
+        pe["monto"] += m
+        pe["n"] += 1
+        ep = ent[ek]["prov"][pk]
+        ep["nombre"] = ep["nombre"] or r.get("proveedor", "")
+        ep["ruc"] = ep["ruc"] or ruc
+        ep["tipo"] = ep["tipo"] or tipo
+        ep["monto"] += m
+        ep["n"] += 1
+
+
+def _escribir(meta, por_anio, por_tipo, ent, prov, n_filas, monto_total) -> None:
     # ---------- contratos.json (resumen global) ----------
     top_ent = sorted(ent.values(), key=lambda x: -x["monto"])[:20]
     top_prov = sorted(prov.values(), key=lambda x: -x["monto"])[:20]
     resumen = {
         "monto_total": round(monto_total),
+        "moneda": "PEN",
+        "por_moneda": meta["por_moneda"],
         "n_adjudicaciones": n_filas,
         "por_tipo": {t: {"monto": round(v["monto"]), "n": v["n"],
                          "pct_monto": round(100 * v["monto"] / monto_total, 1) if monto_total else 0}

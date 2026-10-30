@@ -9,7 +9,9 @@ class Settings(BaseSettings):
 
     app_name: str = "Perú Transparente API"
     environment: str = "dev"
-    debug: bool = True
+    # Apagado por defecto: con debug=True SQLAlchemy hace echo de TODO el SQL (con parámetros,
+    # p. ej. nombres buscados) a los logs. Activar solo en local con PT_DEBUG=1.
+    debug: bool = False
 
     # Postgres
     database_url: str = "postgresql+asyncpg://pt:pt@localhost:5432/peru_transparente"

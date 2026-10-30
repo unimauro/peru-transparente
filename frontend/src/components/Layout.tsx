@@ -1,34 +1,42 @@
-import { useState, type ReactNode } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { YapeModal } from "@/components/YapeModal";
 import { ChatBot } from "@/components/ChatBot";
+import { tituloDeRuta, setTitulo } from "@/lib/pageTitle";
 
-const NAV: [string, string][] = [
+// Navegación. En escritorio se muestran las PRIMARIAS más un desplegable "Más"
+// con el resto (14 entradas en línea no caben en max-w-6xl: 1 360 px medidos).
+// En móvil/tablet (< lg) todas van al panel hamburguesa. Entre lg y xl el botón
+// GitHub se esconde del nav y aparece dentro de "Más" (a 1 024 px no cabía).
+const NAV_PRIMARIA: [string, string][] = [
   ["/", "Inicio"],
   ["/entidades", "Entidades"],
   ["/funcionarios", "Funcionarios"],
-  ["/nuevos", "Nuevos"],
   ["/personas", "Personas"],
-  ["/trayectorias", "Trayectorias"],
   ["/historico", "Histórico"],
   ["/costo", "Costo"],
-  ["/ordenes", "Locadores"],
   ["/contratos", "Contratos"],
   ["/sanciones", "Sanciones"],
+];
+const NAV_MAS: [string, string][] = [
+  ["/nuevos", "Nuevos funcionarios"],
+  ["/trayectorias", "Trayectorias"],
+  ["/ordenes", "Locadores"],
   ["/autoridades", "Autoridades"],
   ["/regiones", "Regiones"],
-  ["/metodologia", "FAQ"],
+  ["/metodologia", "FAQ / Metodología"],
 ];
+export const NAV: [string, string][] = [...NAV_PRIMARIA, ...NAV_MAS];
 
-function NavItem({ to, children, onClick }: { to: string; children: ReactNode; onClick?: () => void }) {
+function NavItem({ to, children, onClick, block }: { to: string; children: ReactNode; onClick?: () => void; block?: boolean }) {
   return (
     <NavLink
       to={to}
       end={to === "/"}
       onClick={onClick}
       className={({ isActive }) =>
-        `rounded-lg px-3 py-1.5 text-sm transition-colors ${
+        `rounded-lg px-3 py-1.5 text-sm transition-colors ${block ? "block" : ""} ${
           isActive ? "bg-surface/10 text-ink" : "text-ink-soft hover:text-ink"
         }`
       }
@@ -38,33 +46,91 @@ function NavItem({ to, children, onClick }: { to: string; children: ReactNode; o
   );
 }
 
+/** Desplegable "Más" del escritorio: cierra con clic fuera, Escape o al navegar. */
+function MenuMas() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const activo = NAV_MAS.some(([to]) => pathname === to || pathname.startsWith(`${to}/`));
+
+  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDown); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${activo ? "bg-surface/10 text-ink" : "text-ink-soft hover:text-ink"}`}
+      >
+        Más <span aria-hidden="true" className="text-[10px]">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <div role="menu" className="glass absolute right-0 top-full z-50 mt-1 flex w-52 flex-col gap-0.5 bg-bg-base p-1.5 shadow-xl">
+          {NAV_MAS.map(([to, label]) => (
+            <NavItem key={to} to={to} block onClick={() => setOpen(false)}>{label}</NavItem>
+          ))}
+          <a
+            href="https://github.com/unimauro/peru-transparente"
+            target="_blank"
+            rel="noreferrer"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            className="block rounded-lg border-t border-surface/[0.06] px-3 py-1.5 text-sm text-ink-soft hover:text-ink xl:hidden"
+          >
+            GitHub ↗
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Layout({ children }: { children: ReactNode }) {
   const [menu, setMenu] = useState(false);
+  const { pathname } = useLocation();
+
+  // <title> por ruta (historial y pestañas legibles). Las páginas con detalle
+  // (p. ej. entidad) lo afinan después con setTitulo().
+  useEffect(() => { setTitulo(tituloDeRuta(pathname)); }, [pathname]);
+  // Cierra el panel móvil al navegar.
+  useEffect(() => { setMenu(false); }, [pathname]);
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b border-surface/[0.06] bg-bg-base/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2" onClick={() => setMenu(false)}>
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <Link to="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenu(false)}>
             <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" className="h-7 w-7" />
-            <span className="font-semibold tracking-tight text-ink">Perú Transparente</span>
+            <span className="whitespace-nowrap font-semibold tracking-tight text-ink">Perú Transparente</span>
           </Link>
 
-          {/* Navegación de escritorio */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {NAV.map(([to, label]) => <NavItem key={to} to={to}>{label}</NavItem>)}
+          {/* Navegación de escritorio (≥ lg): primarias + "Más" */}
+          <nav className="hidden min-w-0 items-center gap-0.5 lg:flex" aria-label="Principal">
+            {NAV_PRIMARIA.map(([to, label]) => <NavItem key={to} to={to}>{label}</NavItem>)}
+            <MenuMas />
             <a
               href="https://github.com/unimauro/peru-transparente"
               target="_blank"
               rel="noreferrer"
-              className="ml-1 rounded-lg border border-surface/10 px-3 py-1.5 text-sm text-ink-soft hover:border-surface/20 hover:text-ink"
+              className="ml-1 hidden rounded-lg border border-surface/10 px-3 py-1.5 text-sm text-ink-soft hover:border-surface/20 hover:text-ink xl:inline-block"
             >
               GitHub
             </a>
             <ThemeToggle />
           </nav>
 
-          {/* Controles móviles: tema + hamburguesa */}
-          <div className="flex items-center gap-1 md:hidden">
+          {/* Controles móviles/tablet: tema + hamburguesa */}
+          <div className="flex items-center gap-1 lg:hidden">
             <ThemeToggle />
             <button
               onClick={() => setMenu((o) => !o)}
@@ -77,9 +143,9 @@ export function Layout({ children }: { children: ReactNode }) {
           </div>
         </div>
 
-        {/* Panel de navegación móvil */}
+        {/* Panel de navegación móvil/tablet */}
         {menu && (
-          <nav className="flex flex-col gap-1 border-t border-surface/[0.06] px-3 py-3 md:hidden">
+          <nav className="flex flex-col gap-1 border-t border-surface/[0.06] px-3 py-3 lg:hidden" aria-label="Principal (móvil)">
             {NAV.map(([to, label]) => (
               <NavItem key={to} to={to} onClick={() => setMenu(false)}>{label}</NavItem>
             ))}

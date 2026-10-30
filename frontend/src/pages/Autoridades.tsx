@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
-import { fmt, Empty, usePaged, Pagination } from "@/components/ui";
+import { fmt, Empty, usePaged, Pagination, FuenteLink } from "@/components/ui";
 
 interface Aut {
   nombre: string; cargo: string; email: string; telefono: string;
@@ -50,7 +50,7 @@ export function Autoridades() {
       ) : filtered.length === 0 ? (
         <Empty>Sin resultados.</Empty>
       ) : (
-        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {slice.map((a, i) => (
             <div key={i} className="glass p-3">
               <div className="flex items-start justify-between gap-2">
@@ -58,7 +58,7 @@ export function Autoridades() {
                   <div className="truncate font-medium text-ink">{a.nombre}</div>
                   <div className="truncate text-xs text-accent-cyan">{a.cargo}</div>
                 </div>
-                <a href={a.url} target="_blank" rel="noreferrer" className="shrink-0 text-accent-blue">↗</a>
+                <FuenteLink url={a.url} className="shrink-0 text-accent-blue" />
               </div>
               <Link to={`/entidad/${a.id_entidad}`} className="mt-1 block truncate text-[11px] text-ink-mute hover:text-ink">
                 {a.institucion}

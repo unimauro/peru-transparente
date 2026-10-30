@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.busqueda import patron_like
 from app.db.session import get_db
 
 router = APIRouter(prefix="/historico", tags=["historico"])
@@ -42,10 +43,10 @@ async def buscar_personas(
                persona_norm, persona, id_entidad, entidad, cargo, regimen, total, anio, mes
         FROM historico.planilla
         WHERE (CAST(:q AS text) IS NULL
-               OR persona_norm ILIKE '%'||historico.norm(CAST(:q AS text))||'%')
+               OR persona_norm ILIKE historico.norm(CAST(:q AS text)) ESCAPE '\\')
         ORDER BY persona_norm, anio DESC, mes DESC
         LIMIT :limit
-    """), {"q": q, "limit": limit})).mappings().all()
+    """), {"q": patron_like(q), "limit": limit})).mappings().all()
     return {"items": [dict(r) for r in rows]}
 
 
@@ -88,9 +89,9 @@ async def designaciones(
         FROM historico.designacion
         WHERE (CAST(:desde AS date) IS NULL OR fecha >= CAST(:desde AS date))
           AND (CAST(:q AS text) IS NULL
-               OR cargo_norm ILIKE '%'||historico.norm(CAST(:q AS text))||'%'
-               OR entidad    ILIKE '%'||CAST(:q AS text)||'%')
+               OR cargo_norm ILIKE historico.norm(CAST(:q AS text)) ESCAPE '\\'
+               OR entidad    ILIKE CAST(:q AS text) ESCAPE '\\')
         ORDER BY fecha DESC NULLS LAST
         LIMIT :limit
-    """), {"desde": desde, "q": q, "limit": limit})).mappings().all()
+    """), {"desde": desde, "q": patron_like(q), "limit": limit})).mappings().all()
     return {"items": [dict(r) for r in rows]}

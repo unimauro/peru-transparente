@@ -33,9 +33,9 @@ jobs:
     env:
       PT_PG_DSN: postgresql://pt:pt@localhost:5432/peru_transparente
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
 
@@ -50,10 +50,15 @@ jobs:
           pip install "psycopg[binary]>=3.2"
 
       - name: Run connector + ETL
-        run: python scripts/run_pipeline.py --source "${{ github.event.inputs.source || 'osce' }}"
+        env:
+          SOURCE: ${{ github.event.inputs.source || 'osce' }}
+        run: python scripts/run_pipeline.py --source "$SOURCE"
 
       - name: Build static JSON
         run: python etl/build_static.py
+
+      - name: Validar publicación (umbrales, regresión vs snapshot, PII)
+        run: python scripts/validar_publicacion.py
 
       - name: Commit data changes
         run: |

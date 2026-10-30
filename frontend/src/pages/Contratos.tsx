@@ -69,11 +69,12 @@ export function Contratos() {
       </div>
 
       {/* KPIs globales */}
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-peru-redsoft">{money(d.resumen.monto_total)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">adjudicado</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-ink">{fmt.format(d.resumen.n_adjudicaciones)}</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">adjudicaciones</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-cyan">{t.juridica?.pct_monto ?? 0}%</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">a persona jurídica</div></div>
         <div className="glass p-4"><div className="tabular text-2xl font-bold text-accent-amber">{(t.natural?.pct_monto ?? 0)}%</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">a persona natural</div></div>
+        <div className="glass p-4"><div className="tabular text-2xl font-bold text-peru-redsoft">{(t.consorcio?.pct_monto ?? 0)}%</div><div className="text-[11px] uppercase tracking-wider text-ink-mute">a consorcios</div></div>
       </div>
 
       {/* barra de composición por tipo de proveedor */}

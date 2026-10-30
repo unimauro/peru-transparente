@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { staticData } from "@/lib/api";
-import { fmt, Empty } from "@/components/ui";
+import { fmt, Empty, vigenciaSancion } from "@/components/ui";
 
 interface Resumen {
   fuente: string;
@@ -145,7 +145,7 @@ export function Sanciones() {
                       <div key={i} className="flex flex-wrap items-center gap-x-2 text-[12px] text-ink-soft">
                         <span className="rounded bg-peru-red/15 px-1.5 py-0.5 text-[11px] text-peru-redsoft">{familia(m.tipo)}</span>
                         <span className="text-ink-mute">{m.entidad}</span>
-                        {m.fecha_fin && <span className="text-ink-faint">· hasta {m.fecha_fin}</span>}
+                        {vigenciaSancion(m.fecha_fin) && <span className="text-ink-faint">· {vigenciaSancion(m.fecha_fin)}</span>}
                         <span className="text-ink-faint">· DNI {m.dni_masked}</span>
                       </div>
                     ))}

@@ -3,11 +3,13 @@
 Lee data/sanciones_rnssc.csv (dump del scraper) y produce en frontend/public/data/:
 - sanciones.json          : resumen para una sección (totales por tipo, por sector,
                             top entidades sancionadoras, total de sanciones vigentes).
-- sanciones_por_nombre.json : mapa {nombre_normalizado: [{tipo, entidad, causa,
-                            fecha_fin, dni_masked}]} para que la ficha de persona
-                            muestre la señal.
+- sanciones/<LETRA>.json  : índice {nombre_normalizado: [{tipo, entidad, fecha_fin,
+                            dni_masked}]} para que la ficha de persona muestre la señal.
 
 PRIVACIDAD: el DNI se enmascara a ***555 (solo últimos 3). NUNCA se publica completo.
+La `causa` textual (p. ej. el artículo penal) NO se publica en el índice por nombre: el
+cruce es por homónimo posible y la causa junto a un nombre de la planilla crea un perfil
+que ninguna fuente publica. Solo tipo/estado, entidad y fecha; el detalle está en la fuente.
 ANTI-OVERCLAIMING: el cruce es por NOMBRE normalizado (mismo na() que build_personas),
 así que es una COINCIDENCIA por homónimo posible, NO un hecho confirmado. El JSON lo
 marca explícitamente (match_por_nombre / homonimo_posible) para que la UI lo advierta.
@@ -16,10 +18,15 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import re
+import sys
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
+from pii import enmascarar_pii  # noqa: E402
 
 SRC = Path("data/sanciones_rnssc.csv")
 OUT = Path("frontend/public/data")
@@ -71,9 +78,8 @@ def main() -> None:
         nombre = na(f"{apellidos}, {r.get('nombres', '')}" if apellidos else r.get("nombres", ""))
         if nombre:
             por_nombre[nombre].append({
-                "tipo": tipo,
+                "tipo": enmascarar_pii(tipo),
                 "entidad": ent,
-                "causa": r.get("causa", ""),
                 "fecha_fin": r.get("fecha_fin", ""),
                 "dni_masked": mask_dni(r.get("dni", "")),
                 "homonimo_posible": True,   # cruce por nombre, no por DNI verificado

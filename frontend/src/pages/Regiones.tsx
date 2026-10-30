@@ -49,7 +49,7 @@ export function Regiones() {
         Basado en la planilla del Portal de Transparencia (foto 2026); una persona se cuenta en la región de su entidad.
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:grid-cols-3">
         <div className="glass p-4">
           <div className="tabular text-2xl font-bold text-accent-cyan">{fmt.format(totalPersonal)}</div>
           <div className="text-[11px] uppercase tracking-wider text-ink-mute">servidores en planilla</div>

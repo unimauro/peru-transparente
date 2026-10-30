@@ -3,7 +3,7 @@ import { staticData } from "@/lib/api";
 import { fmt, money, Empty, usePaged, Pagination } from "@/components/ui";
 
 interface Loc {
-  ruc: string; dni: string; nombre: string; n: number; monto: number;
+  id: string; ruc_masked: string; nombre: string; n: number; monto: number;
   entidades: number; servicios: string[]; en_planilla: boolean; entidad_planilla: string;
 }
 interface Data {
@@ -23,7 +23,7 @@ export function Ordenes() {
     if (!d) return [];
     const base = soloCruces ? d.cruces : d.top;
     const nq = q.trim().toLowerCase();
-    return base.filter((l) => !nq || `${l.nombre} ${l.dni} ${l.ruc}`.toLowerCase().includes(nq));
+    return base.filter((l) => !nq || l.nombre.toLowerCase().includes(nq));
   }, [d, q, soloCruces]);
 
   const { slice, page, pages, setPage, total } = usePaged(lista, 40, `${q}|${soloCruces}`);
@@ -35,8 +35,8 @@ export function Ordenes() {
       <div className="chip mb-3">Órdenes de servicio · OCDS/OECE</div>
       <h1 className="text-3xl font-bold tracking-tight text-ink">Locadores del Estado</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">
-        Personas naturales que prestan <b>servicios</b> al Estado (locación). El <b>RUC contiene el DNI</b>,
-        lo que permite rastrearlas. Seguimiento de los contratos más recientes del OCDS.
+        Personas naturales que prestan <b>servicios</b> al Estado (locación). Seguimiento de las órdenes
+        más recientes del OCDS. El RUC de persona natural se publica <b>enmascarado</b> porque contiene el DNI.
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -47,7 +47,7 @@ export function Ordenes() {
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <input value={q} onChange={(e) => setQ(e.target.value)} inputMode="search" autoComplete="off" placeholder="🔎 Buscar nombre, DNI o RUC…" className="input w-full text-base sm:flex-1" />
+        <input value={q} onChange={(e) => setQ(e.target.value)} inputMode="search" autoComplete="off" placeholder="🔎 Buscar por nombre…" className="input w-full text-base sm:flex-1" />
         <button onClick={() => setSoloCruces((v) => !v)} className={`w-full rounded-xl border px-4 py-3 text-sm font-medium transition sm:w-auto sm:py-2.5 ${soloCruces ? "border-accent-amber/50 bg-accent-amber/15 text-accent-amber" : "border-surface/10 bg-surface/[0.02] text-ink-soft hover:text-ink"}`}>⚠️ Solo cruces con planilla</button>
       </div>
 
@@ -59,7 +59,7 @@ export function Ordenes() {
             <thead>
               <tr className="border-b border-surface/[0.06] text-left text-xs uppercase tracking-wide text-ink-mute">
                 <th className="px-4 py-3">Locador</th>
-                <th className="px-4 py-3">DNI / RUC</th>
+                <th className="px-4 py-3">RUC (enmascarado)</th>
                 <th className="px-4 py-3">Servicio(s)</th>
                 <th className="px-4 py-3 text-right">Órdenes</th>
                 <th className="px-4 py-3 text-right">Monto</th>
@@ -67,12 +67,12 @@ export function Ordenes() {
             </thead>
             <tbody>
               {slice.map((l) => (
-                <tr key={l.ruc} className={`border-b border-surface/[0.04] last:border-0 ${l.en_planilla ? "bg-accent-amber/[0.06]" : ""}`}>
+                <tr key={l.id} className={`border-b border-surface/[0.04] last:border-0 ${l.en_planilla ? "bg-accent-amber/[0.06]" : ""}`}>
                   <td className="px-4 py-3 font-medium text-ink">
                     {l.nombre}
                     {l.en_planilla && <div className="text-[11px] text-accent-amber">⚠️ también en planilla: {l.entidad_planilla}</div>}
                   </td>
-                  <td className="px-4 py-3 tabular text-ink-mute">{l.dni}<div className="text-[10px] text-ink-faint">{l.ruc}</div></td>
+                  <td className="px-4 py-3 tabular text-ink-mute">{l.ruc_masked}</td>
                   <td className="px-4 py-3 text-ink-soft">{l.servicios.slice(0, 2).map((s, i) => <div key={i} className="truncate text-[11px]">{s}</div>)}{l.entidades > 1 && <span className="text-[10px] text-ink-faint">{l.entidades} entidades</span>}</td>
                   <td className="px-4 py-3 text-right tabular text-ink">{l.n}</td>
                   <td className="px-4 py-3 text-right tabular font-semibold text-peru-redsoft">{money(l.monto)}</td>

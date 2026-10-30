@@ -28,8 +28,8 @@ contratos_n             contratos.json → resumen.n_adjudicaciones (fallback _m
 contratos_monto         contratos.json → resumen.monto_total   (fallback _meta.monto_total)
 ordenes_n               ordenes_servicio.json → total_ordenes
 ordenes_monto           ordenes_servicio.json → monto_total
-designaciones_total     nuevos_funcionarios.json → total
-designaciones_oficiales nuevos_funcionarios.json → oficiales
+designaciones_total     nuevos_funcionarios.json → meta.universo.total (o total)
+designaciones_oficiales nuevos_funcionarios.json → meta.universo.oficiales (o oficiales)
 sanciones_n             sanciones.json → total_sanciones
 dj_n                    dj.json → total_declaraciones
 autoridades_n           autoridades.json → len(items)
@@ -187,8 +187,9 @@ def construir_fila(fecha: str, leer) -> dict:
                                  _get(con, "_meta", "monto_total")),
         "ordenes_n": first(_get(ord_, "total_ordenes")),
         "ordenes_monto": first(_get(ord_, "monto_total")),
-        "designaciones_total": first(_get(nf, "total")),
-        "designaciones_oficiales": first(_get(nf, "oficiales")),
+        # universo detectado (meta.universo) antes que el recorte publicado (`total`)
+        "designaciones_total": first(_get(nf, "meta", "universo", "total"), _get(nf, "total")),
+        "designaciones_oficiales": first(_get(nf, "meta", "universo", "oficiales"), _get(nf, "oficiales")),
         "sanciones_n": first(_get(san, "total_sanciones")),
         "dj_n": first(_get(dj, "total_declaraciones")),
         "autoridades_n": len(items_aut) if isinstance(items_aut, list) else None,

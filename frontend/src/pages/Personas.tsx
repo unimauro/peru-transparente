@@ -1,15 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { staticData } from "@/lib/api";
-import { fmt, money, Empty } from "@/components/ui";
+import { fmt, money, Empty, vigenciaSancion } from "@/components/ui";
 import { PersonaGrafo } from "@/components/PersonaGrafo";
 import { RedInstitucional } from "@/components/RedInstitucional";
 
 type Ap = [string, string, string, string, number, string]; // id, abrev, cargo, regimen, sueldo, año
 type Persona = [string, number, Ap[]];                       // nombre, n_entidades, apariciones
 interface Sancion {
-  tipo: string; entidad: string; causa: string; fecha_fin: string;
+  tipo: string; entidad: string; fecha_fin: string;
   dni_masked: string; homonimo_posible: boolean;
 }
+
+// Normaliza igual que los build_*.py (sin tildes, MAYÚSCULAS, espacios colapsados).
+const norm = (s: string) => s.toUpperCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
+
+// Segunda clave del cruce: la entidad sancionadora coincide con alguna entidad de la
+// trayectoria de la persona (abreviatura/sigla o nombre). Solo-nombre = homónimo posible.
+function coincideEntidad(s: Sancion, aps: Ap[]): boolean {
+  const ent = norm(s.entidad || "");
+  if (ent.length < 3) return false;
+  return aps.some((a) => {
+    const ab = norm(a[1] || "");
+    return ab.length >= 3 && (ent.includes(ab) || ab.includes(ent));
+  });
+}
+const sancionConEntidad = (p: Persona, ss?: Sancion[]) => !!ss && ss.some((s) => coincideEntidad(s, p[2]));
 interface Dj { entidad: string; cargo: string; fecha: string; codigo: string; }
 
 export function Personas() {
@@ -101,9 +116,9 @@ export function Personas() {
       />
       {loadingShard && <p className="mt-2 text-xs text-ink-mute">Cargando índice…</p>}
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-[1fr,1.1fr]">
-        <div>
-          <div className="mb-2 text-xs uppercase tracking-wide text-ink-mute">{titulo}</div>
+      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr),minmax(0,1.1fr)]">
+        <div className="min-w-0">
+          <div className="mb-2 break-words text-xs uppercase tracking-wide text-ink-mute">{titulo}</div>
           {lista.length === 0 ? (
             <Empty>{results ? "Sin resultados (prueba por apellido)." : "Cargando…"}</Empty>
           ) : (
@@ -116,7 +131,7 @@ export function Personas() {
                 >
                   <span className="min-w-0 truncate text-sm text-ink">{p[0]}</span>
                   <span className="flex shrink-0 items-center gap-1">
-                    {sanciones[p[0]] && <span className="rounded-md bg-accent-amber/20 px-1.5 py-0.5 text-[11px] text-accent-amber" title="Coincidencia por nombre en el RNSSC (homónimo posible)">⚠️ sanción</span>}
+                    {sancionConEntidad(p, sanciones[p[0]]) && <span className="rounded-md bg-accent-amber/20 px-1.5 py-0.5 text-[11px] text-accent-amber" title="Coincidencia de nombre Y entidad con el RNSSC (sin verificar identidad)">⚠️ posible sanción</span>}
                     {dj[p[0]] && <span className="rounded-md bg-accent-green/15 px-1.5 py-0.5 text-[11px] text-accent-green" title="Declaró DJ de Intereses (CGR 2022, homónimo posible)">📋 DJ</span>}
                     {p[1] >= 2 && <span className="rounded-md bg-peru-red/15 px-2 py-0.5 text-[11px] text-peru-redsoft">{p[1]} entidades</span>}
                   </span>
@@ -132,19 +147,22 @@ export function Personas() {
               <div className="mb-2 font-semibold text-ink">{sel[0]}</div>
               {sancionSel && (
                 <div className="mb-3 rounded-lg border border-accent-amber/30 bg-accent-amber/[0.07] p-3">
-                  <div className="text-[11px] font-semibold uppercase tracking-wide text-accent-amber">⚠️ Posible sanción (RNSSC)</div>
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-accent-amber">
+                    {sancionConEntidad(sel, sancionSel) ? "⚠️ Posible sanción (RNSSC) · coincide nombre y entidad" : "Coincidencia de nombre en el RNSSC · posible homónimo"}
+                  </div>
                   <div className="mt-1.5 space-y-1">
                     {sancionSel.map((s, i) => (
                       <div key={i} className="text-[12px] text-ink-soft">
                         <span className="font-medium text-ink">{s.tipo.length > 60 ? s.tipo.slice(0, 60) + "…" : s.tipo}</span>
                         <span className="text-ink-mute"> · {s.entidad}</span>
-                        {s.fecha_fin && <span className="text-ink-faint"> · hasta {s.fecha_fin}</span>}
+                        {vigenciaSancion(s.fecha_fin) && <span className="text-ink-faint"> · {vigenciaSancion(s.fecha_fin)}</span>}
                         <span className="text-ink-faint"> · DNI {s.dni_masked}</span>
+                        {!coincideEntidad(s, sel[2]) && <span className="text-ink-faint"> · solo coincide el nombre: verificar en la fuente</span>}
                       </div>
                     ))}
                   </div>
                   <div className="mt-1.5 text-[10px] text-ink-faint">
-                    Coincidencia por <b>nombre</b> con el <a className="underline" href="/sanciones">RNSSC</a> — homónimo posible, verifica identidad en la fuente oficial.
+                    Cruce por <b>nombre</b> con el <a className="underline" href="#/sanciones">RNSSC</a> (la planilla no publica DNI): no es un hecho verificado. Confirma la identidad en la fuente oficial antes de afirmar nada.
                   </div>
                 </div>
               )}

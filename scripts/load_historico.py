@@ -44,8 +44,15 @@ CHUNK = 1 << 20  # 1 MiB por bloque de COPY
 PLANILLA_COLS = ["id_entidad", "entidad", "anio", "mes", "regimen", "apellidos_nombres",
                  "cargo", "dependencia", "remuneracion", "honorarios", "incentivo",
                  "aguinaldo", "otros", "total_ingreso_mensual", "fuente_url", "captured_at"]
+# Columnas mínimas; el CSV puede traer más (fecha_norma, rol): la staging se crea con la
+# cabecera REAL del archivo para que COPY no falle, y el INSERT usa solo las conocidas.
 DESIG_COLS = ["fecha", "entidad", "cargo", "nombre", "norma", "sumilla",
               "fuente_url", "captured_at"]
+
+
+def cabecera(path: Path) -> list[str]:
+    with path.open(encoding="utf-8", errors="ignore") as fh:
+        return [c.strip() for c in fh.readline().replace("\x00", "").split(",")]
 
 
 def na(s: str) -> str:
@@ -141,7 +148,8 @@ def cargar_planilla(conn) -> None:
                 historico.norm(apellidos_nombres),
                 coalesce(cargo, ''),
                 historico.norm(cargo),
-                coalesce(dependencia, ''),
+                -- PII: una entidad llenó "dependencia" con el DNI (8 dígitos aislados) → se enmascara
+                regexp_replace(coalesce(dependencia, ''), '(^|[^0-9])[0-9]{{8}}([^0-9]|$)', '\\1DNI ****\\2', 'g'),
                 {num('remuneracion')}, {num('honorarios')}, {num('incentivo')},
                 {num('aguinaldo')}, {num('otros')}, {num('total_ingreso_mensual')},
                 NULLIF(fuente_url, ''),
@@ -166,8 +174,11 @@ def cargar_designaciones(conn) -> None:
     with conn.cursor() as cur:
         print("▶ designaciones: upsert incremental por fuente_url…")
         cur.execute("DROP TABLE IF EXISTS historico._stg_desig")
+        cols = cabecera(DESIG)
+        if any(c not in cols for c in DESIG_COLS) or not all(re.fullmatch(r"[a-z_]+", c) for c in cols):
+            raise SystemExit(f"designaciones.csv: cabecera inesperada {cols}")
         cur.execute("CREATE UNLOGGED TABLE historico._stg_desig ("
-                    + ", ".join(f"{c} text" for c in DESIG_COLS) + ")")
+                    + ", ".join(f"{c} text" for c in cols) + ")")
         copy_csv(cur, "COPY historico._stg_desig FROM STDIN WITH (FORMAT csv, HEADER true)", DESIG)
         cur.execute("SELECT count(*) FROM historico._stg_desig")
         leidas = cur.fetchone()[0]

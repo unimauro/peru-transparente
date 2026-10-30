@@ -49,5 +49,10 @@ data/rnssc.checkpoint.json
 # Los JSON publicados ya enmascaran ese DNI; el CSV crudo se queda local, no se versiona.
 # (El checkpoint solo guarda SHAs de meses — ese sí es seguro de versionar.)
 data/contratos.csv
+# Órdenes de servicio crudas: RUC de persona natural (10…) = DNI embebido. Se queda local;
+# el JSON publicado lleva el RUC enmascarado (build_ordenes.py). El checkpoint sí se versiona.
+data/ordenes_servicio.csv
+# páginas HTML de El Peruano (cache del detalle de cada dispositivo; se regeneran)
+data/peruano_cache/
 data/_*.log
 data/dj_intereses.csv
