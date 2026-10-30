@@ -70,11 +70,14 @@ class FuncionarioRow:
     captured_at: str
 
 
+# Tokens que solo aparecen en filas de cabecera/aviso. OJO: NO incluir "RÉGIMEN", "AGUINALDO" ni
+# "OTROS INGRESOS": la primera celda de cada fila de datos es "Régimen 276" / "Régimen 728/OTROS",
+# y filtrarlos descartaba TODOS los nombrados y docentes (bug detectado en auditoría 2026-10-30).
 _HEADER_TOKENS = (
-    "APELLIDOS Y", "RÉGIMEN", "REGIMEN", "DETALLE DE INGRESOS", "TOTAL INGRESOS",
-    "REMUNERACIONES (", "HONORARIOS (", "INCENTIVO (", "AGUINALDO", "OTROS INGRESOS",
-    "DEPENDENCIA Y/O", "NO SE ENCONTR", "NO EXISTE INFORMACI",
+    "APELLIDOS Y", "DETALLE DE INGRESOS", "TOTAL INGRESOS", "DEPENDENCIA Y/O",
+    "NO SE ENCONTR", "NO EXISTE INFORMACI",
 )
+_N_COLS = 10  # RÉGIMEN | NOMBRES | CARGO | DEPENDENCIA | REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
 
 
 def _strip(s: str) -> str:
@@ -129,8 +132,9 @@ class PtePersonalConnector:
         t = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html_text, flags=re.S | re.I)
         out = []
         for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", t, flags=re.S | re.I):
+            # Se conservan las celdas vacías: si CARGO o DEPENDENCIA vienen en blanco, eliminarlas
+            # desplazaba los montos a esas columnas (8,914 filas con dependencia numérica en el CSV).
             cells = [_strip(td) for td in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, flags=re.S | re.I)]
-            cells = [c for c in cells if c != ""]
             out.append(cells)
         return out
 
@@ -148,18 +152,23 @@ class PtePersonalConnector:
                     break
                 page_rows = 0
                 for cells in self._parse_rows(resp):
-                    if len(cells) < 5:
+                    # fila de datos = exactamente 10 columnas; las de "DESCRIPCIÓN:" (2 celdas) y cabeceras se saltan
+                    if len(cells) != _N_COLS:
                         continue
-                    nombre, cargo, dep = cells[1], cells[2], cells[3]
+                    reg_txt, nombre, cargo, dep = cells[0], cells[1], cells[2], cells[3]
+                    if reg_txt.upper().startswith(("REGIMEN LABORAL", "RÉGIMEN LABORAL")):
+                        continue  # cabecera
                     if any(h in " ".join(cells).upper() for h in _HEADER_TOKENS):
                         continue
                     if not re.search(r"[A-Za-zÁÉÍÓÚÑ]", nombre):
                         continue
                     if "," not in nombre and len(nombre.split()) < 2:
                         continue
+                    if not re.search(r"\d", cells[-1]):
+                        continue  # sin TOTAL numérico no es una fila de datos
                     page_rows += 1
-                    # bloque de ingresos = últimas 6 columnas: REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
-                    inc = cells[-6:] if len(cells) >= 10 else ["", "", "", "", "", cells[-1]]
+                    # bloque de ingresos = columnas 5..10: REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
+                    inc = cells[4:10]
                     yield FuncionarioRow(
                         id_entidad=id_entidad, entidad=name, anio=anio, mes=mes,
                         regimen=REGIMES.get(reg, str(reg)),
