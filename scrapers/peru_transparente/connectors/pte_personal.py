@@ -84,12 +84,35 @@ def _strip(s: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", s))).strip()
 
 
+_MONEY_RE = re.compile(r"-?\d{1,9}(\.\d{1,2})?")
+_SUNAT_NOTE_RE = re.compile(r",?\s*Para ver la informaci.*$", re.I | re.S)
+_ULTIMO_RE = re.compile(r"pag=(\d+)'>\s*(?:Ultimo|Último|&Uacute;ltimo)", re.I)
+
+
+def _money(s: str) -> str:
+    """'S/ 2,664.19' → '2664.19'; vacío/guion → ''. Lanza ValueError si no es un monto."""
+    s = s.replace("S/.", "").replace("S/", "").replace(",", "").strip()
+    if s in ("", "-", "--"):
+        return ""
+    if not _MONEY_RE.fullmatch(s):
+        raise ValueError(f"monto no numérico: {s!r}")
+    return s
+
+
+def _clean_name(s: str) -> str:
+    # SUNAT incrusta en el nombre "…, Para ver la información de remuneración, ingrese al siguiente enlace: https://…"
+    return _SUNAT_NOTE_RE.sub("", s).strip()
+
+
 class PtePersonalConnector:
     source = "PTE_PERSONAL"
     method = "scrape"
     confidence = 0.90
 
     def __init__(self, timeout: float = 50.0):
+        # Diagnóstico de la última entidad barrida: errores HTTP y páginas incompletas (ver fetch_entity).
+        self.failures: list[dict] = []
+        self.incomplete: list[dict] = []
         self._client = httpx.Client(
             timeout=timeout,
             headers={"User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded"},
@@ -144,18 +167,30 @@ class PtePersonalConnector:
     ) -> Iterator[FuncionarioRow]:
         """Genera filas de funcionarios de una entidad/período, TODOS los regímenes y páginas."""
         name = entity_name or self.entity_name(self._get(id_entidad)) or f"Entidad {id_entidad}"
+        self.failures, self.incomplete = [], []
         for reg in (regimes or list(REGIMES)):
-            for pag in range(1, max_pages + 1):
+            seen: set[tuple] = set()
+            n_pages = None  # se fija con el enlace "Ultimo" de la primera página
+            pag = 0
+            while True:
+                pag += 1
+                if pag > max_pages or (n_pages is not None and pag > n_pages):
+                    break
                 try:
                     resp = self._get_query(id_entidad, anio, mes, reg, pag)
-                except Exception:
+                except Exception as e:  # noqa: BLE001 — tras los reintentos: se registra, NO se asume "sin datos"
+                    self.failures.append({"id_entidad": id_entidad, "anio": anio, "mes": mes, "regimen": reg,
+                                          "pag": pag, "error": f"{type(e).__name__}: {e}"[:200]})
                     break
+                if n_pages is None:
+                    m = _ULTIMO_RE.search(resp)
+                    n_pages = int(m.group(1)) if m else None
                 page_rows = 0
                 for cells in self._parse_rows(resp):
                     # fila de datos = exactamente 10 columnas; las de "DESCRIPCIÓN:" (2 celdas) y cabeceras se saltan
                     if len(cells) != _N_COLS:
                         continue
-                    reg_txt, nombre, cargo, dep = cells[0], cells[1], cells[2], cells[3]
+                    reg_txt, nombre, cargo, dep = cells[0], _clean_name(cells[1]), cells[2], cells[3]
                     if reg_txt.upper().startswith(("REGIMEN LABORAL", "RÉGIMEN LABORAL")):
                         continue  # cabecera
                     if any(h in " ".join(cells).upper() for h in _HEADER_TOKENS):
@@ -164,11 +199,17 @@ class PtePersonalConnector:
                         continue
                     if "," not in nombre and len(nombre.split()) < 2:
                         continue
-                    if not re.search(r"\d", cells[-1]):
-                        continue  # sin TOTAL numérico no es una fila de datos
+                    try:
+                        inc = [_money(c) for c in cells[4:10]]  # REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
+                    except ValueError as e:
+                        self.failures.append({"id_entidad": id_entidad, "anio": anio, "mes": mes, "regimen": reg,
+                                              "pag": pag, "error": f"{e} ({nombre[:40]})"})
+                        continue
                     page_rows += 1
-                    # bloque de ingresos = columnas 5..10: REMUN | HONOR | INCENT | AGUIN | OTROS | TOTAL
-                    inc = cells[4:10]
+                    key = (reg, nombre, cargo, dep, *inc)
+                    if key in seen:
+                        continue  # el portal repite filas entre páginas (paginación inestable)
+                    seen.add(key)
                     yield FuncionarioRow(
                         id_entidad=id_entidad, entidad=name, anio=anio, mes=mes,
                         regimen=REGIMES.get(reg, str(reg)),
@@ -178,9 +219,12 @@ class PtePersonalConnector:
                         fuente_url=self._query_url(id_entidad, anio, mes, reg, pag),
                         captured_at=utcnow(),
                     )
-                # avanzar solo si hay "Siguiente" y la página trajo filas
-                if "Siguiente" not in resp or page_rows == 0:
-                    break
+                if n_pages is None and ("Siguiente" not in resp or page_rows == 0):
+                    break  # sin enlace "Ultimo": paginación clásica
+            # Páginas de 30: si faltan más de 30 filas únicas respecto a lo esperado, el régimen quedó incompleto.
+            if n_pages and len(seen) < 30 * (n_pages - 1) - 30:
+                self.incomplete.append({"id_entidad": id_entidad, "anio": anio, "mes": mes, "regimen": reg,
+                                        "paginas": n_pages, "filas_unicas": len(seen)})
 
 
 CSV_FIELDS = list(asdict(

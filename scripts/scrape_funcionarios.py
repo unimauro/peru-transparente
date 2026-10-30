@@ -47,14 +47,22 @@ def parse_ids(spec: str) -> list[int]:
     return ids
 
 
-def load_checkpoint(path: Path) -> set[int]:
+def load_checkpoint(path: Path) -> tuple[set[int], dict]:
+    """done = entidades completas; failed = {id: motivo} (HTTP 500, montos raros, paginación incompleta):
+    NO se consideran hechas, así que --resume las reintenta en vez de dejarlas como 'sin datos'."""
     if path.exists():
-        return set(json.loads(path.read_text()).get("done", []))
-    return set()
+        d = json.loads(path.read_text())
+        failed = {int(k): v for k, v in (d.get("failed") or {}).items()}
+        return set(d.get("done", [])) - set(failed), failed
+    return set(), {}
+
+
+FAILED: dict = {}
 
 
 def save_checkpoint(path: Path, done: set[int]) -> None:
-    path.write_text(json.dumps({"done": sorted(done), "updated": datetime.now(timezone.utc).isoformat()}))
+    path.write_text(json.dumps({"done": sorted(done), "failed": {str(k): v for k, v in sorted(FAILED.items())},
+                                "updated": datetime.now(timezone.utc).isoformat()}))
 
 
 def main() -> None:
@@ -89,7 +97,8 @@ def main() -> None:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     ckpt = out.with_suffix(".checkpoint.json")
-    done = load_checkpoint(ckpt) if args.resume else set()
+    done, _failed_prev = load_checkpoint(ckpt) if args.resume else (set(), {})
+    FAILED.update(_failed_prev)
 
     write_header = not out.exists() or out.stat().st_size == 0
     conn = PtePersonalConnector()
@@ -139,7 +148,15 @@ def main() -> None:
                     rows_here += 1
                 fh.flush()
             total_rows += rows_here
-            done.add(eid)
+            if conn.failures or conn.incomplete:
+                # No se marca como hecha: queda en "failed" y --resume la reintenta.
+                FAILED[eid] = (f"{found_period[0]}-{found_period[1]:02d} " if found_period else "") + \
+                    "; ".join([f["error"] for f in conn.failures[:3]] +
+                              [f"r{x['regimen']} incompleto {x['filas_unicas']}/{30 * x['paginas']}" for x in conn.incomplete[:3]])[:300]
+                print(f"  ! id={eid} con fallos: {FAILED[eid]}", flush=True)
+            else:
+                FAILED.pop(eid, None)
+                done.add(eid)
             tag = f"[{i}/{len(ids)}] id={eid}"
             if rows_here:
                 empty_streak = 0
