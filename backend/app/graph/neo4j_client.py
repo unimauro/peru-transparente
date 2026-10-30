@@ -24,7 +24,7 @@ async def get_neighborhood(node_id: str, depth: int = 2, limit: int = 300) -> di
             for node in record["path"].nodes:
                 nodes[node["id"]] = {
                     "id": node["id"],
-                    "label": list(node.labels)[0] if node.labels else "Node",
+                    "label": next(iter(node.labels)) if node.labels else "Node",
                     "name": node.get("name") or node.get("title"),
                     "confidence": node.get("confidence"),
                 }
@@ -53,7 +53,7 @@ async def shortest_path(a_id: str, b_id: str, max_len: int = 6) -> dict:
             return {"nodes": [], "edges": []}
         path = record["p"]
         nodes = [
-            {"id": n["id"], "label": list(n.labels)[0] if n.labels else "Node",
+            {"id": n["id"], "label": next(iter(n.labels)) if n.labels else "Node",
              "name": n.get("name") or n.get("title")}
             for n in path.nodes
         ]

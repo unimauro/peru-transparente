@@ -27,6 +27,10 @@ dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.7", "mypy>=1.13", "httpx>
 line-length = 100
 target-version = "py311"
 
+[tool.ruff.lint.flake8-bugbear]
+# Patrón estándar de FastAPI: Depends()/Query() en los argumentos son inyección de dependencias, no defaults mutables.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path", "fastapi.Body", "fastapi.Header"]
+
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
