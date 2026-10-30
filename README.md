@@ -113,7 +113,7 @@ Detalle completo en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) y [`docs/INFR
 | PostgreSQL + pgvector | **Supabase** / Neon (free-tier) | Gratis→ |
 | Grafo | **Neo4j AuraDB Free** | Gratis (límite nodos) |
 | Cache | **Upstash Redis** | Gratis |
-| Scrapers programados | **GitHub Actions** (cron) | Gratis |
+| Scrapers programados | **launchd en una laptop con IP peruana** (`scripts/actualizar_diario.sh` → `./actualizar.sh`, diario 21:30); GitHub Actions solo por `workflow_dispatch` porque el OECE y el PTE bloquean IPs de datacenter | Gratis |
 | Almacenamiento de PDFs/DJ | GitHub Releases / R2 Cloudflare | Gratis→ |
 
 La idea: **el frontend y la mayoría de consultas se sirven como JSON estático generado por los scrapers** (modo "datos como código"), de modo que GitHub Pages basta para el 90% del tráfico. El backend dinámico solo se necesita para búsqueda semántica y exploración del grafo en vivo.
