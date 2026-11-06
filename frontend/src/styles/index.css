@@ -12,6 +12,7 @@
   --ink-faint: 90 100 116;
   --surface: 255 255 255;     /* tinte de paneles/bordes/hover */
   --peru-soft: 255 120 130;
+  --oro: 243 192 76;          /* soles: el color del dinero en el contador */
   --mesh-red: rgba(225, 29, 42, 0.18);
   --mesh-blue: rgba(79, 140, 255, 0.10);
   --grid: rgba(255, 255, 255, 0.025);
@@ -26,6 +27,7 @@ html.light {
   --ink-faint: 148 163 184;
   --surface: 15 23 42;        /* tinte oscuro sobre fondo claro */
   --peru-soft: 200 20 35;
+  --oro: 168 93 0;
   --mesh-red: rgba(225, 29, 42, 0.10);
   --mesh-blue: rgba(79, 140, 255, 0.08);
   --grid: rgba(15, 23, 42, 0.04);
@@ -99,6 +101,34 @@ html.light {
     background: linear-gradient(90deg, transparent, rgb(var(--surface) / 0.07), transparent);
     transform: translateX(-100%); animation: shimmer 1.4s infinite;
   }
+
+  /* Cifras grandes: Inter con numerales tabulares y tracking cerrado. */
+  .display {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    letter-spacing: -0.045em;
+    font-weight: 800;
+    line-height: 0.95;
+  }
+
+  /* Un solo momento de entrada orquestado (hero + índice): cada hijo con --i aparece en secuencia. */
+  .reveal { opacity: 0; animation: fade-up .7s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; animation: none; }
+    .animate-fade-up { animation: none; }
+  }
+
+  /* Índice tipo libro mayor: filas con regla fina, cifra a la izquierda, arrow al pasar. */
+  .ledger { border-top: 1px solid rgb(var(--surface) / 0.12); }
+  .ledger-row {
+    @apply grid gap-x-6 gap-y-1 py-5 sm:grid-cols-[13rem,1fr,auto] sm:items-baseline;
+    border-bottom: 1px solid rgb(var(--surface) / 0.08);
+    transition: background-color .2s, padding-left .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .ledger-row:hover, .ledger-row:focus-visible { background: rgb(var(--surface) / 0.03); padding-left: .5rem; outline: none; }
+  .ledger-row .ledger-arrow { opacity: 0; transform: translateX(-6px); transition: opacity .2s, transform .25s; }
+  .ledger-row:hover .ledger-arrow, .ledger-row:focus-visible .ledger-arrow { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .ledger-row, .ledger-row .ledger-arrow { transition: none; } }
 
   .gradient-text {
     background: linear-gradient(100deg, rgb(var(--ink)) 0%, rgb(var(--peru-soft)) 70%);

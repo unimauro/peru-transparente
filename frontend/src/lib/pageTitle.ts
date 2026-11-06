@@ -3,7 +3,7 @@
 const SITIO = "Perú Transparente";
 
 const TITULOS: [RegExp, string][] = [
-  [/^\/$/, "Mapa Nacional de Funcionarios y Redes de Poder"],
+  [/^\/$/, "¿Cuánto cuesta el Estado? Funcionarios, contratos y redes de poder"],
   [/^\/entidades$/, "Entidades"],
   [/^\/entidad\//, "Entidad"],
   [/^\/funcionarios$/, "Funcionarios"],

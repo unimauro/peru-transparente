@@ -34,7 +34,7 @@ export const money = (n: number | string) => {
 
 export function Stat({ value, label, hint, accent }: { value: ReactNode; label: string; hint?: string; accent?: string }) {
   return (
-    <div className="glass glass-hover animate-fade-up p-5">
+    <div className="glass glass-hover p-5">
       <div className={`tabular text-3xl font-bold tracking-tight ${accent ?? "text-ink"}`}>{value}</div>
       <div className="mt-1 text-[11px] font-medium uppercase tracking-wider text-ink-mute">{label}</div>
       {hint && <div className="mt-1.5 text-xs text-ink-faint">{hint}</div>}

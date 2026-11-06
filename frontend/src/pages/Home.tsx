@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { staticData } from "@/lib/api";
 import type { NationalKpis, Meta, EntidadCat } from "@/types";
-import { Stat, Bar, SectionTitle, fmt } from "@/components/ui";
-import { NetworkHero } from "@/components/NetworkHero";
+import { Bar, SectionTitle, fmt } from "@/components/ui";
+import { HeroCosto } from "@/components/HeroCosto";
+import { MapaDatos } from "@/components/MapaDatos";
 import { Evolucion } from "@/components/Evolucion";
-import { CostoResumen } from "@/components/CostoResumen";
 
 export function Home() {
   const [k, setK] = useState<NationalKpis | null>(null);
@@ -21,51 +21,20 @@ export function Home() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-surface/[0.06]">
-        <NetworkHero />
-        <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-16">
-          <div className="chip mb-4 animate-fade-up">🇵🇪 Plataforma open source de transparencia</div>
-          <h1 className="max-w-3xl animate-fade-up text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-            <span className="gradient-text">Mapa nacional</span> de funcionarios,
-            entidades y <span className="text-peru-redsoft">redes de poder</span>.
-          </h1>
-          <p className="mt-5 max-w-2xl animate-fade-up text-lg text-ink-soft">
-            Todo el Estado peruano —ministerios, organismos reguladores, gobiernos regionales y
-            locales, fuerzas armadas y empresas públicas— en datos públicos, trazables a su fuente.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link to="/entidades" className="btn-primary">Explorar entidades →</Link>
-            <Link to="/funcionarios" className="btn-ghost">Funcionarios y cargos</Link>
-            <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente/raw/main/data/funcionarios.csv.gz" target="_blank" rel="noreferrer">Descargar CSV (.gz)</a>
-          </div>
-        </div>
-      </section>
+      <HeroCosto />
 
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        {!k ? (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-24" />)}
-          </div>
-        ) : (
+      <div className="mx-auto max-w-6xl px-4 pb-10">
+        <MapaDatos kpis={k} />
+
+        {/* Evolución temporal de las cifras: trae su propio SectionTitle y no renderiza nada si falta historico_serie.json */}
+        <Evolucion />
+
+        {k && (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <Stat value={fmt.format(k.total_entities)} label="Entidades del Estado" hint="universo fijo del PTE" />
-              <Stat value={fmt.format(k.total_funcionarios)} label="Con nombre y sueldo publicado (PTE)" hint={`${fmt.format(k.entities_with_data)} entidades con datos`} accent="text-accent-cyan" />
-              <Stat value={fmt.format(k.total_cargos_clave)} label="Cargos clave" hint="dirección + jefaturas" accent="text-peru-redsoft" />
-              <Stat value={`${m ? m.cobertura_pct : 0}%`} label="Cobertura del barrido" hint={`${fmt.format(k.entities_processed ?? 0)} de ${fmt.format(k.total_entities)} entidades`} accent="text-accent-blue" />
-            </div>
-
-            {/* Evolución temporal de las cifras: trae su propio SectionTitle y no renderiza nada si falta historico_serie.json */}
-            <Evolucion />
-
-            {/* Costo del Estado en personal: contador vivo + link a /costo; null si falta costo_estado.json */}
-            <CostoResumen />
-
             {/* Progreso del barrido (3 estados) + qué es el PTE */}
-            <div className="glass mt-6 p-6">
+            <div className="glass mt-10 p-6">
               <div className="mb-2 flex items-baseline justify-between">
-                <SectionTitle kicker="Progreso">Avance del barrido nacional</SectionTitle>
+                <SectionTitle kicker="Cobertura">Avance del barrido nacional</SectionTitle>
                 <span className="tabular text-sm font-semibold text-accent-blue">{m ? m.cobertura_pct : 0}%</span>
               </div>
               {(() => {
@@ -73,7 +42,7 @@ export function Home() {
                 const cd = k.entities_with_data;
                 const sd = k.entities_no_data ?? 0;
                 const pd = k.entities_pending ?? (t - cd - sd);
-                const pct = (n: number) => `${(n / t) * 100}%`;
+                const pct = (x: number) => `${(x / t) * 100}%`;
                 return (
                   <>
                     <div className="flex h-3 w-full overflow-hidden rounded-full bg-surface/[0.06]">
@@ -81,7 +50,7 @@ export function Home() {
                       <div className="bg-ink-faint/60" style={{ width: pct(sd) }} title="sin datos publicados" />
                     </div>
                     <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-                      <span className="text-ink-soft"><span className="text-accent-cyan">●</span> {fmt.format(cd)} con datos</span>
+                      <span className="text-ink-soft"><span className="text-accent-cyan">●</span> {fmt.format(cd)} entidades con personal publicado</span>
                       <span className="text-ink-soft"><span className="text-ink-faint">●</span> {fmt.format(sd)} barridas sin personal publicado</span>
                       <span className="text-ink-mute"><span className="text-ink-faint">○</span> {fmt.format(pd)} pendientes</span>
                     </div>
@@ -89,24 +58,24 @@ export function Home() {
                 );
               })()}
               <p className="mt-4 border-t border-surface/[0.06] pt-3 text-xs text-ink-mute">
-                <b className="text-ink-soft">PTE = Portal de Transparencia Estándar</b> (transparencia.gob.pe): el portal oficial
-                donde cada entidad pública su personal, presupuesto y contrataciones. Es nuestra fuente. Las entidades
-                "sin personal publicado" existen pero no suben ese rubro — eso también es un dato de transparencia.
+                La fuente de la planilla es el <b className="text-ink-soft">Portal de Transparencia Estándar</b> (transparencia.gob.pe), donde cada entidad
+                publica su personal, presupuesto y contrataciones. Las entidades "sin personal publicado" existen pero no suben ese rubro,
+                y eso también es un dato de transparencia.
               </p>
             </div>
 
-            <div className="mt-8 grid gap-5 lg:grid-cols-2">
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">
               <div className="glass p-6">
                 <SectionTitle kicker="Universo">Entidades por tipo</SectionTitle>
-                {k.por_tipo.map(([t, n]) => (
-                  <Bar key={t} label={t} value={n} max={k.por_tipo[0][1]} />
+                {k.por_tipo.map(([t, x]) => (
+                  <Bar key={t} label={t} value={x} max={k.por_tipo[0][1]} />
                 ))}
               </div>
               <div className="glass p-6">
                 <SectionTitle kicker="Personas clave">Cargos hallados por nivel</SectionTitle>
                 {k.por_nivel.length ? (
-                  k.por_nivel.map(([t, n]) => (
-                    <Bar key={t} label={t} value={n} max={Math.max(...k.por_nivel.map((x) => x[1]))} color="from-peru-red to-accent-amber" />
+                  k.por_nivel.map(([t, x]) => (
+                    <Bar key={t} label={t} value={x} max={Math.max(...k.por_nivel.map((y) => y[1]))} color="from-peru-red to-accent-amber" />
                   ))
                 ) : (
                   <p className="text-sm text-ink-mute">Descargando…</p>
@@ -132,13 +101,25 @@ export function Home() {
                     </Link>
                   ))}
                 </div>
-                <Link to="/entidades" className="mt-4 inline-block text-sm text-accent-blue hover:underline">Ver todas las entidades →</Link>
+                <Link to="/entidades" className="mt-4 inline-block text-sm text-accent-blue hover:underline">Ver todas las entidades</Link>
               </div>
             )}
 
+            <div className="glass mt-5 flex flex-col gap-3 p-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-base font-semibold text-ink">Todo esto también se puede descargar</div>
+                <p className="mt-1 text-sm text-ink-mute">Planilla completa en CSV, JSON de cada sección y código abierto bajo AGPL-3.0. Datos CC BY 4.0.</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente/raw/main/data/funcionarios.csv.gz" target="_blank" rel="noreferrer">Descargar CSV</a>
+                <a className="btn-ghost" href="https://github.com/unimauro/peru-transparente" target="_blank" rel="noreferrer">Ver el código</a>
+                <Link className="btn-ghost" to="/metodologia">Metodología</Link>
+              </div>
+            </div>
+
             {m && (
               <p className="mt-6 text-xs text-ink-faint">
-                Planilla descargada del PTE el {new Date(m.planilla_capturada ?? m.actualizado).toLocaleDateString("es-PE")} ·
+                Planilla descargada del PTE el {new Date(m.planilla_capturada ?? m.actualizado).toLocaleDateString("es-PE")}.
                 JSON regenerado el {new Date(m.actualizado).toLocaleDateString("es-PE")}. Las cifras cambian solo cuando
                 hay un nuevo refresco, no de forma continua.
               </p>
