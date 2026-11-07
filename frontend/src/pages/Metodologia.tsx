@@ -82,6 +82,32 @@ export function Metodologia() {
           <p>No necesariamente. Buscar por nombre puede traer <b>homónimos</b>. Confirmar que es la misma persona (ej. profesor de la UNI que también asesora en SUNAT) requiere <b>resolución de entidades</b> con DNI/contexto — la capa de IA del roadmap.</p>
         </QA>
 
+        <QA q="¿Por qué publican DNI y RUC completos? ¿Es legal?">
+          <p>Sí. Publicamos el <b>RUC y el DNI tal como los publica la fuente oficial</b>, siempre con el enlace a esa fuente:</p>
+          <ul className="list-inside list-disc space-y-1">
+            <li><b>Ley 27806</b> (Transparencia y Acceso a la Información Pública): la información que producen las entidades del Estado es pública, incluidas las contrataciones y el personal.</li>
+            <li><b>Ley 29733, art. 14</b> (Protección de Datos Personales): no se requiere consentimiento cuando los datos provienen de <b>fuentes accesibles al público</b>.</li>
+            <li><b>D. Leg. 1412 / OECE</b>: el SEACE y el portal de contrataciones abiertas publican el <b>RUC de cada proveedor</b>; el RUC de persona natural contiene el DNI (10 + DNI + dígito).</li>
+            <li><b>RNSSC de SERVIR</b>: publica el <b>número de documento</b> de cada sancionado para distinguir homónimos.</li>
+            <li><b>PTE</b>: algunas entidades publican el DNI de su personal (lo mostramos como campo <i>DNI</i>, indicando que lo publicó la entidad).</li>
+          </ul>
+          <p><b>Propósito:</b> control ciudadano de las contrataciones, detección de <b>conflictos de interés y duplicidad de funciones</b> (una misma persona en la planilla y como contratista), colusión y posibles ilegalidades. El cruce contratista ↔ planilla se hace por <b>DNI</b> cuando ambas fuentes lo traen y, si no, por nombre normalizado (coincidencia marcada como <i>homónimo posible</i>). Una coincidencia <b>describe</b> un hecho público; no afirma irregularidad.</p>
+          <p><b>Contacto de autoridades:</b> el correo y el teléfono se republican tal como los publica el directorio oficial de gob.pe (fuente accesible al público), con el enlace a la ficha de cada autoridad. <b>Rectificación:</b> si un dato está mal o quieres que se revise, escribe a <a className="text-accent-blue underline" href="mailto:carlos@cardenas.pe">carlos@cardenas.pe</a> indicando la ficha y la fuente; la fuente oficial prevalece y las correcciones se propagan en el siguiente refresco.</p>
+        </QA>
+
+        <QA q="¿De qué portal oficial sale cada dato y cada cuánto se actualiza?">
+          <p>Cada registro lleva un enlace <b>fuente ↗</b> a la página oficial de donde se tomó. Por tipo de dato:</p>
+          <ul className="list-inside list-disc space-y-1">
+            <li><b>Personal, cargos y sueldos</b> (planilla nominal; a veces DNI): <a className="text-accent-blue underline" href="https://www.transparencia.gob.pe/personal/pte_transparencia_personal.aspx" target="_blank" rel="noreferrer">PTE · transparencia.gob.pe</a>, página exacta por entidad, año, mes y régimen. Barrido mensual de todas las entidades (las entidades publican con 1–2 meses de rezago).</li>
+            <li><b>Autoridades y su contacto</b> (correo, teléfono): <a className="text-accent-blue underline" href="https://www.gob.pe/" target="_blank" rel="noreferrer">directorio de funcionarios de gob.pe</a>, ficha por autoridad. Refresco mensual.</li>
+            <li><b>Órdenes de servicio y contratos</b> (RUC y DNI de locadores/proveedores): <a className="text-accent-blue underline" href="https://contratacionesabiertas.oece.gob.pe/" target="_blank" rel="noreferrer">OECE · Contrataciones Abiertas (OCDS/SEACE)</a>, record por adjudicación. Refresco diario (órdenes) y por volcado mensual (contratos).</li>
+            <li><b>Sanciones</b> (tipo, entidad, vigencia, documento): <a className="text-accent-blue underline" href="https://www.sanciones.gob.pe/rnssc/" target="_blank" rel="noreferrer">RNSSC · SERVIR</a>. Barrido semanal (solo sanciones vigentes).</li>
+            <li><b>Declaraciones juradas de intereses</b>: <a className="text-accent-blue underline" href="https://www.datosabiertos.gob.pe/dataset/declaraciones-juradas-de-intereses" target="_blank" rel="noreferrer">dataset abierto de la CGR</a> (instantánea jul–dic 2022; no se refresca).</li>
+            <li><b>Designaciones y nombramientos</b>: <a className="text-accent-blue underline" href="https://busquedas.elperuano.pe/" target="_blank" rel="noreferrer">Diario Oficial El Peruano · Normas Legales</a>, norma por norma. Refresco diario.</li>
+            <li><b>Planilla agregada y costo</b> (sin nombres): AIRHSP del MEF (datos abiertos), mensual.</li>
+          </ul>
+        </QA>
+
         <QA q="¿Cada cuánto se actualiza?">
           <p>El barrido corre de forma continua y publica el avance automáticamente. La cobertura actual y la fecha se muestran en la portada.</p>
         </QA>

@@ -222,6 +222,10 @@ def main() -> None:
     con_salario = sum(1 for x in publicados if x.get("salario"))
     oficiales = len(desig_pub)
     data = {
+        "_meta": {"fuente": "Diario Oficial El Peruano (designaciones) + PTE (altas de planilla)",
+                  "fuente_url": "https://busquedas.elperuano.pe/",
+                  "fuente_planilla_url": "https://www.transparencia.gob.pe/personal/pte_transparencia_personal.aspx",
+                  "datos_personales": "Cada ítem enlaza (fuente_url) la norma de El Peruano o la página del PTE."},
         "meta": {
             "corte": corte,
             "generado": time.strftime("%Y-%m-%d"),

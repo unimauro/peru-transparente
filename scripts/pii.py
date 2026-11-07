@@ -1,21 +1,20 @@
-"""Minimización de datos personales en lo que se PUBLICA (Ley 29733 / docs/LEGAL.md §1-2).
+"""Punto único de política de datos personales en lo que se PUBLICA (docs/LEGAL.md).
 
-Módulo común, sin dependencias, que usan todos los build_*.py antes de escribir un campo
-de texto libre (cargo, dependencia, descripción, causa…) o un contacto en los JSON de
-frontend/public/data. La regla es simple y conservadora:
+Decisión del dueño del portal (2026-10-30): el DNI y el RUC se publican COMPLETOS, tal como
+los publica la fuente oficial y con su enlace (Ley 27806; Ley 29733 art. 14: fuentes accesibles
+al público; OECE/SEACE publica el RUC de proveedores; RNSSC/SERVIR el documento del sancionado;
+el PTE el campo donde la entidad puso el DNI). Finalidad: control ciudadano de contrataciones,
+conflictos de interés y duplicidad de funciones (cruce contratista ↔ planilla por DNI).
 
-- Una secuencia AISLADA de exactamente 8 dígitos en texto libre es, con altísima
-  probabilidad, un DNI (hallazgo A2: una entidad llenó "dependencia" con el DNI del
-  servidor). Se reemplaza por "DNI ****". Los RUC de empresa (11 dígitos) y los montos
-  no se tocan.
-- Un RUC de persona natural (10 + DNI + dígito verificador) embebe el DNI: en texto se
-  enmascara y, como campo, se publica con `enmascarar_ruc_natural()` (mismo criterio que
-  build_contratos.pub_ruc: nunca el RUC natural completo).
-- Correos de dominios personales (gmail, hotmail, …) y celulares (9xxxxxxxx) son contacto
-  personal, no institucional: no se publican aunque la fuente los exponga.
+Ampliación (mismo día): también el CONTACTO (correos y teléfonos, incluidos celulares y
+dominios personales) se publica tal como lo trae la fuente oficial de datos abiertos
+(directorio gob.pe), siempre con su procedencia (`url`/`fuente_url` por registro). Este módulo
+es el único punto que decide eso: `enmascarar_pii`, `email_publicable` y `telefono_publicable`
+son hoy passthrough; para revertir, basta con volver a filtrar aquí (las listas de dominios
+personales y la detección de celular se conservan para ese caso).
 
 Uso:
-    from pii import enmascarar_pii, email_publicable, telefono_publicable, enmascarar_ruc_natural
+    from pii import enmascarar_pii, email_publicable, telefono_publicable, nombre_publicable
 """
 from __future__ import annotations
 
@@ -40,8 +39,6 @@ DOMINIOS_PERSONALES = (
 # demás .pe de la propia entidad (empresas públicas en .com.pe / .org.pe, p. ej. distriluz).
 DOMINIO_INSTITUCIONAL = re.compile(r"(\.gob\.pe|\.edu\.pe|\.mil\.pe|\.org\.pe|\.com\.pe|\.pe|\.gov|\.edu|\.org|\.int)$")
 
-MASCARA_DNI = "DNI ****"
-MASCARA_RUC = "RUC 10********"
 MASCARA_CORREO = "[correo personal omitido]"
 MASCARA_CELULAR = "[celular omitido]"
 
@@ -58,9 +55,11 @@ def es_correo_institucional(email: str | None) -> bool:
 
 
 def email_publicable(email: str | None) -> str:
-    """Correo tal cual si es institucional; cadena vacía si es personal o no parece correo."""
-    e = (email or "").strip()
-    return e if es_correo_institucional(e) else ""
+    """Correo tal como lo publica la fuente (passthrough; decisión 2026-10-30).
+
+    Para volver a publicar solo institucionales: `return e if es_correo_institucional(e) else ""`.
+    """
+    return (email or "").strip()
 
 
 def es_celular(telefono: str | None) -> bool:
@@ -73,17 +72,22 @@ def es_celular(telefono: str | None) -> bool:
 
 
 def telefono_publicable(telefono: str | None) -> str:
-    """Solo teléfonos FIJOS (institucionales); los celulares (9…) se omiten."""
-    t = (telefono or "").strip()
-    return "" if (not t or es_celular(t)) else t
+    """Teléfono tal como lo publica la fuente (passthrough; decisión 2026-10-30).
+
+    Para volver a omitir celulares: `return "" if es_celular(t) else t`.
+    """
+    return (telefono or "").strip()
 
 
-def enmascarar_ruc_natural(ruc: str | None) -> str:
-    """RUC de persona natural publicable: '10******' + 3 últimos. Jurídicas (20…) completas."""
+def es_dni(valor: str | None) -> bool:
+    """Exactamente 8 dígitos (un DNI puesto como valor de campo)."""
+    return bool(re.fullmatch(r"\d{8}", (valor or "").strip()))
+
+
+def dni_de_ruc(ruc: str | None) -> str:
+    """DNI embebido en el RUC de persona natural (10 + DNI + dígito verificador); '' si no aplica."""
     r = (ruc or "").strip()
-    if len(r) == 11 and r.startswith("10"):
-        return "10" + "*" * 6 + r[-3:]
-    return r
+    return r[2:10] if len(r) == 11 and r.startswith("10") else ""
 
 
 # Texto que SUNAT incrusta en la celda del nombre del PTE (no es parte del nombre).
@@ -96,45 +100,35 @@ def limpiar_nombre(nombre: str | None) -> str:
 
 
 def nombre_publicable(nombre: str | None) -> str:
-    """Nombre tal como se publica: sin boilerplate de la fuente y sin PII incrustada (DNI)."""
+    """Nombre tal como se publica: sin el boilerplate de la fuente (el DNI, si viene, se conserva)."""
     return enmascarar_pii(limpiar_nombre(nombre))
 
 
 def enmascarar_pii(texto: str | None) -> str:
-    """Enmascara DNI sueltos, RUC naturales, correos personales y celulares en texto libre.
-
-    Idempotente y segura sobre cualquier cadena (devuelve '' para None).
+    """Texto libre tal cual (passthrough): DNI, RUC, correos y teléfonos se publican como vienen
+    de la fuente oficial (decisión 2026-10-30). Devuelve '' para None. Para revertir, aplicar aquí
+    CELULAR.sub(MASCARA_CELULAR, …) y CORREO.sub(… es_correo_institucional …).
     """
-    if not texto:
-        return "" if texto is None else texto
-    t = RUC_NATURAL.sub(MASCARA_RUC, texto)
-    t = DNI_SUELTO.sub(MASCARA_DNI, t)
-    t = CELULAR.sub(MASCARA_CELULAR, t)
-    t = CORREO.sub(lambda m: m.group(0) if es_correo_institucional(m.group(0)) else MASCARA_CORREO, t)
-    return t
+    return "" if texto is None else texto
 
 
 def _selftest() -> None:
-    assert enmascarar_pii("46081234") == MASCARA_DNI
-    assert enmascarar_pii("CIRUJANO DENTISTA 46081234 RED") == f"CIRUJANO DENTISTA {MASCARA_DNI} RED"
-    assert enmascarar_pii("RUC 20131370998") == "RUC 20131370998"          # empresa: intacto
-    assert enmascarar_pii("12345678.50") == "12345678.50"                   # decimal: intacto
-    assert enmascarar_pii("10460812349") == MASCARA_RUC
-    assert enmascarar_pii("cel 987654321") == f"cel {MASCARA_CELULAR}"
-    assert enmascarar_pii("+51 987 654 321") == MASCARA_CELULAR
-    assert enmascarar_pii("masa S/985 234 123 al mes") == "masa S/985 234 123 al mes"   # monto: intacto
-    assert enmascarar_pii("x@gmail.com") == MASCARA_CORREO
-    assert enmascarar_pii("mesa@uni.edu.pe") == "mesa@uni.edu.pe"
-    assert email_publicable("juan@hotmail.com") == ""
-    assert email_publicable("juan@distriluz.com.pe") == "juan@distriluz.com.pe"
-    assert telefono_publicable("(51)95158788") == ""
-    assert telefono_publicable("51 969627733") == ""
+    assert enmascarar_pii("46081234") == "46081234"                         # DNI: se conserva
+    assert enmascarar_pii("RUC 20131370998") == "RUC 20131370998"
+    assert enmascarar_pii("10460812349") == "10460812349"                   # RUC natural: se conserva
+    assert es_dni("46081234") and not es_dni("4608123") and not es_dni("46081234.5")
+    assert dni_de_ruc("10066033207") == "06603320" and dni_de_ruc("20131370998") == ""
+    assert enmascarar_pii("cel 987654321") == "cel 987654321"
+    assert enmascarar_pii("x@gmail.com") == "x@gmail.com"
+    assert email_publicable("juan@hotmail.com") == "juan@hotmail.com"
+    assert telefono_publicable("(51)95158788") == "(51)95158788"
     assert telefono_publicable("(01)4824665") == "(01)4824665"
-    assert enmascarar_ruc_natural("10066033207") == "10******207"
-    assert enmascarar_ruc_natural("20131370998") == "20131370998"
+    # las detecciones siguen disponibles por si se revierte la política
+    assert es_celular("(51)95158788") and not es_celular("(01)4824665")
+    assert not es_correo_institucional("juan@hotmail.com") and es_correo_institucional("mesa@uni.edu.pe")
     assert nombre_publicable("BALBIN BURGA JOSE JOSE, Para ver la información de remuneración, ingrese al "
                              "siguiente enlace: https://www.sunat.gob.pe/x.html") == "BALBIN BURGA JOSE JOSE"
-    assert nombre_publicable("PALMA VACAS, 72047116") == "PALMA VACAS, DNI ****"
+    assert nombre_publicable("PALMA VACAS, 72047116") == "PALMA VACAS, 72047116"
     print("pii.py: selftest OK")
 
 

@@ -28,11 +28,23 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
 from clasificacion import categoria  # noqa: E402
-from pii import MASCARA_DNI, nombre_publicable, email_publicable, enmascarar_pii, telefono_publicable  # noqa: E402
+from pii import email_publicable, enmascarar_pii, es_dni, nombre_publicable, telefono_publicable  # noqa: E402
 
 OUT = Path("frontend/public/data")
 ENT = Path("data/entidades.csv")
 FUN = Path("data/funcionarios.csv")
+
+# Procedencia (principio 1): todo archivo con datos de personas lleva _meta.fuente + fuente_url,
+# además de la URL concreta por fila (`url` = página del PTE / ficha gob.pe).
+META_PTE = {"fuente": "Portal de Transparencia Estándar (PTE) · planilla nominal por entidad/mes/régimen",
+            "fuente_url": "https://www.transparencia.gob.pe/personal/pte_transparencia_personal.aspx",
+            "datos_personales": ("Nombres, cargos, remuneraciones y, cuando la entidad lo publica, DNI, tal como "
+                                 "los expone el PTE; cada fila enlaza (url) la página exacta. Ver docs/LEGAL.md. "
+                                 "Rectificaciones: carlos@cardenas.pe")}
+META_GOBPE = {"fuente": "Directorio de funcionarios de gob.pe (autoridades por institución)",
+              "fuente_url": "https://www.gob.pe/",
+              "datos_personales": ("Nombre, cargo, correo y teléfono tal como los publica gob.pe; cada registro "
+                                   "enlaza (url) su ficha oficial. Ver docs/LEGAL.md. Rectificaciones: carlos@cardenas.pe")}
 
 NIVELES = [
     # Viceministro ANTES que Ministro (para no contar "VICE MINISTRO" como ministro)
@@ -74,10 +86,19 @@ def organo(dep: str) -> str:
     return "Otros órganos / oficinas"
 
 
-def dep_pub(dependencia: str) -> str:
-    """Dependencia publicable: texto libre enmascarado (PII); si era SOLO un DNI → sin dependencia."""
-    d = enmascarar_pii(dependencia or "").strip()
-    return "(Sin dependencia)" if d in ("", MASCARA_DNI) else d
+def campos_persona(f: dict) -> tuple[str, str, str]:
+    """(cargo, dependencia, dni) publicables. Si la entidad puso el DNI en "dependencia" o en
+    "cargo" (p. ej. Red de Salud San Román, id 67964), ese valor pasa al campo `dni` y el campo
+    libre queda vacío / "(Sin dependencia)". El DNI se publica tal como lo publica el PTE
+    (decisión 2026-10-30, docs/LEGAL.md)."""
+    cargo = (f.get("cargo") or "").strip()
+    dep = (f.get("dependencia") or "").strip()
+    dni = ""
+    if es_dni(dep):
+        dni, dep = dep, ""
+    if es_dni(cargo):
+        dni, cargo = dni or cargo, ""
+    return enmascarar_pii(cargo), enmascarar_pii(dep) or "(Sin dependencia)", dni
 
 
 def read_csv(p: Path) -> list[dict]:
@@ -216,12 +237,13 @@ def main() -> None:
     aut_path = Path("data/autoridades.csv")
     if aut_path.exists():
         for a in csv.DictReader(aut_path.open(encoding="utf-8")):
-            # Contacto: solo institucional (correo de dominio gob.pe/edu.pe/.pe de la entidad y
-            # teléfono fijo). Celulares y correos personales no se publican (scripts/pii.py).
+            # Contacto tal como lo publica gob.pe (política única en scripts/pii.py), con la
+            # ficha oficial (url) y el directorio de origen (fuente_url) por registro.
             autoridades_por_ent[a["id_entidad"]].append({
                 "nombre": a["nombre"], "cargo": enmascarar_pii(a["cargo"]),
                 "email": email_publicable(a["email"]),
                 "telefono": telefono_publicable(a["telefono"]), "url": a["detalle_url"],
+                "fuente_url": a.get("fuente_url") or a["detalle_url"],
                 "entidad": ent_cat.get(a["id_entidad"]) and a.get("institucion_pte"),
                 "institucion": a.get("institucion_pte"),
             })
@@ -229,10 +251,11 @@ def main() -> None:
     # página global de autoridades (buscable)
     todas_aut = [
         {"nombre": a["nombre"], "cargo": a["cargo"], "email": a["email"],
-         "telefono": a["telefono"], "url": a["url"], "institucion": a["institucion"], "id_entidad": eid}
+         "telefono": a["telefono"], "url": a["url"], "fuente_url": a["fuente_url"],
+         "institucion": a["institucion"], "id_entidad": eid}
         for eid, lst in autoridades_por_ent.items() for a in lst
     ]
-    write("autoridades.json", {"items": todas_aut})
+    write("autoridades.json", {"_meta": META_GOBPE, "items": todas_aut})
 
     # catálogo enriquecido con nº de funcionarios scrapeados
     def estado(eid: str, n: int) -> str:
@@ -275,8 +298,9 @@ def main() -> None:
     # muestra para tabla: TODOS los cargos clave (para que los botones de nivel cuadren)
     # + una muestra de Profesional/Apoyo para el navegado general.
     def to_item(f: dict) -> dict:
-        return {"entidad": f["entidad"], "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": enmascarar_pii(f["cargo"]),
-                "dependencia": dep_pub(f["dependencia"]), "regimen": f["regimen"],
+        cargo, dep, dni = campos_persona(f)
+        return {"entidad": f["entidad"], "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": cargo,
+                "dependencia": dep, "dni": dni, "regimen": f["regimen"],
                 "anio": f["anio"], "mes": f["mes"], "total": f["total_ingreso_mensual"],
                 "url": f["fuente_url"], "nivel": nivel(f.get("cargo", ""))}
 
@@ -287,8 +311,8 @@ def main() -> None:
     otros = [to_item(f) for f in funcionarios
              if nivel(f.get("cargo", "")) not in CLAVE and f.get("regimen") not in LOCADOR_REG][:4000]
     sample = clave_rows + locadores + otros  # clave + TODOS los locadores + muestra de apoyo
-    write("funcionarios_sample.json", {"items": sample})
-    write("funcionarios_clave.json", {"items": clave_rows})
+    write("funcionarios_sample.json", {"_meta": META_PTE, "items": sample})
+    write("funcionarios_clave.json", {"_meta": META_PTE, "items": clave_rows})
 
     # Per-entidad: dependencias agrupadas (organigrama-lite) para entidades con datos.
     by_ent = defaultdict(list)
@@ -302,9 +326,10 @@ def main() -> None:
         fs = by_ent.get(eid, [])
         deps = defaultdict(list)
         for f in fs:
-            deps[dep_pub(f["dependencia"])].append({
-                "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": enmascarar_pii(f["cargo"]),
-                "nivel": nivel(f.get("cargo", "")), "regimen": f["regimen"],
+            cargo, dep, dni = campos_persona(f)
+            deps[dep].append({
+                "nombre": nombre_publicable(f["apellidos_nombres"]), "cargo": cargo, "dni": dni,
+                "nivel": nivel(cargo), "regimen": f["regimen"],
                 "total": f["total_ingreso_mensual"], "url": f["fuente_url"],
             })
         dep_list = sorted(
@@ -331,6 +356,9 @@ def main() -> None:
         solo_cas = bool(fs) and set(regimenes) <= {"CAS"}
         nombre_ent = ent_name.get(eid) or (fs[0]["entidad"] if fs else "")
         (OUT / "entidad" / f"{eid}.json").write_text(json.dumps({
+            "_meta": {"fuente": f"{META_PTE['fuente']} + {META_GOBPE['fuente']}",
+                      "fuente_url": META_PTE["fuente_url"], "fuente_autoridades_url": META_GOBPE["fuente_url"],
+                      "datos_personales": META_PTE["datos_personales"]},
             "id": eid, "nombre": nombre_ent,
             "tipo": ent_tipo.get(eid, ""), "periodo": period,
             "total": len(fs), "clave": sum(1 for f in fs if nivel(f.get("cargo", "")) in CLAVE),

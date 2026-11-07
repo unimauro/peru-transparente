@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { staticData } from "@/lib/api";
-import { fmt, Empty, usePaged, Pagination } from "@/components/ui";
+import { fmt, Empty, usePaged, Pagination, FuenteLink } from "@/components/ui";
+import { pteUrl } from "@/lib/fuentes";
 
-interface Paso { anio: string; abrev: string; cargo: string; nivel: string }
+interface Paso { anio: string; abrev: string; cargo: string; nivel: string; id_entidad?: string; mes?: string; cod_regimen?: number }
 interface Tray {
   nombre: string; n_inst: number; n_cargos: number; span: [string, string]; pico: string; trace: Paso[];
 }
@@ -97,6 +98,7 @@ export function Trayectorias() {
                     <span className="font-medium text-ink-soft">{p.abrev}</span>{" "}
                     <span className={`ml-1 rounded px-1.5 py-0.5 text-[10px] ${nivelClass(p.nivel)}`}>{p.nivel}</span>
                     <span className="ml-1 text-[12px] text-ink-mute">{p.cargo}</span>
+                    {p.id_entidad && <FuenteLink url={pteUrl(p.id_entidad, p.anio, p.mes, p.cod_regimen)} className="ml-1 text-[11px] text-accent-blue hover:underline" fallback={null}>fuente ↗</FuenteLink>}
                   </li>
                 ))}
               </ol>

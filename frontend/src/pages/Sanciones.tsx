@@ -13,7 +13,7 @@ interface Resumen {
 }
 interface Match {
   tipo: string; entidad: string; causa: string; fecha_fin: string;
-  dni_masked: string; homonimo_posible: boolean;
+  documento: string; homonimo_posible: boolean;
 }
 type Indice = { _meta: Record<string, unknown>; index: Record<string, Match[]> };
 
@@ -146,7 +146,8 @@ export function Sanciones() {
                         <span className="rounded bg-peru-red/15 px-1.5 py-0.5 text-[11px] text-peru-redsoft">{familia(m.tipo)}</span>
                         <span className="text-ink-mute">{m.entidad}</span>
                         {vigenciaSancion(m.fecha_fin) && <span className="text-ink-faint">· {vigenciaSancion(m.fecha_fin)}</span>}
-                        <span className="text-ink-faint">· DNI {m.dni_masked}</span>
+                        {m.documento && <span className="text-ink-faint">· doc. {m.documento}</span>}
+                        <a className="text-[11px] text-accent-blue hover:underline" href="https://www.sanciones.gob.pe/rnssc/" target="_blank" rel="noreferrer">fuente ↗</a>
                       </div>
                     ))}
                   </div>
@@ -160,8 +161,9 @@ export function Sanciones() {
       <p className="mt-5 text-[11px] text-ink-faint">
         Fuente: RNSSC — SERVIR (<a className="underline hover:text-ink-soft" href="https://www.sanciones.gob.pe/rnssc/" target="_blank" rel="noreferrer">sanciones.gob.pe</a>).
         Solo sanciones <b>vigentes</b>. El buscador de este portal cruza por <b>nombre</b>: una coincidencia
-        es un <b>homónimo posible</b>, no un hecho confirmado — verifica la identidad (DNI) en la fuente oficial
-        antes de afirmar nada. El DNI se muestra enmascarado por privacidad.
+        es un <b>homónimo posible</b>, no un hecho confirmado — verifica la identidad con el número de documento
+        en la fuente oficial antes de afirmar nada. El documento se muestra tal como lo publica el RNSSC.
+        Rectificaciones: <a className="underline" href="mailto:carlos@cardenas.pe">carlos@cardenas.pe</a>.
       </p>
     </div>
   );

@@ -46,7 +46,7 @@ def main() -> None:
         now[eid].add(nm)
         ent_nom[eid] = r["entidad"]
         if nivel(r.get("cargo", "")) in CLAVE:
-            now_clave[eid][nm] = r["cargo"][:40]
+            now_clave[eid][nm] = (r["cargo"][:40], r.get("fuente_url", ""))
 
     prev: dict[str, set] = defaultdict(set)
     prev_clave: dict[str, dict] = defaultdict(dict)
@@ -57,7 +57,7 @@ def main() -> None:
         nm = na(nombre_publicable(r["apellidos_nombres"]))
         prev[eid].add(nm)
         if nivel(r.get("cargo", "")) in CLAVE:
-            prev_clave[eid][nm] = r["cargo"][:40]
+            prev_clave[eid][nm] = (r["cargo"][:40], r.get("fuente_url", ""))
 
     # excluir entidades cuya planilla 2026 fue deduplicada al "padre" (falso 100% de bajas)
     comp_path = Path("data/_planillas_compartidas.json")
@@ -79,8 +79,8 @@ def main() -> None:
                 "tasa": round(len(bajas) / base * 100, 1),
             })
         # cambios de mando: clave que entró / salió
-        ck_in = [{"nombre": n.title(), "cargo": enmascarar_pii(c)} for n, c in now_clave[e].items() if n not in prev[e]][:6]
-        ck_out = [{"nombre": n.title(), "cargo": enmascarar_pii(c)} for n, c in prev_clave[e].items() if n not in now[e]][:6]
+        ck_in = [{"nombre": n.title(), "cargo": enmascarar_pii(c), "url": u} for n, (c, u) in now_clave[e].items() if n not in prev[e]][:6]
+        ck_out = [{"nombre": n.title(), "cargo": enmascarar_pii(c), "url": u} for n, (c, u) in prev_clave[e].items() if n not in now[e]][:6]
         if ck_in or ck_out:
             cambios_clave.append({"id": e, "entidad": ent_nom[e][:44],
                                   "nombrados": ck_in, "cesados": ck_out,
@@ -92,6 +92,9 @@ def main() -> None:
     cambios_clave.sort(key=lambda x: -(x["n_in"] + x["n_out"]))
 
     OUT.write_text(json.dumps({
+        "_meta": {"fuente": "Portal de Transparencia Estándar (PTE) · planilla 2024 vs 2026",
+                  "fuente_url": "https://www.transparencia.gob.pe/personal/pte_transparencia_personal.aspx",
+                  "datos_personales": "Nombrados/cesados de mando tal como los publica el PTE; cada fila enlaza (url) su página."},
         "periodo": "dic 2024 → 2026",
         "entidades_comparables": len(comunes),
         "altas": tot_a, "bajas": tot_b, "permanecen": tot_q,

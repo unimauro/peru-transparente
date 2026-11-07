@@ -1,12 +1,10 @@
 """Agrega el rastreo de órdenes de servicio por locador y lo cruza con la planilla.
 
-- Agrupa por RUC (solo en el CSV local): nº de órdenes, monto total, entidades.
-- PRIVACIDAD: el RUC de persona natural embebe el DNI. Se publica ENMASCARADO
-  (10******nnn, scripts/pii.py) y nunca el DNI; `id` es un hash no reversible del RUC
-  para que el frontend tenga una clave estable.
-- CRUCE: ¿el locador (por nombre normalizado) también figura en la planilla del PTE?
-  Eso señala a alguien que es servidor y además recibe órdenes de servicio
-  (puede ser legítimo si es en otra entidad/período — se marca como señal, no acusación).
+- Agrupa por RUC: nº de órdenes, monto total, entidades. Publica RUC y DNI completos tal
+  como los expone el OECE (decisión 2026-10-30, docs/LEGAL.md) con enlace al record OCDS.
+- CRUCE (scripts/cruce_planilla.py): ¿el locador figura también en la planilla del PTE?
+  Primero por DNI (match "dni", ALTA), si no por nombre normalizado (match "nombre",
+  POSSIBLE_ALTA, homónimo posible). Señal de doble percepción; no afirma irregularidad.
 
 Salida: frontend/public/data/ordenes_servicio.json
 """
@@ -23,10 +21,12 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(__file__))
-from pii import enmascarar_pii, enmascarar_ruc_natural  # noqa: E402
+from cruce_planilla import IndicePlanilla, dni_de_ruc  # noqa: E402
+from pii import enmascarar_pii  # noqa: E402
 
 SRC = Path("data/ordenes_servicio.csv")
 OUT = Path("frontend/public/data/ordenes_servicio.json")
+RECORD_URL = "https://contratacionesabiertas.oece.gob.pe/api/v1/record/{ocid}"
 
 
 def na(s: str) -> str:
@@ -45,17 +45,14 @@ def main() -> None:
         print("aún no hay datos de órdenes de servicio")
         return
 
-    # nombres en planilla (actual + histórico) para el cruce
-    planilla = {}
-    for fn in ["data/funcionarios.csv", "data/funcionarios_historico.csv"]:
-        p = Path(fn)
-        if p.exists():
-            for r in rows(p):
-                if r.get("apellidos_nombres"):
-                    planilla[na(r["apellidos_nombres"])] = r.get("entidad", "")
+    # planilla (actual + histórico) indexada por DNI y por tokens del nombre para el cruce
+    planilla = IndicePlanilla()
+    print(f"  planilla: {planilla.n_filas:,} filas · {len(planilla.por_dni):,} con DNI · "
+          f"{len(planilla.por_tokens):,} nombres indexados")
 
     por_moneda: dict[str, dict] = defaultdict(lambda: {"n": 0, "monto": 0.0})
-    by_ruc = defaultdict(lambda: {"nombre": "", "n": 0, "monto": 0.0, "entidades": set(), "desc": set(), "_ocids": set()})
+    by_ruc = defaultdict(lambda: {"nombre": "", "dni": "", "n": 0, "monto": 0.0, "entidades": set(),
+                                  "desc": set(), "_ocids": set(), "ocid": ""})
     fechas: list[str] = []
     for r in rows(SRC):
         if not r.get("ruc"):
@@ -73,6 +70,8 @@ def main() -> None:
         if oc in g["_ocids"]:   # evitar contar 2 veces la misma orden (re-runs del sweep)
             continue
         g["_ocids"].add(oc)
+        g["ocid"] = g["ocid"] or oc
+        g["dni"] = g["dni"] or (r.get("dni") or dni_de_ruc(r["ruc"]))
         f = (r.get("fecha") or "")[:7]
         if f:
             fechas.append(f)
@@ -89,16 +88,18 @@ def main() -> None:
     items = []
     cruces = []
     for ruc, g in by_ruc.items():
-        en_planilla = na(g["nombre"]) in planilla
+        cz = planilla.buscar(g["nombre"], g["dni"])
         rec = {
             "id": hashlib.sha256(ruc.encode()).hexdigest()[:12],
-            "ruc_masked": enmascarar_ruc_natural(ruc), "nombre": g["nombre"], "n": g["n"],
+            "ruc": ruc, "dni": g["dni"], "nombre": g["nombre"], "n": g["n"],
             "monto": round(g["monto"]), "entidades": len(g["entidades"]),
-            "servicios": list(g["desc"])[:4], "en_planilla": en_planilla,
-            "entidad_planilla": planilla.get(na(g["nombre"]), "") if en_planilla else "",
+            "servicios": list(g["desc"])[:4],
+            "fuente_url": RECORD_URL.format(ocid=g["ocid"]) if g["ocid"] else "",
+            "en_planilla": bool(cz["match"]), "match": cz["match"], "confianza": cz["confianza"],
+            "entidad_planilla": cz["entidad"],
         }
         items.append(rec)
-        if en_planilla:
+        if cz["match"]:
             cruces.append(rec)
 
     items.sort(key=lambda x: -x["monto"])
@@ -110,17 +111,27 @@ def main() -> None:
         "total_ordenes": sum(g["n"] for g in by_ruc.values()),
         "monto_total": round(total_monto),
         "periodo": [min(fechas), max(fechas)] if fechas else None,
-        "_meta": {"privacidad": "RUC de persona natural enmascarado (embebe el DNI); no se publica DNI.",
-                  "fuente": "OECE / OCDS (contratacionesabiertas.oece.gob.pe)",
+        "_meta": {"fuente": "OECE / OCDS (contratacionesabiertas.oece.gob.pe)",
+                  "fuente_url": "https://contratacionesabiertas.oece.gob.pe/",
+                  "datos_personales": ("RUC y DNI (derivado del RUC de persona natural) se publican tal como los "
+                                       "expone la fuente oficial, con enlace al record OCDS de cada locador "
+                                       "(docs/LEGAL.md). Rectificaciones: carlos@cardenas.pe"),
+                  "cruce": ("en_planilla/cruces: coincidencia con la planilla del PTE por DNI (match=dni, ALTA) o "
+                            "por nombre normalizado (match=nombre, POSSIBLE_ALTA, homónimo posible). "
+                            "Describe una coincidencia; no afirma irregularidad."),
                   "moneda": "PEN",
                   "nota_moneda": "Totales solo en soles (PEN); otras monedas se cuentan aparte en por_moneda.",
                   "por_moneda": {k: {"n": v["n"], "monto": round(v["monto"])} for k, v in por_moneda.items()}},
         "en_planilla": len(cruces),
+        "en_planilla_dni": sum(1 for c in cruces if c["match"] == "dni"),
+        "en_planilla_nombre": sum(1 for c in cruces if c["match"] == "nombre"),
         "top": items[:300],
-        "cruces": cruces[:200],
+        "cruces": cruces[:300],
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"✔ {len(by_ruc)} locadores · {sum(g['n'] for g in by_ruc.values())} órdenes · "
-          f"S/{round(total_monto):,} · {len(cruces)} también en planilla")
+          f"S/{round(total_monto):,} · {len(cruces)} también en planilla "
+          f"({sum(1 for c in cruces if c['match'] == 'dni')} por DNI, "
+          f"{sum(1 for c in cruces if c['match'] == 'nombre')} por nombre)")
 
 
 if __name__ == "__main__":

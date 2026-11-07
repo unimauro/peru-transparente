@@ -4,12 +4,12 @@ Lee data/sanciones_rnssc.csv (dump del scraper) y produce en frontend/public/dat
 - sanciones.json          : resumen para una sección (totales por tipo, por sector,
                             top entidades sancionadoras, total de sanciones vigentes).
 - sanciones/<LETRA>.json  : índice {nombre_normalizado: [{tipo, entidad, fecha_fin,
-                            dni_masked}]} para que la ficha de persona muestre la señal.
+                            documento}]} para que la ficha de persona muestre la señal.
 
-PRIVACIDAD: el DNI se enmascara a ***555 (solo últimos 3). NUNCA se publica completo.
-La `causa` textual (p. ej. el artículo penal) NO se publica en el índice por nombre: el
-cruce es por homónimo posible y la causa junto a un nombre de la planilla crea un perfil
-que ninguna fuente publica. Solo tipo/estado, entidad y fecha; el detalle está en la fuente.
+DATOS PERSONALES (decisión 2026-10-30, docs/LEGAL.md): `documento` es el número de documento
+tal como lo publica el RNSSC de SERVIR (fuente oficial de acceso público), para que el lector
+pueda confirmar la identidad frente a un homónimo. La `causa` textual sigue fuera del índice
+por nombre (el detalle está en la fuente); solo tipo/estado, entidad y fecha.
 ANTI-OVERCLAIMING: el cruce es por NOMBRE normalizado (mismo na() que build_personas),
 así que es una COINCIDENCIA por homónimo posible, NO un hecho confirmado. El JSON lo
 marca explícitamente (match_por_nombre / homonimo_posible) para que la UI lo advierta.
@@ -41,11 +41,6 @@ def rows(path: Path):
     """csv.DictReader tolerante a bytes NUL (líneas corruptas del scraping)."""
     fh = path.open(encoding="utf-8", errors="ignore", newline="")
     return csv.DictReader(line.replace("\x00", "") for line in fh)
-
-
-def mask_dni(dni: str) -> str:
-    d = (dni or "").strip()
-    return "***" + d[-3:] if len(d) >= 3 else "***"
 
 
 def main() -> None:
@@ -81,14 +76,15 @@ def main() -> None:
                 "tipo": enmascarar_pii(tipo),
                 "entidad": ent,
                 "fecha_fin": r.get("fecha_fin", ""),
-                "dni_masked": mask_dni(r.get("dni", "")),
-                "homonimo_posible": True,   # cruce por nombre, no por DNI verificado
+                "documento": (r.get("dni") or "").strip(),   # tal como lo publica el RNSSC
+                "homonimo_posible": True,   # el cruce con la planilla es por nombre
             })
 
     OUT.mkdir(parents=True, exist_ok=True)
 
     resumen = {
         "fuente": "RNSSC - SERVIR (sanciones vigentes)",
+        "fuente_url": "https://www.sanciones.gob.pe/rnssc/",
         "advertencia": "Solo sanciones VIGENTES al momento del dump. El cruce con la planilla "
                        "es por nombre (homónimo posible), no un hecho confirmado.",
         "total_sanciones": total,
@@ -108,7 +104,10 @@ def main() -> None:
         shards[letra][nombre] = ms
     (OUT / "sanciones").mkdir(parents=True, exist_ok=True)
     meta = {"match": "por_nombre", "homonimo_posible": True,
-            "nota": "Coincidencia por nombre normalizado; verificar identidad antes de afirmar."}
+            "nota": "Coincidencia por nombre normalizado; verificar identidad (documento) en la fuente antes de afirmar.",
+            "fuente": "RNSSC - SERVIR (Registro Nacional de Sanciones contra Servidores Civiles)",
+            "fuente_url": "https://www.sanciones.gob.pe/rnssc/",
+            "datos_personales": "documento = número publicado por el RNSSC (SERVIR). Rectificaciones: carlos@cardenas.pe"}
     for letra, idx in shards.items():
         (OUT / "sanciones" / f"{letra}.json").write_text(
             json.dumps({"_meta": meta, "index": idx}, ensure_ascii=False, separators=(",", ":")),

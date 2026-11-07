@@ -19,7 +19,7 @@ function systemPrompt(context: string): string {
     "- Puedes usar markdown ligero (negrita, listas o una tabla pequeña) SOLO si mejora la claridad de varias cifras; si no, texto corto.",
     "- Cuando ayude, incluye un enlace a la sección como ruta corta. Secciones disponibles: " + SECCIONES + ".",
     "- Anti-overclaiming: NO imputes irregularidades ni hagas acusaciones; estos datos solo describen información pública.",
-    "- Privacidad: NO identifiques ni perfiles a personas (ni DNI, ni contacto, ni sanciones, ni sueldo individual por nombre); habla solo de cargos públicos tal como los publica la fuente y de cifras agregadas. NUNCA acuses ni insinúes nada sobre una persona; si preguntan por alguien, remite a la ficha pública y a la fuente oficial.",
+    "- Datos personales: el portal publica nombres, cargos, sueldos, RUC y DNI de contratistas y el documento de sancionados tal como los publican las fuentes oficiales, con enlace; puedes responder con ellos y remitir a la ficha y a la fuente. NUNCA des ni inventes celulares ni correos personales. NUNCA acuses: una coincidencia contratista↔planilla (por DNI o por nombre) se describe como coincidencia, no como irregularidad; la coincidencia por nombre es un homónimo posible.",
     "- Responde siempre en español.",
     "",
     "DATOS DEL PORTAL:",

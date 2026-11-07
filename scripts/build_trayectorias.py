@@ -40,10 +40,12 @@ def main() -> None:
         # aparición → (año, abrev, cargo, nivel) solo si es cargo de mando
         mando = []
         ent = set()
-        for eid, abrev, cargo, reg, sueldo, anio in aps:
+        for eid, abrev, cargo, reg, sueldo, anio, *resto in aps:
             niv = nivel(cargo or "")
             if niv in CLAVE:
-                mando.append({"anio": anio, "abrev": abrev, "cargo": enmascarar_pii(cargo)[:60], "nivel": niv})
+                mes, cod = (resto + ["", 0])[:2]
+                mando.append({"anio": anio, "abrev": abrev, "cargo": enmascarar_pii(cargo)[:60], "nivel": niv,
+                              "id_entidad": eid, "mes": mes, "cod_regimen": cod})
                 ent.add(abrev)
         if len(ent) < 2:           # nos interesa el cruce entre instituciones
             continue
@@ -72,7 +74,11 @@ def main() -> None:
         "picos": dict(picos),
     }
 
+    src_meta = json.loads(SRC.read_text()).get("_meta", {})
     OUT.write_text(json.dumps({
+        "_meta": {"fuente": src_meta.get("fuente", "PTE"), "fuente_url": src_meta.get("fuente_url", ""),
+                  "patron_url": src_meta.get("patron_url", ""),
+                  "datos_personales": "Cargos de mando tal como los publica el PTE; cada paso reconstruye su URL (id_entidad, anio, mes, cod_regimen)."},
         "summary": summary,
         "nota": "Movimientos de cargos de mando entre instituciones (datos públicos PTE 2015-2026). No implica irregularidad.",
         "items": items[:600],

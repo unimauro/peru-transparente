@@ -91,7 +91,7 @@ def main() -> None:
         L.append("")
     if ords:
         L.append("== LOCADORES / ÓRDENES DE SERVICIO (OCDS, ventana reciente) ==")
-        L.append(f"- {fmt(ords.get('total_locadores',0))} locadores (personas naturales) con {fmt(ords.get('total_ordenes',0))} órdenes, S/{fmt(ords.get('monto_total',0))} total. El RUC de persona natural se publica enmascarado (contiene el DNI).")
+        L.append(f"- {fmt(ords.get('total_locadores',0))} locadores (personas naturales) con {fmt(ords.get('total_ordenes',0))} órdenes, S/{fmt(ords.get('monto_total',0))} total; {fmt(ords.get('en_planilla',0))} figuran también en la planilla del PTE ({fmt(ords.get('en_planilla_dni',0))} por DNI, {fmt(ords.get('en_planilla_nombre',0))} por nombre = homónimo posible). El portal publica RUC y DNI de contratistas tal como los publica el OECE, con enlace a la fuente.")
         L.append("")
     L.append("== COBERTURA Y TRANSPARENCIA ==")
     L.append(f"- Catálogo de entidades del Estado: {fmt(k.get('total_entities',0))}. Barridas: {m.get('cobertura_pct')}%.")
@@ -104,7 +104,7 @@ def main() -> None:
     L.append("")
     L.append("== PRINCIPIO ==")
     L.append("Anti-overclaiming: estos datos describen y vinculan información pública; NO afirman irregularidades. 'Personal compartido' entre entidades es casi siempre rotación en el tiempo (mismo nombre en distintos años) u homónimos, NO doble empleo. La ley prohíbe doble percepción salvo docencia.")
-    L.append("Privacidad: NO identificar ni perfilar a personas (ni DNI, ni contacto, ni sanciones, ni sueldo individual por nombre); solo cargos públicos tal como los publica la fuente y cifras agregadas. NUNCA acusar ni insinuar irregularidades sobre una persona; si preguntan por alguien, remitir a la ficha pública y a la fuente oficial.")
+    L.append("Datos personales: el portal publica DNI y RUC de contratistas y sancionados, y nombres, cargos y sueldos de servidores, tal como los publican las fuentes oficiales (OECE, RNSSC, PTE) y con enlace a cada fuente; puedes responder con esos datos y remitir a la ficha y a la fuente. El contacto (correo/teléfono) de autoridades es el que publica gob.pe: cítalo con su fuente; NUNCA inventes un contacto. NUNCA acusar: una coincidencia contratista↔planilla (por DNI o por nombre) se describe como coincidencia, no como irregularidad; el cruce por nombre es un homónimo posible. Rectificaciones: carlos@cardenas.pe.")
 
     ctx = "\n".join(L)
     (J / "bot_context.json").write_text(json.dumps({"context": ctx}, ensure_ascii=False), encoding="utf-8")

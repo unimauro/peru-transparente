@@ -80,9 +80,10 @@ if ! git merge-base --is-ancestor origin/main HEAD; then
   fi
 fi
 # data/contratos.csv, data/ordenes_servicio.csv y data/sanciones_rnssc.csv NO se versionan
-# (RUC natural/DNI = PII). El checkpoint de contratos SÍ (guarda el SHA por mes = estado
-# incremental); el de RNSSC no (es efímero, se reinicia en cada barrido completo). Los JSON
-# publicados van todos, PERO solo si pasan el validador (integridad + PII).
+# (crudos pesados que se reconstruyen con los scrapers). El checkpoint de contratos SÍ (guarda
+# el SHA por mes = estado incremental); el de RNSSC no (es efímero, se reinicia en cada barrido
+# completo). Los JSON publicados van todos, PERO solo si pasan el validador (integridad +
+# sin contacto personal).
 if ! "$PY" scripts/validar_publicacion.py; then
   echo "  ✖ validar_publicacion.py FALLÓ: NO se commitea ni publica nada. Revisa los errores"
   echo "    de arriba (JSON vacío/degradado o PII). Para forzar deliberadamente: PT_FORCE=1."

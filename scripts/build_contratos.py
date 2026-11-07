@@ -21,9 +21,14 @@ import csv
 import datetime as dt
 import json
 import re
+import os
+import sys
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(__file__))
+from cruce_planilla import IndicePlanilla, dni_de_ruc  # noqa: E402
 
 SRC = Path("data/contratos.csv")
 OUTDIR = Path("frontend/public/data")
@@ -57,8 +62,15 @@ def rows(path: Path):
 
 
 def pub_ruc(ruc: str, tipo: str) -> str | None:
-    """RUC publicable: completo si jurídica; None si natural (DNI) o consorcio (código interno)."""
-    return ruc if tipo == "juridica" and len(ruc) == 11 else None
+    """RUC publicable: completo si es un RUC real (natural 10… o jurídica 20…); None si consorcio
+    (código interno del OECE, no un RUC). Decisión 2026-10-30: el RUC natural se publica entero,
+    tal como lo expone el OECE (docs/LEGAL.md)."""
+    return ruc if tipo in ("juridica", "natural") and len(ruc) == 11 else None
+
+
+def pub_dni(ruc: str, tipo: str) -> str:
+    """DNI embebido en el RUC de persona natural (10 + DNI + dv); '' para jurídicas/consorcios."""
+    return dni_de_ruc(ruc) if tipo == "natural" else ""
 
 
 def monto(v: str) -> float:
@@ -136,6 +148,8 @@ def main() -> None:
     monto_total = sum(v["monto"] for v in por_anio.values())
     meta = {
         "fuente": "OECE / SEACE v3 (bulk download OCDS)",
+        "fuente_url": "https://contratacionesabiertas.oece.gob.pe/",
+        "record_url": "https://contratacionesabiertas.oece.gob.pe/api/v1/record/{ocid}",
         "nota": NOTA,
         "generado": dt.date.today().isoformat(),
         "meses": sorted(m for m in meses if m and not m.startswith("?")),
@@ -195,6 +209,7 @@ def _escribir(meta, por_anio, por_tipo, ent, prov, n_filas, monto_total) -> None
         "top_entidades": [{"entidad": e["nombre"], "ruc": e["ruc"], "sector": e["sector"],
                            "monto": round(e["monto"]), "n": e["n"]} for e in top_ent],
         "top_proveedores": [{"proveedor": p["nombre"], "ruc": pub_ruc(p["ruc"], p["tipo"]),
+                             "dni": pub_dni(p["ruc"], p["tipo"]),
                              "tipo": p["tipo"], "monto": round(p["monto"]), "n": p["n"]}
                             for p in top_prov],
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
@@ -208,6 +223,7 @@ def _escribir(meta, por_anio, por_tipo, ent, prov, n_filas, monto_total) -> None
             "entidad": e["nombre"], "ruc": e["ruc"], "sector": e["sector"],
             "monto_total": round(e["monto"]), "n_adjudicaciones": e["n"],
             "top_proveedores": [{"proveedor": x["nombre"], "ruc": pub_ruc(x["ruc"], x["tipo"]),
+                                 "dni": pub_dni(x["ruc"], x["tipo"]),
                                  "tipo": x["tipo"], "monto": round(x["monto"]), "n": x["n"]} for x in tp],
         })
     (OUTDIR / "contratos_por_entidad.json").write_text(json.dumps({
@@ -217,22 +233,36 @@ def _escribir(meta, por_anio, por_tipo, ent, prov, n_filas, monto_total) -> None
 
     # ---------- contratos_por_proveedor.json ----------
     prov_list = sorted(prov.values(), key=lambda x: -x["monto"])[:TOP_PROVEEDORES]
+    # cruce persona natural ↔ planilla del PTE (por DNI, si no por nombre; ver cruce_planilla.py)
+    planilla = IndicePlanilla()
     prov_out = []
+    n_cruce = {"dni": 0, "nombre": 0}
     for p in prov_list:
         te = sorted(p["ent"].values(), key=lambda x: -x["monto"])[:TOP_ENT_POR_PROVEEDOR]
         top_ent_monto = max((x["monto"] for x in p["ent"].values()), default=0.0)
         conc = round(100 * top_ent_monto / p["monto"], 1) if p["monto"] else 0.0
+        dni = pub_dni(p["ruc"], p["tipo"])
+        cz = planilla.buscar(p["nombre"], dni) if p["tipo"] == "natural" else {"match": "", "entidad": "", "confianza": ""}
+        if cz["match"]:
+            n_cruce[cz["match"]] += 1
         prov_out.append({
-            "proveedor": p["nombre"], "ruc": pub_ruc(p["ruc"], p["tipo"]), "tipo": p["tipo"],
+            "proveedor": p["nombre"], "ruc": pub_ruc(p["ruc"], p["tipo"]), "dni": dni, "tipo": p["tipo"],
             "monto_total": round(p["monto"]), "n": p["n"], "n_entidades": len(p["ent"]),
             "concentracion": conc,  # % del monto que viene de su comprador principal
+            "en_planilla": bool(cz["match"]), "match": cz["match"], "confianza": cz["confianza"],
+            "entidad_planilla": cz["entidad"],
             "entidades": [{"entidad": x["nombre"], "monto": round(x["monto"]), "n": x["n"]} for x in te],
         })
     (OUTDIR / "contratos_por_proveedor.json").write_text(json.dumps({
         "_meta": {**meta, "n_proveedores": len(prov), "truncado_top": TOP_PROVEEDORES,
-                  "privacidad": "RUC de persona natural omitido (embebe DNI); solo se publica RUC de persona jurídica."},
+                  "datos_personales": ("RUC completo y DNI (derivado del RUC 10…) de personas naturales, tal como "
+                                       "los publica el OECE/SEACE (docs/LEGAL.md). Rectificaciones: carlos@cardenas.pe"),
+                  "cruce": ("en_planilla: coincidencia con la planilla del PTE por DNI (ALTA) o por nombre "
+                            "normalizado (POSSIBLE_ALTA, homónimo posible); describe, no imputa."),
+                  "en_planilla_dni": n_cruce["dni"], "en_planilla_nombre": n_cruce["nombre"]},
         "proveedores": prov_out,
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"   cruce proveedores naturales ↔ planilla: {n_cruce['dni']} por DNI · {n_cruce['nombre']} por nombre")
 
     print(f"✔ {n_filas:,} adjudicaciones · S/{round(monto_total):,} adjudicado · "
           f"{len(ent):,} entidades · {len(prov):,} proveedores · {len(meta['meses'])} meses")

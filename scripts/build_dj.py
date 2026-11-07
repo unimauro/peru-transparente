@@ -77,6 +77,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     resumen = {
         "fuente": "Declaraciones Juradas de Intereses — Ley 31227 (CGR, datos abiertos)",
+        "fuente_url": "https://www.datosabiertos.gob.pe/dataset/declaraciones-juradas-de-intereses",
         "cobertura": f"{min(fechas)[:10] if fechas else '—'} a {max(fechas)[:10] if fechas else '—'} "
                      "(instantánea inicial del sistema; no es histórico completo)",
         "advertencia": "Declarar es una obligación cumplida (señal positiva). La ausencia no implica "
@@ -97,6 +98,9 @@ def main() -> None:
         shards[letra][nombre] = ds
     (OUT / "dj").mkdir(parents=True, exist_ok=True)
     meta = {"match": "por_nombre", "homonimo_posible": True, "cobertura": resumen["cobertura"],
+            "fuente": resumen["fuente"],
+            "fuente_url": "https://www.datosabiertos.gob.pe/dataset/declaraciones-juradas-de-intereses",
+            "datos_personales": "Entidad, cargo, fecha y código de la DJ tal como los publica el dataset abierto de la CGR.",
             "nota": "Coincidencia por nombre normalizado; declarar es señal positiva."}
     for letra, idx in shards.items():
         (OUT / "dj" / f"{letra}.json").write_text(

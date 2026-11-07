@@ -3,10 +3,10 @@
 Filtra adjudicaciones donde el proveedor es persona natural (RUC 10…) y el objeto
 es un SERVICIO (no bien ni alquiler).
 
-PRIVACIDAD: el RUC de persona natural embebe el DNI (10 + DNI + dígito). Se guarda el RUC
-solo en el CSV LOCAL (no versionado, ver .gitignore) porque es la clave de deduplicación;
-NUNCA se deriva ni persiste el DNI como campo, y build_ordenes.py publica el RUC
-enmascarado (ver scripts/pii.py).
+El RUC de persona natural embebe el DNI (10 + DNI + dígito): se guarda `dni` derivado
+(solo si el RUC empieza por 10 y tiene 11 dígitos) y build_ordenes.py publica RUC y DNI
+completos tal como los expone el OECE, con enlace al record OCDS (docs/LEGAL.md). El CSV
+crudo no se versiona (se reconstruye con este barrido).
 
 Resumable por página (data/ordenes.checkpoint.json). Append a data/ordenes_servicio.csv.
 Uso: python scripts/scrape_ordenes_servicio.py --max-minutes 60
@@ -25,7 +25,11 @@ BASE = "https://contratacionesabiertas.oece.gob.pe/api/v1/releases"
 UA = "PeruTransparente/1.0 (+https://github.com/unimauro/peru-transparente)"
 OUT = Path("data/ordenes_servicio.csv")
 CKPT = Path("data/ordenes.checkpoint.json")
-FIELDS = ["ocid", "entidad", "ruc", "proveedor", "monto", "moneda", "fecha", "descripcion"]
+FIELDS = ["ocid", "entidad", "ruc", "dni", "proveedor", "monto", "moneda", "fecha", "descripcion"]
+
+
+def dni_de_ruc(ruc: str) -> str:
+    return ruc[2:10] if len(ruc) == 11 and ruc.startswith("10") else ""
 EXCLUIR = ("ALQUILER", "ARRENDAMIENTO", "INMUEBLE", "LOCAL ", "VEHICUL")
 
 
@@ -35,7 +39,7 @@ def clave(r: dict) -> tuple:
 
 
 def normalizar_csv(path: Path = OUT) -> set:
-    """Reescribe el CSV sin la columna `dni` (barridos antiguos) y sin filas duplicadas.
+    """Reescribe el CSV con las columnas actuales (rellena `dni` desde el RUC) y sin duplicados.
 
     Devuelve el conjunto de claves ya guardadas para que el barrido no vuelva a añadirlas.
     """
@@ -43,7 +47,7 @@ def normalizar_csv(path: Path = OUT) -> set:
         return set()
     with path.open(encoding="utf-8", errors="ignore", newline="") as fh:
         rd = csv.DictReader(line.replace("\x00", "") for line in fh)
-        tenia_dni = bool(rd.fieldnames and "dni" in rd.fieldnames)
+        cambia_cols = list(rd.fieldnames or []) != FIELDS
         filas, vistas, dup = [], set(), 0
         for r in rd:
             k = clave(r)
@@ -51,8 +55,10 @@ def normalizar_csv(path: Path = OUT) -> set:
                 dup += 1
                 continue
             vistas.add(k)
-            filas.append({f: r.get(f, "") for f in FIELDS})
-    if tenia_dni or dup:
+            fila = {f: r.get(f, "") for f in FIELDS}
+            fila["dni"] = fila["dni"] or dni_de_ruc(fila["ruc"])
+            filas.append(fila)
+    if cambia_cols or dup:
         tmp = path.with_suffix(".csv.tmp")
         with tmp.open("w", newline="", encoding="utf-8") as fh:
             w = csv.DictWriter(fh, fieldnames=FIELDS)
@@ -60,13 +66,9 @@ def normalizar_csv(path: Path = OUT) -> set:
             w.writerows(filas)
         tmp.replace(path)
         print(f"  CSV normalizado: {len(filas)} filas"
-              + (" · columna dni purgada" if tenia_dni else "")
+              + (" · columnas actualizadas (dni)" if cambia_cols else "")
               + (f" · {dup} duplicadas eliminadas" if dup else ""))
     return vistas
-
-
-def purgar_columna_dni(path: Path = OUT) -> bool:   # compat
-    return bool(normalizar_csv(path))
 
 
 def main() -> None:
@@ -117,7 +119,7 @@ def main() -> None:
                             continue
                         seen.add(k)
                         fila = {"ocid": r.get("ocid"), "entidad": buyer, "ruc": ruc,
-                                "proveedor": s.get("name"),
+                                "dni": dni_de_ruc(ruc), "proveedor": s.get("name"),
                                 "monto": val.get("amount"), "moneda": val.get("currency"),
                                 "fecha": aw.get("date"), "descripcion": desc}
                         if clave({k2: "" if v is None else str(v) for k2, v in fila.items()}) in guardadas:

@@ -3,12 +3,14 @@ import { staticData } from "@/lib/api";
 import { fmt, money, Empty, vigenciaSancion } from "@/components/ui";
 import { PersonaGrafo } from "@/components/PersonaGrafo";
 import { RedInstitucional } from "@/components/RedInstitucional";
+import { FuenteLink } from "@/components/ui";
+import { pteUrl, FUENTES_URL } from "@/lib/fuentes";
 
-type Ap = [string, string, string, string, number, string]; // id, abrev, cargo, regimen, sueldo, año
+type Ap = [string, string, string, string, number, string, string?, number?]; // id, abrev, cargo, regimen, sueldo, año, mes, cod_regimen
 type Persona = [string, number, Ap[]];                       // nombre, n_entidades, apariciones
 interface Sancion {
   tipo: string; entidad: string; fecha_fin: string;
-  dni_masked: string; homonimo_posible: boolean;
+  documento: string; homonimo_posible: boolean;
 }
 
 // Normaliza igual que los build_*.py (sin tildes, MAYÚSCULAS, espacios colapsados).
@@ -156,13 +158,14 @@ export function Personas() {
                         <span className="font-medium text-ink">{s.tipo.length > 60 ? s.tipo.slice(0, 60) + "…" : s.tipo}</span>
                         <span className="text-ink-mute"> · {s.entidad}</span>
                         {vigenciaSancion(s.fecha_fin) && <span className="text-ink-faint"> · {vigenciaSancion(s.fecha_fin)}</span>}
-                        <span className="text-ink-faint"> · DNI {s.dni_masked}</span>
+                        {s.documento && <span className="text-ink-faint"> · doc. {s.documento}</span>}
+                        <FuenteLink url={FUENTES_URL.rnssc} className="ml-1 text-[11px] text-accent-blue hover:underline">fuente ↗</FuenteLink>
                         {!coincideEntidad(s, sel[2]) && <span className="text-ink-faint"> · solo coincide el nombre: verificar en la fuente</span>}
                       </div>
                     ))}
                   </div>
                   <div className="mt-1.5 text-[10px] text-ink-faint">
-                    Cruce por <b>nombre</b> con el <a className="underline" href="#/sanciones">RNSSC</a> (la planilla no publica DNI): no es un hecho verificado. Confirma la identidad en la fuente oficial antes de afirmar nada.
+                    Cruce por <b>nombre</b> con el <a className="underline" href="#/sanciones">RNSSC</a> (la planilla casi nunca publica el DNI): no es un hecho verificado. Confirma la identidad con el documento en la fuente oficial antes de afirmar nada.
                   </div>
                 </div>
               )}
@@ -192,7 +195,7 @@ export function Personas() {
                       <span className="shrink-0 rounded bg-surface/10 px-1.5 py-0.5 text-[10px] tabular text-ink-mute">{a[5] || "—"}</span>
                       <span className="min-w-0 truncate text-ink-soft"><span className="text-accent-blue">{a[1]}</span> · {a[2]}</span>
                     </span>
-                    <span className="shrink-0 text-ink-mute">{a[3]} · {money(a[4])}</span>
+                    <span className="flex shrink-0 items-center gap-1.5 text-ink-mute">{a[3]} · {money(a[4])} <FuenteLink url={pteUrl(a[0], a[5], a[6], a[7])} className="text-[11px] text-accent-blue hover:underline" fallback={null}>fuente ↗</FuenteLink></span>
                   </div>
                 ))}
               </div>

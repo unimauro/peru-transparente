@@ -10,9 +10,10 @@ Solo stdlib. Falla (exit 1) y NO debe publicarse nada si:
      funcionarios_sample/funcionarios_clave, algún nombre con el texto incrustado de SUNAT
      ("Para ver la información…"), o < 1 % de personal 276/728 (suma de `regimenes` de
      entidad/*.json) cuando meta.planilla_capturada ≥ 2026-10-30 (conector corregido).
-  3. Hay PII en campos de texto: DNI (8 dígitos aislados), RUC de persona natural completo
-     (10 + 9 dígitos), correos de dominios personales, celulares (9xxxxxxxx) o un campo
-     llamado `dni`. Los RUC de empresa (11 dígitos, 20…), montos y URLs no cuentan.
+  3. PROCEDENCIA (principio 1): todo archivo con datos de personas debe traer `_meta.fuente`
+     y `_meta.fuente_url` (http/https) o, en su defecto, `url`/`fuente_url` en cada fila.
+     DNI, RUC, correos y teléfonos se publican tal como los expone la fuente oficial
+     (decisión 2026-10-30, docs/LEGAL.md): NO son motivo de fallo; solo se cuentan.
 
 Uso:
   .venv/bin/python scripts/validar_publicacion.py            # valida y sale 0/1
@@ -85,21 +86,59 @@ SNAPSHOT_KEYS: dict[str, list[tuple[str, object]]] = {
 }
 
 # ───────────────────────── PII ─────────────────────────
-DNI_SUELTO = re.compile(r"(?<!\d)(?<!\d\.)\d{8}(?!\d)(?!\.\d)")
-RUC_NATURAL = re.compile(r"(?<!\d)10\d{9}(?!\d)")
 # (no confundir con montos "S/985 234 123": los separadores de miles son espacios)
 CELULAR = re.compile(r"(?<!\d)(?<!\d )(?<!S/)(?<!S/ )(?<!\$)(?<!\$ )(?:\+?51[\s.-]?)?9\d{2}[\s.-]?\d{3}[\s.-]?\d{3}(?!\d)")
 CORREO = re.compile(r"[A-Za-z0-9._%+-]+@((?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,})")
 DOMINIOS_PERSONALES = ("gmail.", "googlemail.", "hotmail.", "outlook.", "live.", "msn.", "yahoo.",
                        "ymail.", "icloud.", "me.com", "mac.com", "aol.", "protonmail.", "proton.me",
                        "zoho.", "mail.com", "terra.", "speedy.")
-# Claves cuyo valor NO es texto libre (URLs, RUC de empresa, códigos) → no se busca DNI ahí.
-# `email` institucional puede llevar dígitos en el usuario (af42859392@…edu.pe): se evalúa solo
-# con la regla de correo personal.
-CLAVES_SIN_DNI = {"url", "fuente_url", "detalle_url", "ruc", "codigo", "norma", "ocid", "id", "email"}
-# `telefono` se evalúa solo con la regla de celular (los fijos de 8 dígitos no son DNI).
+# `telefono` se evalúa solo con la regla de celular.
 CLAVES_TELEFONO = {"telefono", "tel", "phone"}
-CLAVES_PROHIBIDAS = {"dni", "documento", "nro_documento", "num_documento"}
+# Archivos (o carpetas) con datos de personas: exigen procedencia.
+ARCHIVOS_PERSONAS = ("funcionarios_sample.json", "funcionarios_clave.json", "autoridades.json",
+                     "personas_red.json", "trayectorias_poder.json", "nuevos_funcionarios.json",
+                     "salarios.json", "rotacion.json", "ordenes_servicio.json", "contratos.json",
+                     "contratos_por_entidad.json", "contratos_por_proveedor.json")
+CARPETAS_PERSONAS = ("entidad", "personas", "sanciones", "dj")
+CLAVES_URL_FILA = ("url", "fuente_url")
+
+
+def _filas(d) -> list:
+    """Registros (dicts) de personas: items/top/cruces/proveedores/… , index{nombre:[…]}
+    y, para los archivos de entidad, las personas anidadas en dependencias[].personas[].
+    Un dict contenedor (trae su propia lista `personas`) no cuenta como fila: cuenta su gente."""
+    out = []
+    if not isinstance(d, dict):
+        return out
+    for k, v in d.items():
+        if k == "_meta":
+            continue
+        if isinstance(v, list):
+            for x in v:
+                if not isinstance(x, dict):
+                    continue
+                anidadas = x.get("personas")
+                if isinstance(anidadas, list):
+                    out += [p for p in anidadas if isinstance(p, dict)]
+                else:
+                    out.append(x)
+        elif isinstance(v, dict) and k == "index":
+            for lst in v.values():
+                out += [x for x in lst if isinstance(x, dict)]
+    return out
+
+
+def procedencia_ok(d) -> tuple[bool, str]:
+    """(ok, motivo). OK si _meta.fuente_url es http(s) o si todas las filas traen url/fuente_url."""
+    meta = d.get("_meta") if isinstance(d, dict) else None
+    if isinstance(meta, dict):
+        fu = str(meta.get("fuente_url") or "")
+        if fu.startswith(("http://", "https://")) and meta.get("fuente"):
+            return True, ""
+    filas = _filas(d)
+    if filas and all(any(str(x.get(c) or "").startswith(("http://", "https://")) for c in CLAVES_URL_FILA) for x in filas):
+        return True, ""
+    return False, "sin _meta.fuente/_meta.fuente_url ni url/fuente_url en todas las filas"
 
 
 def parse_strict(path: Path):
@@ -118,10 +157,6 @@ def escanear_pii(obj, hallazgos: dict, ejemplos: list, archivo: str, clave: str 
     """Recorre el JSON; cuenta PII en cadenas (no en números)."""
     if isinstance(obj, dict):
         for k, v in obj.items():
-            if k.lower() in CLAVES_PROHIBIDAS and v not in (None, "", []):
-                hallazgos["campo_dni"] += 1
-                if len(ejemplos) < 12:
-                    ejemplos.append(f"{archivo}: campo `{k}` publicado")
             escanear_pii(v, hallazgos, ejemplos, archivo, k.lower())
     elif isinstance(obj, list):
         for v in obj:
@@ -138,17 +173,6 @@ def escanear_pii(obj, hallazgos: dict, ejemplos: list, archivo: str, clave: str 
                 if len(ejemplos) < 12:
                     ejemplos.append(f"{archivo}: celular en `{clave}`: {s[:30]!r}")
             return
-        n = len(RUC_NATURAL.findall(s))
-        if n:
-            hallazgos["ruc_natural"] += n
-            if len(ejemplos) < 12:
-                ejemplos.append(f"{archivo}: RUC 10… completo en `{clave}`: {s[:60]!r}")
-        if clave not in CLAVES_SIN_DNI:
-            n = len(DNI_SUELTO.findall(s))
-            if n:
-                hallazgos["dni8"] += n
-                if len(ejemplos) < 12:
-                    ejemplos.append(f"{archivo}: 8 dígitos sueltos en `{clave}`: {s[:60]!r}")
         for m in CORREO.finditer(s):
             if correo_personal(m.group(0)):
                 hallazgos["correo_personal"] += 1
@@ -181,10 +205,11 @@ def main() -> int:
         print(f"✖ no existe {data}")
         return 1
 
-    # 1) JSON válido (todos los archivos) + 3) PII
+    # 1) JSON válido (todos los archivos) + 3) procedencia (y conteo informativo de contacto)
     archivos = sorted(data.rglob("*.json"))
     cargados: dict[str, object] = {}
-    pii_total = {"dni8": 0, "ruc_natural": 0, "correo_personal": 0, "celular": 0, "campo_dni": 0, "nan": 0}
+    sin_procedencia: list[str] = []
+    pii_total = {"correo_personal": 0, "celular": 0, "nan": 0}
     pii_por_archivo: dict[str, dict] = {}
     ejemplos: list[str] = []
     for p in archivos:
@@ -198,15 +223,25 @@ def main() -> int:
             errores.append(f"JSON vacío: {rel}")
         if p.parent == data or p.parent.name in ("sanciones", "dj", "entidad"):
             cargados[rel] = d
+        if (p.parent == data and p.name in ARCHIVOS_PERSONAS) or p.parent.name in CARPETAS_PERSONAS:
+            ok, motivo = procedencia_ok(d)
+            if not ok:
+                sin_procedencia.append(f"{rel}: {motivo}")
         h = {k: 0 for k in pii_total}
         escanear_pii(d, h, ejemplos, rel)
         if any(h.values()):
             pii_por_archivo[rel] = {k: v for k, v in h.items() if v}
             for k, v in h.items():
                 pii_total[k] += v
-    if any(pii_total.values()):
-        errores.append("PII en JSON publicados: " + ", ".join(f"{k}={v}" for k, v in pii_total.items() if v))
-        errores.extend("  · " + e for e in ejemplos)
+    if pii_total["nan"]:
+        errores.append(f"NaN/Infinity en valores: {pii_total['nan']}")
+    if sin_procedencia:
+        errores.append(f"PROCEDENCIA: {len(sin_procedencia)} archivos de personas sin fuente")
+        errores.extend("  · " + e for e in sin_procedencia[:15])
+    contacto = {k: v for k, v in pii_total.items() if k != "nan" and v}
+    if contacto:
+        avisos.append("contacto publicado tal como lo trae la fuente (política docs/LEGAL.md): "
+                      + ", ".join(f"{k}={v}" for k, v in contacto.items()))
 
     # 2) umbrales absolutos
     for nombre, desc, fn, minimo in UMBRALES:
@@ -294,7 +329,7 @@ def main() -> int:
         for e in errores:
             print(f"  {e}", file=sys.stderr)
         return 0 if forzado else 1
-    print("✔ publicación válida: JSON íntegros, sin regresión, sin PII")
+    print("✔ publicación válida: JSON íntegros, sin regresión, con procedencia")
     return 0
 
 

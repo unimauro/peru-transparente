@@ -37,7 +37,8 @@ def main() -> None:
         sueldos.append(s)
         por_cat[categoria(r["entidad"])].append(s)
         por_reg[r["regimen"]].append(s)
-        top.append((s, nombre_publicable(r["apellidos_nombres"]), enmascarar_pii(r["cargo"])[:40], r["entidad"][:40]))
+        top.append((s, nombre_publicable(r["apellidos_nombres"]), enmascarar_pii(r["cargo"])[:40], r["entidad"][:40],
+                    r.get("fuente_url", "")))
 
     # distribución (histograma)
     bins = [0, 1000, 2000, 3000, 4000, 5000, 7000, 10000, 15000, 20000, 30000, 1e12]
@@ -50,7 +51,7 @@ def main() -> None:
                 break
 
     top.sort(reverse=True)
-    top_list = [{"sueldo": round(s), "nombre": n, "cargo": c, "entidad": e} for s, n, c, e in top[:40]]
+    top_list = [{"sueldo": round(s), "nombre": n, "cargo": c, "entidad": e, "url": u} for s, n, c, e, u in top[:40]]
 
     def stats(vals):
         vals = sorted(vals)
@@ -64,6 +65,9 @@ def main() -> None:
                        key=lambda x: -x[1])  # por n
 
     OUT.write_text(json.dumps({
+        "_meta": {"fuente": "Portal de Transparencia Estándar (PTE) · planilla nominal",
+                  "fuente_url": "https://www.transparencia.gob.pe/personal/pte_transparencia_personal.aspx",
+                  "datos_personales": "El top nominal enlaza (url) la página del PTE de cada fila."},
         "total_con_sueldo": len(sueldos),
         "mediana_nacional": round(st.median(sueldos)),
         "promedio_nacional": round(st.mean(sueldos)),

@@ -4,7 +4,7 @@ import { staticData } from "@/lib/api";
 import { fmt, money, LevelBadge, Empty, FuenteLink } from "@/components/ui";
 import { setTitulo } from "@/lib/pageTitle";
 
-interface Persona { nombre: string; cargo: string; nivel: string; regimen: string; total: string; url: string }
+interface Persona { nombre: string; cargo: string; dni?: string; nivel: string; regimen: string; total: string; url: string }
 interface Dep { dependencia: string; n: number; clave: number; personas: Persona[] }
 interface Aut { nombre: string; cargo: string; email: string; telefono: string; url: string }
 interface Organo { organo: string; n: number; clave: number; dependencias: Dep[] }
@@ -109,7 +109,7 @@ export function EntidadDetalle() {
                     <tbody>
                       {dep.personas.map((p, i) => (
                         <tr key={i} className="border-t border-surface/[0.04] first:border-0">
-                          <td className="px-4 py-2 text-ink">{p.nombre}</td>
+                          <td className="px-4 py-2 text-ink">{p.nombre}{p.dni && <div className="text-[10px] tabular text-ink-faint">DNI {p.dni} (publicado por la entidad en el PTE) <FuenteLink url={p.url} className="text-accent-blue hover:underline">fuente ↗</FuenteLink></div>}</td>
                           <td className="px-4 py-2">
                             <div className="text-ink-soft">{p.cargo}</div>
                             <div className="mt-0.5"><LevelBadge nivel={p.nivel} /> <span className="text-[10px] text-ink-faint">{p.regimen}</span></div>

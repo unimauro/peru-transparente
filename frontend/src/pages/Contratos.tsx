@@ -4,7 +4,7 @@ import { fmt, money, Empty, usePaged, Pagination } from "@/components/ui";
 
 // ── tipos de los JSON generados por scripts/build_contratos.py ────────────
 interface Meta { fuente: string; nota: string; generado: string; meses: string[]; n_adjudicaciones: number; monto_total: number; }
-interface ProvMini { proveedor: string; ruc: string | null; tipo: string; monto: number; n: number; }
+interface ProvMini { proveedor: string; ruc: string | null; dni?: string; tipo: string; monto: number; n: number; }
 interface Resumen {
   _meta: Meta;
   resumen: { monto_total: number; n_adjudicaciones: number;
@@ -18,8 +18,9 @@ interface Entidad {
   top_proveedores: ProvMini[];
 }
 interface Proveedor {
-  proveedor: string; ruc: string | null; tipo: string; monto_total: number; n: number;
+  proveedor: string; ruc: string | null; dni?: string; tipo: string; monto_total: number; n: number;
   n_entidades: number; concentracion: number;
+  en_planilla?: boolean; match?: "dni" | "nombre" | ""; entidad_planilla?: string;
   entidades: { entidad: string; monto: number; n: number }[];
 }
 
@@ -46,7 +47,7 @@ export function Contratos() {
     if (modo === "entidad") {
       return (ents || []).filter((e) => !nq || `${e.entidad} ${e.sector}`.toLowerCase().includes(nq));
     }
-    return (provs || []).filter((p) => !nq || `${p.proveedor} ${p.ruc || ""}`.toLowerCase().includes(nq));
+    return (provs || []).filter((p) => !nq || `${p.proveedor} ${p.ruc || ""} ${p.dni || ""}`.toLowerCase().includes(nq));
   }, [modo, ents, provs, q]);
 
   const { slice, page, pages, setPage, total } = usePaged(lista, 30, `${modo}|${q}`);
@@ -167,7 +168,8 @@ export function Contratos() {
                     <tr onClick={() => setAbierto(open ? null : key)}
                       className="cursor-pointer border-b border-surface/[0.04] last:border-0 hover:bg-surface/[0.03]">
                       <td className="px-4 py-3 font-medium text-ink">{open ? "▾ " : "▸ "}{p.proveedor}
-                        <div className={`text-[10px] ${TIPO_COLOR[p.tipo] || "text-ink-faint"}`}>{TIPO_LABEL[p.tipo] || p.tipo}{p.ruc ? ` · RUC ${p.ruc}` : ""}</div>
+                        <div className={`text-[10px] ${TIPO_COLOR[p.tipo] || "text-ink-faint"}`}>{TIPO_LABEL[p.tipo] || p.tipo}{p.ruc ? ` · RUC ${p.ruc}` : ""}{p.dni ? ` · DNI ${p.dni}` : ""} <a className="text-accent-blue hover:underline" href="https://contratacionesabiertas.oece.gob.pe/" target="_blank" rel="noreferrer">fuente OECE ↗</a></div>
+                        {p.en_planilla && <div className="text-[10px] text-accent-amber">figura también en la planilla de {p.entidad_planilla} ({p.match === "dni" ? "coincidencia por DNI" : "coincidencia por nombre, homónimo posible"})</div>}
                       </td>
                       <td className="px-4 py-3 text-right tabular text-ink">{fmt.format(p.n_entidades)}</td>
                       <td className="px-4 py-3 text-right tabular">
@@ -202,8 +204,10 @@ export function Contratos() {
         Fuente: {d._meta.fuente} · meses {d._meta.meses[0]} a {d._meta.meses[d._meta.meses.length - 1]} · generado {d._meta.generado}.
         {" "}Los montos son <b>valor adjudicado</b> en el SEACE, no necesariamente pagado ni devengado.
         La <b>concentración</b> es el % del monto de un proveedor que proviene de su comprador principal
-        (señal de dependencia de un solo cliente, no de irregularidad). El RUC de personas naturales se
-        omite por contener el DNI; solo se publica el RUC de personas jurídicas.
+        (señal de dependencia de un solo cliente, no de irregularidad). El RUC (y el DNI que embebe el RUC
+        de persona natural) se publica tal como lo expone el OECE, con fines de control ciudadano; "figura también
+        en la planilla" es una coincidencia con el PTE (por DNI o por nombre), no una imputación. Rectificaciones:
+        <a className="underline" href="mailto:carlos@cardenas.pe">carlos@cardenas.pe</a>.
       </p>
     </div>
   );
