@@ -132,21 +132,30 @@ def main() -> None:
                 break
             rows_here = 0
             entity_name = None
-            # 1) Detectar período más reciente con datos usando sondas baratas (CAS, 728).
             found_period = None
-            for (yy, mm) in months_to_try():
-                probe = next(conn.fetch_entity(eid, yy, mm, regimes=[1, 3, 2]), None)
-                if probe is not None:
-                    found_period = (yy, mm)
-                    break
-            # 2) Cosechar TODOS los regímenes para ese período.
-            if found_period:
-                yy, mm = found_period
-                for row in conn.fetch_entity(eid, yy, mm, regimes=regimes):
-                    writer.writerow(asdict(row))
-                    entity_name = row.entidad
-                    rows_here += 1
-                fh.flush()
+            try:
+                # 1) Detectar período más reciente con datos usando sondas baratas (CAS, 728).
+                for (yy, mm) in months_to_try():
+                    probe = next(conn.fetch_entity(eid, yy, mm, regimes=[1, 3, 2]), None)
+                    if probe is not None:
+                        found_period = (yy, mm)
+                        break
+                # 2) Cosechar TODOS los regímenes para ese período.
+                if found_period:
+                    yy, mm = found_period
+                    for row in conn.fetch_entity(eid, yy, mm, regimes=regimes):
+                        writer.writerow(asdict(row))
+                        entity_name = row.entidad
+                        rows_here += 1
+                    fh.flush()
+            except Exception as exc:
+                # Un corte de red / error HTTP en una sola entidad no debe abortar el barrido:
+                # se registra en FAILED (no entra a `done`) y --resume la reintenta.
+                FAILED[eid] = f"excepción: {type(exc).__name__}: {str(exc)[:200]}"
+                print(f"  ! id={eid} excepción (continúo): {FAILED[eid]}", flush=True)
+                save_checkpoint(ckpt, done)
+                time.sleep(max(args.delay, 2.0))
+                continue
             total_rows += rows_here
             if conn.failures or conn.incomplete:
                 # No se marca como hecha: queda en "failed" y --resume la reintenta.
